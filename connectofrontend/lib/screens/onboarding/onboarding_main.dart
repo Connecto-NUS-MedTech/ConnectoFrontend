@@ -17,16 +17,20 @@ class _OnboardingMainScreenState extends State<OnboardingMainScreen> {
   @override
   void initState() {
     super.initState();
+
+    const Align pageHeader = Align(
+      alignment: Alignment.centerLeft,
+      child: Text(
+        'Onboarding Page',
+        style: TextStyle(fontSize: 32),
+      ),
+    );
+
     _pageColumns = [
+      // Page 1
       Column(
         children: [
-          const Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Onboarding',
-              style: TextStyle(fontSize: 32),
-            ),
-          ),
+          pageHeader,
           Image.asset(
             'assets/images/house_conditions_row.png',
             height: 250,
@@ -36,64 +40,123 @@ class _OnboardingMainScreenState extends State<OnboardingMainScreen> {
             child: const Center(
               child: Text(
                 'Hello There!\nWelcome Aboard!',
-                style: TextStyle(fontSize: 24),
+                style: TextStyle(fontSize: 32, color: Colors.orange),
                 textAlign: TextAlign.center,
               ),
             ),
           ),
-          const SizedBox(
+          SizedBox(
             height: 200,
             // width: MediaQuery.of(context).size.width * 0.65,
             width: 700,
             child: Center(
-              child: Text(
-                'Connecto was designed with the aim of allowing patients with Muscular Dystrophy to control their smart IoT home systems with ease!',
-                style: TextStyle(fontSize: 24),
+              child: RichText(
                 textAlign: TextAlign.center,
+                text: const TextSpan(
+                  text: 'Connecto  ',
+                  style: TextStyle(
+                    fontSize: 32,
+                    color: Colors.orange,
+                  ),
+                  // style: DefaultTextStyle.of(context).style,
+                  children: <TextSpan>[
+                    TextSpan(
+                        text:
+                            'was designed with the aim of allowing patients with ',
+                        style: TextStyle(color: Colors.black)),
+                    TextSpan(text: 'Muscular Dystrophy '),
+                    TextSpan(
+                        text: 'to control their ',
+                        style: TextStyle(color: Colors.black)),
+                    TextSpan(text: 'smart IoT home systems '),
+                    TextSpan(
+                        text: 'with ease!',
+                        style: TextStyle(color: Colors.black)),
+                  ],
+                ),
               ),
             ),
           ),
           const Spacer(),
         ],
       ),
+      // Page 2
       Column(
         children: [
-          const Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'SECOND PAGE',
-              style: TextStyle(fontSize: 32),
-            ),
-          ),
+          pageHeader,
+          const Spacer(),
           Image.asset(
             'assets/images/house_conditions_row.png',
             height: 250,
           ),
-          Container(
-            margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-            child: const Center(
-              child: Text(
-                'Hello There!\nWelcome Aboard!',
-                style: TextStyle(fontSize: 24),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-          const SizedBox(
+          SizedBox(
             height: 200,
             // width: MediaQuery.of(context).size.width * 0.65,
             width: 700,
             child: Center(
-              child: Text(
-                'Connecto was designed with the aim of allowing patients with Muscular Dystrophy to control their smart IoT home systems with ease!',
-                style: TextStyle(fontSize: 24),
+              child: RichText(
                 textAlign: TextAlign.center,
+                text: const TextSpan(
+                  text: 'You can control all your ',
+                  style: TextStyle(
+                    fontSize: 32,
+                    color: Colors.black,
+                  ),
+                  // style: DefaultTextStyle.of(context).style,
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: 'house fan and lighting ',
+                        style: TextStyle(color: Colors.orange)),
+                    TextSpan(
+                        text:
+                            'conditions with ease, all through the press of a button!'),
+                  ],
+                ),
               ),
             ),
           ),
           const Spacer(),
         ],
-      )
+      ),
+      // Page 3
+      Column(
+        children: [
+          pageHeader,
+          Image.asset(
+            'assets/images/external_apps_row.png',
+            height: 250,
+          ),
+          SizedBox(
+            height: 200,
+            // width: MediaQuery.of(context).size.width * 0.65,
+            width: 700,
+            child: Center(
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: const TextSpan(
+                  text: 'You may select and ',
+                  style: TextStyle(
+                    fontSize: 32,
+                    color: Colors.black,
+                  ),
+                  // style: DefaultTextStyle.of(context).style,
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: 'access other applications ',
+                        style: TextStyle(color: Colors.orange)),
+                    TextSpan(text: 'straight from '),
+                    TextSpan(
+                        text: 'Connecto',
+                        style: TextStyle(color: Colors.orange)),
+                    TextSpan(text: '!'),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const Spacer(),
+        ],
+      ),
     ];
   }
 
