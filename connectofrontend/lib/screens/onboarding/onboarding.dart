@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class OnboardingMainScreen extends StatefulWidget {
-  const OnboardingMainScreen({super.key});
+class OnboardingScreen extends StatefulWidget {
+  const OnboardingScreen({super.key});
 
   @override
-  State<OnboardingMainScreen> createState() => _OnboardingMainScreenState();
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _OnboardingMainScreenState extends State<OnboardingMainScreen> {
+class _OnboardingScreenState extends State<OnboardingScreen> {
   int _currPageIndex = 0;
   List<Column> _pageColumns = [];
 
@@ -211,7 +211,7 @@ class _OnboardingMainScreenState extends State<OnboardingMainScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const OnboardingMainScreen()),
+                                      const OnboardingScreen()),
                             );
                           },
                           child: const Row(

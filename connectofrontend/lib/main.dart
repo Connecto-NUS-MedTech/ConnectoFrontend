@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:connectofrontend/screens/onboarding/onboarding_main.dart';
+import 'package:connectofrontend/screens/onboarding/onboarding.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.orange,
               scaffoldBackgroundColor: const Color(0xFFEFEFEF),
             ),
-            home: const OnboardingMainScreen(),
+            home: const OnboardingScreen(),
           )
         : const CupertinoApp(
             title: 'Connecto',
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
               primaryColor: CupertinoColors.activeOrange,
               scaffoldBackgroundColor: Color(0xFFEFEFEF),
             ),
-            home: OnboardingMainScreen(),
+            home: OnboardingScreen(),
           );
   }
 }
