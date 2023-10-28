@@ -32,7 +32,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         children: [
           pageHeader,
           Image.asset(
-            'assets/images/house_conditions_row.png',
+            'assets/images/project_connecto_icon.png',
             height: 250,
           ),
           Container(
