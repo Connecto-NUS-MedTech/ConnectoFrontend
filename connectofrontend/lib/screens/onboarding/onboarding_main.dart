@@ -190,16 +190,38 @@ class _OnboardingMainScreenState extends State<OnboardingMainScreen> {
                       ? ElevatedButton.icon(
                           onPressed: _handlePrev,
                           icon: const Icon(Icons.arrow_back),
-                          label: const Text('Prev'),
+                          label: const Text('Previous Page'),
                         )
                       : Container(),
                   !_isLastPage
-                      ? ElevatedButton.icon(
+                      ? ElevatedButton(
                           onPressed: _handleNext,
-                          icon: const Icon(Icons.arrow_forward),
-                          label: const Text('Next'),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Next Page'),
+                              Icon(Icons.arrow_forward),
+                            ],
+                          ),
                         )
-                      : Container(),
+                      : ElevatedButton(
+                          onPressed: () {
+                            // TODO: Replace with LoginScreen
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const OnboardingMainScreen()),
+                            );
+                          },
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Sign Up!'),
+                              Icon(Icons.arrow_forward),
+                            ],
+                          ),
+                        )
                 ],
               ),
             ],
