@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:connectofrontend/screens/signup.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -61,17 +62,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   // style: DefaultTextStyle.of(context).style,
                   children: <TextSpan>[
                     TextSpan(
-                        text:
-                            'was designed with the aim of allowing patients with ',
-                        style: TextStyle(color: Colors.black)),
+                      text:
+                          'was designed with the aim of allowing patients with ',
+                      style: TextStyle(color: Colors.black),
+                    ),
                     TextSpan(text: 'Muscular Dystrophy '),
                     TextSpan(
-                        text: 'to control their ',
-                        style: TextStyle(color: Colors.black)),
+                      text: 'to control their ',
+                      style: TextStyle(color: Colors.black),
+                    ),
                     TextSpan(text: 'smart IoT home systems '),
                     TextSpan(
-                        text: 'with ease!',
-                        style: TextStyle(color: Colors.black)),
+                      text: 'with ease!',
+                      style: TextStyle(color: Colors.black),
+                    ),
                   ],
                 ),
               ),
@@ -105,11 +109,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   // style: DefaultTextStyle.of(context).style,
                   children: <TextSpan>[
                     TextSpan(
-                        text: 'house fan and lighting ',
-                        style: TextStyle(color: Colors.orange)),
+                      text: 'house fan and lighting ',
+                      style: TextStyle(color: Colors.orange),
+                    ),
                     TextSpan(
-                        text:
-                            'conditions with ease, all through the press of a button!'),
+                      text:
+                          'conditions with ease, all through the press of a button!',
+                    ),
                   ],
                 ),
               ),
@@ -142,12 +148,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   // style: DefaultTextStyle.of(context).style,
                   children: <TextSpan>[
                     TextSpan(
-                        text: 'access other applications ',
-                        style: TextStyle(color: Colors.orange)),
+                      text: 'access other applications ',
+                      style: TextStyle(color: Colors.orange),
+                    ),
                     TextSpan(text: 'straight from '),
                     TextSpan(
-                        text: 'Connecto',
-                        style: TextStyle(color: Colors.orange)),
+                      text: 'Connecto',
+                      style: TextStyle(color: Colors.orange),
+                    ),
                     TextSpan(text: '!'),
                   ],
                 ),
@@ -206,12 +214,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         )
                       : ElevatedButton(
                           onPressed: () {
-                            // TODO: Replace with LoginScreen
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const OnboardingScreen()),
+                                builder: (context) => const SignupScreen(),
+                              ),
                             );
                           },
                           child: const Row(
@@ -221,7 +228,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               Icon(Icons.arrow_forward),
                             ],
                           ),
-                        )
+                        ),
                 ],
               ),
             ],
