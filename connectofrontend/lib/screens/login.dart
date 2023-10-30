@@ -83,14 +83,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 56),
+                        padding: const EdgeInsets.only(top: 40),
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFFF9900),
                               minimumSize: Size(160, 48)
-                            // minimumSize: const Size(double.infinity, double.infinity)
-
                               ),
                           child: const Text(
                             'Log In',
@@ -107,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     thickness: 2
                                 )
                             ),
-                            Text(" OR "),
+                            Text(" OR ", style: TextStyle(color: Color(0xFF7B7B7B))),
                             Expanded(
                                 child: Divider(
                                     thickness: 2
