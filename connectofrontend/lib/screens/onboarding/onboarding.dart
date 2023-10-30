@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:connectofrontend/screens/signup.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -206,12 +207,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         )
                       : ElevatedButton(
                           onPressed: () {
-                            // TODO: Replace with LoginScreen
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const OnboardingScreen()),
+                                      const SignupScreen()),
                             );
                           },
                           child: const Row(
