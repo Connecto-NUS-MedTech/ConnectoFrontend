@@ -11,173 +11,196 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-    bool _passwordVisible = false;
+  bool _passwordVisible = false;
 
-    void _togglePasswordVisibility() {
-        setState(() {
-            _passwordVisible = !_passwordVisible;
-        });
-    }
-
+  void _togglePasswordVisibility() {
+    setState(() {
+      _passwordVisible = !_passwordVisible;
+    });
+  }
 
   @override
   Widget build(context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F8F8),
-      resizeToAvoidBottomInset : false,
+      resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Column(
-            mainAxisSize: MainAxisSize.min, 
-            mainAxisAlignment: MainAxisAlignment.center, 
-        children: [
-          const Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
                   padding: EdgeInsets.only(left: 48, top: 80),
-                  child: Text('Login Page', style: TextStyle(fontSize: 32),),
+                  child: Text(
+                    'Login Page',
+                    style: TextStyle(fontSize: 32),
+                  ),
                 ),
                 // Padding(
                 //   padding: EdgeInsets.only(right: 48, top: 48),
                 //   child: Text('Sign up'),
                 // )
-              ]),
-          Flexible(
-            fit: FlexFit.loose,
+              ],
+            ),
+            Flexible(
+              fit: FlexFit.loose,
               child: Row(
-            children: [
-              const Expanded(
-                flex: 1,
-                child: Text(''),
-              ),
-              Expanded(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Image.asset('assets/images/project_connecto_icon.png'),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 56),
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Username',
+                children: [
+                  const Expanded(
+                    flex: 1,
+                    child: Text(''),
+                  ),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Image.asset('assets/images/project_connecto_icon.png'),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 56),
+                          child: TextFormField(
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Username',
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 32),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Password',
-                            suffixIcon: IconButton(
+                        Padding(
+                          padding: const EdgeInsets.only(top: 32),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              labelText: 'Password',
+                              suffixIcon: IconButton(
                                 icon: Icon(
-                                    _passwordVisible ? Icons.visibility : Icons.visibility_off,
+                                  _passwordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
                                 ),
                                 onPressed: _togglePasswordVisibility,
+                              ),
                             ),
+                            obscureText: !_passwordVisible,
+                            autocorrect: false,
                           ),
-                          obscureText: !_passwordVisible,
-                          autocorrect: false,
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 40),
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
+                        Padding(
+                          padding: const EdgeInsets.only(top: 40),
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFFF9900),
-                              minimumSize: Size(160, 48)
+                              minimumSize: const Size(160, 48),
+                            ),
+                            child: const Text(
+                              'Log In',
+                              style: TextStyle(
+                                color: Color(0xFF212121),
+                                fontSize: 24,
                               ),
-                          child: const Text(
-                            'Log In',
-                            style: TextStyle(color: Color(0xFF212121), fontSize: 24)
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: Row(
+                        const Padding(
+                          padding: EdgeInsets.only(top: 16),
+                          child: Row(
                             children: [
-                            Expanded(
+                              Expanded(
                                 child: Divider(
-                                    thickness: 2
-                                )
-                            ),
-                            Text(" OR ", style: TextStyle(color: Color(0xFF7B7B7B))),
-                            Expanded(
-                                child: Divider(
-                                    thickness: 2
-                                )
-                            ),
-                        ]
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFFFFFFF),
-                              minimumSize: Size(160, 48)
-                            // minimumSize: const Size(double.infinity, double.infinity)
-
+                                  thickness: 2,
+                                ),
                               ),
-                              child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                            Image.asset('assets/images/google_logo.png',
-                            width: 32,
-                            height: 32,),
-                            SizedBox(width: 8), // Add some spacing between the image and text
-                            Text(
-                                'Google',
-                                style: TextStyle(color: Color(0xFF212121), fontSize: 24)
-                            ),
+                              Text(
+                                ' OR ',
+                                style: TextStyle(color: Color(0xFF7B7B7B)),
+                              ),
+                              Expanded(
+                                child: Divider(
+                                  thickness: 2,
+                                ),
+                              ),
                             ],
+                          ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFFFFFFFF),
+                              minimumSize: const Size(160, 48),
+                              // minimumSize: const Size(double.infinity, double.infinity)
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/images/google_logo.png',
+                                  width: 32,
+                                  height: 32,
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ), // Add some spacing between the image and text
+                                const Text(
+                                  'Google',
+                                  style: TextStyle(
+                                    color: Color(0xFF212121),
+                                    fontSize: 24,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                      Padding(
+                        Padding(
                           padding: const EdgeInsets.only(top: 24),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text(
+                              const Text(
                                 'No account? Create one ',
                                 style: TextStyle(
-                                    color: Color(0xFF212121), fontSize: 16),
+                                  color: Color(0xFF212121),
+                                  fontSize: 16,
+                                ),
                               ),
                               GestureDetector(
                                 onTap: () {
-                            
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const SignupScreen()),
-                            );
-                          },
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SignupScreen(),
+                                    ),
+                                  );
+                                },
                                 child: const Text(
                                   'here',
                                   style: TextStyle(
-                                      color: Color(0xFF44C7FF),
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
+                                    color: Color(0xFF44C7FF),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
                                 ),
                               ),
                             ],
-                          )),
-                    ]),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Expanded(flex: 1, child: Text('')),
+                ],
               ),
-              const Expanded(flex: 1, child: Text('')),
-            ],
-          ))
-        ],
+            ),
+          ],
+        ),
       ),
-      )
     );
   }
 }
