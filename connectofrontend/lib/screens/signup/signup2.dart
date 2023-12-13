@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:connectofrontend/screens/login.dart';
 import 'package:connectofrontend/screens/signup/signup.dart';
+import 'package:connectofrontend/screens/signup/otp.dart';
 
 class SignupScreen2 extends StatefulWidget {
   const SignupScreen2({super.key});
@@ -144,7 +145,7 @@ class _SignupScreenState2 extends State<SignupScreen2> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const SignupScreen(),
+                                  builder: (context) => const OTPScreen(),
                                 ),
                               );
                             },
