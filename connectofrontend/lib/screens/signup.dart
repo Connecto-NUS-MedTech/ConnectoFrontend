@@ -64,35 +64,25 @@ class _SignupScreenState extends State<SignupScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 32),
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const SignupScreen2(),
+                                ),
+                              );
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFFF9900),
                               minimumSize: const Size(160, 48),
                             ),
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const SignupScreen2(),
-                                  ),
-                                );
-                              },
-                              child: const Text(
-                                'Email address',
-                                style: TextStyle(
-                                  color: Color(0xFF212121),
-                                  fontSize: 24,
-                                ),
+                            child: const Text(
+                              'Email address',
+                              style: TextStyle(
+                                color: Color(0xFF212121),
+                                fontSize: 24,
                               ),
                             ),
-                            // child: const Text(
-                            //   'Email address',
-                            //   style: TextStyle(
-                            //     color: Color(0xFF212121),
-                            //     fontSize: 24,
-                            //   ),
-                            // ),
                           ),
                         ),
                         Padding(
