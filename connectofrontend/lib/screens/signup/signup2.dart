@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:connectofrontend/screens/login.dart';
-import 'package:connectofrontend/screens/signup.dart';
+import 'package:connectofrontend/screens/signup/signup.dart';
 
 class SignupScreen2 extends StatefulWidget {
   const SignupScreen2({super.key});
