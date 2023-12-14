@@ -1,3 +1,4 @@
+import 'package:connectofrontend/screens/main_dashboard/main_dashboard.dart';
 import 'package:flutter/material.dart';
 
 /// Wrapper widget for all screens (besides the authentication and onboarding screens)
@@ -42,7 +43,8 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
   ];
 
   final List<Widget> _pages = [
-    const Text('Main Dashboard'),
+    const MainDashboardScreen(),
+    // TODO: Replace with the other Screen widgets
     const Text('Home System'),
     const Text('Chat'),
     const Text('Settings'),
