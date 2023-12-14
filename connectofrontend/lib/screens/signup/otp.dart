@@ -13,32 +13,29 @@ class OTPScreen extends StatefulWidget {
 
 class _OTPScreen extends State<OTPScreen> {
   // TO DO: shift focus to previous textfield when delete is pressed
-  // TO DO: disable button if wrong OTP, enable if correct OTP
-  bool correctOTP = false;
+  // bool correctOTP = false;
+  bool checkCorrectOTP() {
+    // TO DO: disable button if wrong OTP, enable if correct OTP
+    if (_otpEntered.length == 4 && int.tryParse(_otpEntered) != null) {
+      return true;
+    }
+    return false;
+  }
 
   // TO DO: put the OTP together from the 4 textformfields
+  String _otpEntered = 'aaaa';
 
-  // int _otpEntered = 0;
-  // // List<String> _otpEntered = [];
-
-  // void updateOTP(String digit, int i) {
-  //   int position = 1000;
-  //   print(_otpEntered);
-  //   if (i == 1) {
-  //     position = 100;
-  //   } else if (i == 2) {
-  //     position = 10;
-  //   } else if (i == 3) {
-  //     position = 1;
-  //   }
-
-  //   // print((int.parse(digit) * 10).runtimeType);
-  //   setState(() {
-  //     _otpEntered = int.parse(digit) * position;
-  //     // _otpEntered[i] = digit;
-  //   });
-  //   // print(_otpEntered);
-  // }
+  // might wanna condense the deletion handling but also how to detect keyboard backspace
+  void updateOTP(digit, i) {
+    setState(
+      () {
+        _otpEntered = _otpEntered.substring(0, i) +
+            digit +
+            _otpEntered.substring(i + 1, _otpEntered.length);
+      },
+    );
+    print(_otpEntered);
+  }
 
   @override
   Widget build(context) {
@@ -117,10 +114,9 @@ class _OTPScreen extends State<OTPScreen> {
                                     onChanged: (value) {
                                       if (value.length == 1) {
                                         FocusScope.of(context).nextFocus();
-                                        print('before');
-                                        // print(_otpEntered);
-                                        print('after');
-                                        // updateOTP(value, 0);
+                                        updateOTP(value, 0);
+                                      } else if (value.isEmpty) {
+                                        updateOTP('a', 0);
                                       }
                                       // else if (value.isEmpty && )
                                     },
@@ -149,7 +145,9 @@ class _OTPScreen extends State<OTPScreen> {
                                     onChanged: (value) {
                                       if (value.length == 1) {
                                         FocusScope.of(context).nextFocus();
-                                        // updateOTP(value, 1);
+                                        updateOTP(value, 1);
+                                      } else if (value.isEmpty) {
+                                        updateOTP('a', 1);
                                       }
                                     },
                                     keyboardType: TextInputType.number,
@@ -177,7 +175,9 @@ class _OTPScreen extends State<OTPScreen> {
                                     onChanged: (value) {
                                       if (value.length == 1) {
                                         FocusScope.of(context).nextFocus();
-                                        // updateOTP(value, 2);
+                                        updateOTP(value, 2);
+                                      } else if (value.isEmpty) {
+                                        updateOTP('a', 2);
                                       }
                                     },
                                     keyboardType: TextInputType.number,
@@ -205,7 +205,9 @@ class _OTPScreen extends State<OTPScreen> {
                                     onChanged: (value) {
                                       if (value.length == 1) {
                                         FocusScope.of(context).nextFocus();
-                                        // updateOTP(value, 3);
+                                        updateOTP(value, 3);
+                                      } else if (value.isEmpty) {
+                                        updateOTP('a', 3);
                                       }
                                     },
                                     keyboardType: TextInputType.number,
@@ -258,7 +260,7 @@ class _OTPScreen extends State<OTPScreen> {
                           padding: const EdgeInsets.only(top: 40),
                           child: ElevatedButton(
                             // TO DO: onPressed to allow account creation
-                            onPressed: !correctOTP ? null : () {},
+                            onPressed: !checkCorrectOTP() ? null : () {},
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFFF9900),
                               minimumSize: const Size(160, 48),
