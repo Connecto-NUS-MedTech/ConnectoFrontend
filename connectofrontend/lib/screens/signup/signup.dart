@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:connectofrontend/screens/login.dart';
+import 'package:connectofrontend/screens/signup/signup2.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -58,10 +59,19 @@ class _SignupScreenState extends State<SignupScreen> {
                             style: TextStyle(fontSize: 24),
                           ),
                         ),
+                        // TODO: TAP ON ANY PART OF BUTTON TO NAVIGATE TO SIGN UP
+
                         Padding(
                           padding: const EdgeInsets.only(top: 32),
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const SignupScreen2(),
+                                ),
+                              );
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFFF9900),
                               minimumSize: const Size(160, 48),

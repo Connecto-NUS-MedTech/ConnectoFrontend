@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:connectofrontend/screens/login.dart';
 import 'package:connectofrontend/screens/signup/signup.dart';
+import 'package:connectofrontend/screens/signup/otp.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignupScreen2 extends StatefulWidget {
+  const SignupScreen2({super.key});
 
   @override
-  State<LoginScreen> createState() {
-    return _LoginScreenState();
+  State<SignupScreen2> createState() {
+    return _SignupScreenState2();
   }
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState2 extends State<SignupScreen2> {
   bool _passwordVisible = false;
 
   void _togglePasswordVisibility() {
@@ -29,20 +31,40 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: 48, top: 80),
+                  padding: const EdgeInsets.only(left: 48, top: 80),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SignupScreen(),
+                        ),
+                      );
+                    },
+                    child: const Row(
+                      children: [
+                        Icon(Icons.arrow_back),
+                        Text('Back'),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 48, top: 16),
                   child: Text(
-                    'Login Page',
+                    'Sign Up',
                     style: TextStyle(fontSize: 32),
                   ),
                 ),
-                // Padding(
-                //   padding: EdgeInsets.only(right: 48, top: 48),
-                //   child: Text('Sign up'),
-                // )
               ],
             ),
             Flexible(
@@ -71,6 +93,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 32),
                           child: TextFormField(
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Email',
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 32),
+                          child: TextFormField(
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
                               labelText: 'Password',
@@ -88,71 +119,46 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         Padding(
+                          padding: const EdgeInsets.only(top: 32),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              labelText: 'Retype password',
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _passwordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                                onPressed: _togglePasswordVisibility,
+                              ),
+                            ),
+                            obscureText: !_passwordVisible,
+                            autocorrect: false,
+                          ),
+                        ),
+                        // TO DO: CHECK THAT PASSWORDS MATCH BEFORE NAVIGATING TO GET OTP PAGE
+                        Padding(
                           padding: const EdgeInsets.only(top: 40),
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const OTPScreen(),
+                                ),
+                              );
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFFF9900),
                               minimumSize: const Size(160, 48),
                             ),
                             child: const Text(
-                              'Log In',
+                              'Get OTP',
                               style: TextStyle(
                                 color: Color(0xFF212121),
                                 fontSize: 24,
                               ),
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 16),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Divider(
-                                  thickness: 2,
-                                ),
-                              ),
-                              Text(
-                                ' OR ',
-                                style: TextStyle(color: Color(0xFF7B7B7B)),
-                              ),
-                              Expanded(
-                                child: Divider(
-                                  thickness: 2,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 16),
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFFFFFFF),
-                              minimumSize: const Size(160, 48),
-                              // minimumSize: const Size(double.infinity, double.infinity)
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'assets/images/google_logo.png',
-                                  width: 32,
-                                  height: 32,
-                                ),
-                                const SizedBox(
-                                  width: 8,
-                                ), // Add some spacing between the image and text
-                                const Text(
-                                  'Google',
-                                  style: TextStyle(
-                                    color: Color(0xFF212121),
-                                    fontSize: 24,
-                                  ),
-                                ),
-                              ],
                             ),
                           ),
                         ),
@@ -163,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               const Text(
-                                'No account? Create one ',
+                                'Already have an account? Login ',
                                 style: TextStyle(
                                   color: Color(0xFF212121),
                                   fontSize: 16,
@@ -174,8 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SignupScreen(),
+                                      builder: (context) => const LoginScreen(),
                                     ),
                                   );
                                 },
@@ -190,6 +195,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ],
                           ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 32),
+                          child: Text(''),
                         ),
                       ],
                     ),
