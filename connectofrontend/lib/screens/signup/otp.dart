@@ -13,16 +13,14 @@ class OTPScreen extends StatefulWidget {
 
 class _OTPScreen extends State<OTPScreen> {
   // TO DO: shift focus to previous textfield when delete is pressed
-  // bool correctOTP = false;
-  bool checkCorrectOTP() {
-    // TO DO: disable button if wrong OTP, enable if correct OTP
+  bool _checkCorrectOTP() {
+    // TO DO: disable button if OTP does not match actual OTP, enable if correct OTP
     if (_otpEntered.length == 4 && int.tryParse(_otpEntered) != null) {
       return true;
     }
     return false;
   }
 
-  // TO DO: put the OTP together from the 4 textformfields
   String _otpEntered = 'aaaa';
 
   // might wanna condense the deletion handling but also how to detect keyboard backspace
@@ -204,7 +202,7 @@ class _OTPScreen extends State<OTPScreen> {
                                     onSaved: (pin4) {},
                                     onChanged: (value) {
                                       if (value.length == 1) {
-                                        FocusScope.of(context).nextFocus();
+                                        // FocusScope.of(context).nextFocus();
                                         updateOTP(value, 3);
                                       } else if (value.isEmpty) {
                                         updateOTP('a', 3);
@@ -260,7 +258,7 @@ class _OTPScreen extends State<OTPScreen> {
                           padding: const EdgeInsets.only(top: 40),
                           child: ElevatedButton(
                             // TO DO: onPressed to allow account creation
-                            onPressed: !checkCorrectOTP() ? null : () {},
+                            onPressed: !_checkCorrectOTP() ? null : () {},
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFFF9900),
                               minimumSize: const Size(160, 48),
