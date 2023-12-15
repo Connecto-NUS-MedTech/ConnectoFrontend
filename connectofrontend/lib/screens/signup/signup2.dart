@@ -137,7 +137,7 @@ class _SignupScreenState2 extends State<SignupScreen2> {
                             autocorrect: false,
                           ),
                         ),
-                        // TO DO: CHECK THAT PASSWORDS MATCH BEFORE NAVIGATING TO GET OTP PAGE
+                        // TODO: CHECK THAT PASSWORDS MATCH BEFORE NAVIGATING TO GET OTP PAGE
                         Padding(
                           padding: const EdgeInsets.only(top: 40),
                           child: ElevatedButton(

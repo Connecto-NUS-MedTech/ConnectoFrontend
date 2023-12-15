@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:connectofrontend/screens/screen_wrapper.dart';
 import 'package:connectofrontend/screens/signup/signup2.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class OTPScreen extends StatefulWidget {
@@ -12,9 +13,10 @@ class OTPScreen extends StatefulWidget {
 }
 
 class _OTPScreen extends State<OTPScreen> {
-  // TO DO: shift focus to previous textfield when delete is pressed
-  bool _checkCorrectOTP() {
-    // TO DO: disable button if OTP does not match actual OTP, enable if correct OTP
+  // TODO: shift focus to previous textfield when delete is pressed
+  /// Verify the OTP entered by the user and return true if the OTP is valid,
+  bool _verifyOTP() {
+    // TODO: disable button if OTP does not match actual OTP, enable if correct OTP
     if (_otpEntered.length == 4 && int.tryParse(_otpEntered) != null) {
       return true;
     }
@@ -240,7 +242,7 @@ class _OTPScreen extends State<OTPScreen> {
                                 ),
                               ),
                               GestureDetector(
-                                // TO DO: Trigger resend OTP
+                                // TODO: Trigger resend OTP
                                 onTap: () {},
                                 child: const Text(
                                   'Send OTP',
@@ -257,8 +259,18 @@ class _OTPScreen extends State<OTPScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 40),
                           child: ElevatedButton(
-                            // TO DO: onPressed to allow account creation
-                            onPressed: !_checkCorrectOTP() ? null : () {},
+                            // TODO: onPressed to allow account creation
+                            onPressed: _verifyOTP()
+                                ? () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ScreenWrapper(),
+                                      ),
+                                    );
+                                  }
+                                : () {},
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFFF9900),
                               minimumSize: const Size(160, 48),
