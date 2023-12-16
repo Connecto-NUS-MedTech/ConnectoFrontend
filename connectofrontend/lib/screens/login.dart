@@ -11,14 +11,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool _passwordVisible = false;
-
-  void _togglePasswordVisibility() {
-    setState(() {
-      _passwordVisible = !_passwordVisible;
-    });
-  }
-
   @override
   Widget build(context) {
     return Scaffold(
@@ -64,27 +56,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: TextFormField(
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: 'Username',
+                              labelText: 'Name',
                             ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 32),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              labelText: 'Password',
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  _passwordVisible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                ),
-                                onPressed: _togglePasswordVisibility,
-                              ),
-                            ),
-                            obscureText: !_passwordVisible,
-                            autocorrect: false,
                           ),
                         ),
                         Padding(
