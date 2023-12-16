@@ -59,8 +59,6 @@ class _SignupScreenState extends State<SignupScreen> {
                             style: TextStyle(fontSize: 24),
                           ),
                         ),
-                        // TODO: TAP ON ANY PART OF BUTTON TO NAVIGATE TO SIGN UP
-
                         Padding(
                           padding: const EdgeInsets.only(top: 32),
                           child: ElevatedButton(

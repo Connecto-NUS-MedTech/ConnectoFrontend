@@ -13,14 +13,6 @@ class SignupScreen2 extends StatefulWidget {
 }
 
 class _SignupScreenState2 extends State<SignupScreen2> {
-  bool _passwordVisible = false;
-
-  void _togglePasswordVisibility() {
-    setState(() {
-      _passwordVisible = !_passwordVisible;
-    });
-  }
-
   @override
   Widget build(context) {
     return Scaffold(
@@ -86,7 +78,7 @@ class _SignupScreenState2 extends State<SignupScreen2> {
                           child: TextFormField(
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: 'Username',
+                              labelText: 'Name',
                             ),
                           ),
                         ),
@@ -99,45 +91,6 @@ class _SignupScreenState2 extends State<SignupScreen2> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 32),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              labelText: 'Password',
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  _passwordVisible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                ),
-                                onPressed: _togglePasswordVisibility,
-                              ),
-                            ),
-                            obscureText: !_passwordVisible,
-                            autocorrect: false,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 32),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              labelText: 'Retype password',
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  _passwordVisible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                ),
-                                onPressed: _togglePasswordVisibility,
-                              ),
-                            ),
-                            obscureText: !_passwordVisible,
-                            autocorrect: false,
-                          ),
-                        ),
-                        // TODO: CHECK THAT PASSWORDS MATCH BEFORE NAVIGATING TO GET OTP PAGE
                         Padding(
                           padding: const EdgeInsets.only(top: 40),
                           child: ElevatedButton(
