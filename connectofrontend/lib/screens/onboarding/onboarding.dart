@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:connectofrontend/screens/signup.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({super.key});
+  final SupabaseClient supabase;
+
+  const OnboardingScreen({super.key, required this.supabase});
 
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
@@ -10,14 +13,20 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   int _currPageIndex = 0;
+
   List<Column> _pageColumns = [];
 
   bool get _isFirstPage => _currPageIndex == 0;
   bool get _isLastPage => _currPageIndex == _pageColumns.length - 1;
 
   @override
-  void initState() {
+  Future<void> initState() async {
     super.initState();
+    final supabaseInstance = widget.supabase;
+
+    final response = await supabaseInstance.from('User_Table').upsert([
+      {'Id': 85432644, 'Name': 'Test'},
+    ]);
 
     const Align pageHeader = Align(
       alignment: Alignment.centerLeft,
@@ -217,7 +226,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const SignupScreen(),
+                                builder: (context) =>
+                                    SignupScreen(supabase: widget.supabase),
                               ),
                             );
                           },

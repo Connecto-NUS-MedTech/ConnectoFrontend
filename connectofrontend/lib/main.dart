@@ -4,23 +4,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-Future<void> main() async {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   await Supabase.initialize(
     url: 'https://iuiwtlozrllebllvbqal.supabase.co',
     anonKey:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml1aXd0bG96cmxsZWJsbHZicWFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDI0NTkwNjEsImV4cCI6MjAxODAzNTA2MX0.LsXfZ8gFvqOzz2szQ0Ld0t0fuJ8oXP6xyUSiDZAFB0M',
   );
-
   final supabase = Supabase.instance.client;
-  final response = await supabase.from('User_Table').upsert([
-    {'Id': 85432644, 'Name': 'Test'},
-  ]);
-
-  runApp(const MyApp());
+  runApp(MyApp(supabase: supabase));
 }
 
+// It's handy to then extract the Supabase client in a variable for later uses
+
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final SupabaseClient supabase;
+  const MyApp({Key? key, required this.supabase}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +31,15 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.orange,
               scaffoldBackgroundColor: const Color(0xFFEFEFEF),
             ),
-            home: const OnboardingScreen(),
+            home: OnboardingScreen(supabase: supabase),
           )
-        : const CupertinoApp(
+        : CupertinoApp(
             title: 'Connecto',
-            theme: CupertinoThemeData(
+            theme: const CupertinoThemeData(
               primaryColor: CupertinoColors.activeOrange,
               scaffoldBackgroundColor: Color(0xFFEFEFEF),
             ),
-            home: OnboardingScreen(),
+            home: OnboardingScreen(supabase: supabase),
           );
   }
 }

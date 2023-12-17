@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:connectofrontend/screens/login.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+  final SupabaseClient supabase;
+  const SignupScreen({super.key, required this.supabase});
 
   @override
   State<SignupScreen> createState() {
