@@ -25,7 +25,6 @@ class _OTPScreen extends State<OTPScreen> {
 
   String _otpEntered = 'aaaa';
 
-  // might wanna condense the deletion handling but also how to detect keyboard backspace
   void updateOTP(digit, i) {
     setState(
       () {
@@ -34,7 +33,6 @@ class _OTPScreen extends State<OTPScreen> {
             _otpEntered.substring(i + 1, _otpEntered.length);
       },
     );
-    print(_otpEntered);
   }
 
   @override
@@ -118,7 +116,6 @@ class _OTPScreen extends State<OTPScreen> {
                                       } else if (value.isEmpty) {
                                         updateOTP('a', 0);
                                       }
-                                      // else if (value.isEmpty && )
                                     },
                                     keyboardType: TextInputType.number,
                                     maxLength: 1,
@@ -270,7 +267,7 @@ class _OTPScreen extends State<OTPScreen> {
                                       ),
                                     );
                                   }
-                                : () {},
+                                : null,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFFF9900),
                               minimumSize: const Size(160, 48),
