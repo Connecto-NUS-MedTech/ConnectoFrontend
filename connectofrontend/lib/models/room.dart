@@ -1,4 +1,4 @@
-import 'package:connectofrontend/models/device.dart';
+import 'package:connectofrontend/models/device/device.dart';
 
 class Room {
   String name;

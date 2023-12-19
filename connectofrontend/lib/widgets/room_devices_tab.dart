@@ -1,4 +1,5 @@
-import 'package:connectofrontend/models/device.dart';
+import 'package:connectofrontend/models/device/device.dart';
+import 'package:connectofrontend/models/device/light_device.dart';
 import 'package:connectofrontend/models/room.dart';
 import 'package:connectofrontend/widgets/custom_switch.dart';
 import 'package:flutter/material.dart';
