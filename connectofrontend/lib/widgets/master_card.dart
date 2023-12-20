@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:connectofrontend/widgets/custom_switch.dart';
 
 class MasterCard extends StatefulWidget {
   final String cardText;
   bool cardState;
 
-  MasterCard({Key? key, required this.cardText, required this.cardState})
-      : super(key: key);
+  MasterCard({super.key, required this.cardText, required this.cardState});
 
   @override
   State<MasterCard> createState() {
@@ -14,6 +14,13 @@ class MasterCard extends StatefulWidget {
 }
 
 class _MasterCardState extends State<MasterCard> {
+  void updateSwitch(bool status) {
+    setState(() {
+      widget.cardState = status;
+    });
+    print('printing card state for ${widget.cardText}: ${widget.cardState}');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,15 +51,9 @@ class _MasterCardState extends State<MasterCard> {
             const SizedBox(
               width: 56,
             ),
-            Switch.adaptive(
+            CustomSwitch(
               value: widget.cardState,
-              onChanged: (bool newValue) {
-                setState(() {
-                  widget.cardState = newValue;
-                  print(
-                      'new state of ${widget.cardText} is ${widget.cardState}');
-                });
-              },
+              onChanged: updateSwitch,
             ),
           ],
         ),
