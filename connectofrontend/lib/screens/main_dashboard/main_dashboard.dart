@@ -1,3 +1,6 @@
+import 'package:connectofrontend/models/device.dart';
+import 'package:connectofrontend/models/room.dart';
+import 'package:connectofrontend/widgets/home_system_rooms_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:connectofrontend/widgets/master_card.dart';
 
@@ -11,6 +14,26 @@ class MainDashboardScreen extends StatefulWidget {
 class MainDashboardScreenState extends State<MainDashboardScreen> {
   final bool _allLights = false;
   final bool _allFans = false;
+
+  // Hardcoded for now -- fetch from DB or local storage in the future
+  List<Device> devices = [];
+  List<Room> rooms = [
+    Room(
+      name: 'Hallway',
+      devices: [
+        LightDevice('Light 1', 0.5),
+        FanDevice('Fan 1', 0.8),
+        FanDevice('Fan 2', 0.8),
+      ],
+    ),
+    Room(
+      name: 'Kitchen',
+      devices: [
+        LightDevice('Light 1', 0.5),
+        LightDevice('Light 2', 0.5),
+      ],
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -69,42 +92,9 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
               const SizedBox(
                 height: 25,
               ),
-              // TODO: Replace Container with custom widget
-              Container(
+              SizedBox(
                 height: 400,
-                color: Colors.grey,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Container(
-                      width: 300,
-                      color: Colors.grey[600],
-                      child: const Text(
-                        'RoomEnvironmentConditionsTab widget goes here',
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 25,
-                    ),
-                    Container(
-                      width: 300,
-                      color: Colors.grey[600],
-                      child: const Text(
-                        'Room Environment Conditions Tab widget goes here',
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 25,
-                    ),
-                    Container(
-                      width: 300,
-                      color: Colors.grey[600],
-                      child: const Text(
-                        'Room Environment Conditions Tab widget goes here',
-                      ),
-                    ),
-                  ],
-                ),
+                child: HomeSystemRoomsTab(rooms: rooms),
               ),
             ],
           ),
