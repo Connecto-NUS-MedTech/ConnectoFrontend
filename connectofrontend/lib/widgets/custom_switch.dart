@@ -20,17 +20,25 @@ class _CustomSwitchState extends State<CustomSwitch> {
   final Color _primaryColor = const Color(0xFF455A64);
   final Color _selectedText = const Color(0xFFA5A5A5);
 
+  void toggleSwitch() {
+    setState(() {
+      widget.value = !widget.value;
+      widget.onChanged(widget.value);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         GestureDetector(
-          onTap: () {
-            setState(() {
-              widget.value = false;
-              widget.onChanged(false);
-            });
-          },
+          onTap: toggleSwitch,
+          // () {
+          //   setState(() {
+          //     widget.value = !widget.value;
+          //     widget.onChanged(widget.value);
+          //   });
+          // },
           child: Container(
             decoration: BoxDecoration(
               color: widget.value == false
@@ -63,13 +71,13 @@ class _CustomSwitchState extends State<CustomSwitch> {
           ),
         ),
         GestureDetector(
-          onTap: () {
-            setState(() {
-              widget.value = true;
-              widget.onChanged(true);
-              print('cardstate  is : ${widget.value}');
-            });
-          },
+          onTap: toggleSwitch,
+          // () {
+          //   setState(() {
+          //     widget.value = !widget.value;
+          //     widget.onChanged(widget.value);
+          //   });
+          // },
           child: Container(
             decoration: BoxDecoration(
               color: widget.value == true
