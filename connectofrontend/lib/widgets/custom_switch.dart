@@ -29,7 +29,6 @@ class _CustomSwitchState extends State<CustomSwitch> {
             setState(() {
               widget.value = false;
               widget.onChanged(false);
-              print('cardstate  is : ${widget.value}');
             });
           },
           child: Container(
