@@ -21,16 +21,16 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
     Room(
       name: 'Hallway',
       devices: [
-        LightDevice('Light 1', 0.5),
-        FanDevice('Fan 1', 0.8),
-        FanDevice('Fan 2', 0.8),
+        LightDevice(name: 'Light 1', brightness: 0.5),
+        FanDevice(name: 'Fan 1', speed: 0.8),
+        FanDevice(name: 'Fan 2', speed: 0.8),
       ],
     ),
     Room(
       name: 'Kitchen',
       devices: [
-        LightDevice('Light 1', 0.5),
-        LightDevice('Light 2', 0.5),
+        LightDevice(name: 'Light 1', brightness: 0.5),
+        LightDevice(name: 'Light 2', brightness: 0.5),
       ],
     ),
   ];
