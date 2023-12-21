@@ -1,5 +1,6 @@
 import 'package:connectofrontend/models/device.dart';
 import 'package:connectofrontend/models/room.dart';
+import 'package:connectofrontend/widgets/custom_switch.dart';
 import 'package:connectofrontend/widgets/home_system_rooms_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:connectofrontend/widgets/master_card.dart';
@@ -12,9 +13,6 @@ class MainDashboardScreen extends StatefulWidget {
 }
 
 class MainDashboardScreenState extends State<MainDashboardScreen> {
-  final bool _allLights = false;
-  final bool _allFans = false;
-
   // Hardcoded for now -- fetch from DB or local storage in the future
   List<Device> devices = [];
   List<Room> rooms = [
@@ -57,31 +55,29 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
                 height: 25,
               ),
               // Home Environmental Conditions Control section
-              Column(
+              const Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Home Environmental Conditions Control',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+                    padding: EdgeInsets.fromLTRB(0, 24, 0, 0),
                     child: Row(
                       children: [
                         Expanded(
                           child: MasterCard(
                             cardText: 'ALL LIGHTS',
-                            cardState: _allLights,
                           ),
                         ),
-                        const SizedBox(
+                        SizedBox(
                           width: 32,
                         ),
                         Expanded(
                           child: MasterCard(
                             cardText: 'ALL FANS',
-                            cardState: _allFans,
                           ),
                         ),
                       ],

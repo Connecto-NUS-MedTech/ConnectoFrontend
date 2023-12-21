@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+enum SwitchStatus { on, off, neither }
+
 class CustomSwitch extends StatefulWidget {
-  bool value;
-  ValueChanged<bool> onChanged;
+  SwitchStatus value;
+  ValueChanged<SwitchStatus> onChanged;
 
   CustomSwitch({
     super.key,
@@ -22,7 +24,9 @@ class _CustomSwitchState extends State<CustomSwitch> {
 
   void toggleSwitch() {
     setState(() {
-      widget.value = !widget.value;
+      // TO DO: Update the connection with the bottom home devices tabs
+      widget.value =
+          widget.value == SwitchStatus.on ? SwitchStatus.off : SwitchStatus.on;
       widget.onChanged(widget.value);
     });
   }
@@ -33,15 +37,10 @@ class _CustomSwitchState extends State<CustomSwitch> {
       children: [
         GestureDetector(
           onTap: toggleSwitch,
-          // () {
-          //   setState(() {
-          //     widget.value = !widget.value;
-          //     widget.onChanged(widget.value);
-          //   });
-          // },
           child: Container(
             decoration: BoxDecoration(
-              color: widget.value == false
+              // if status is off or neither, white background
+              color: widget.value == SwitchStatus.off
                   ? _primaryColor
                   : const Color(0xFFFFFFFF),
               border: Border(
@@ -60,7 +59,7 @@ class _CustomSwitchState extends State<CustomSwitch> {
               child: Text(
                 'OFF',
                 style: TextStyle(
-                  color: widget.value == false
+                  color: widget.value == SwitchStatus.off
                       ? const Color(0xFFFFFFFF)
                       : _selectedText,
                   fontWeight: FontWeight.bold,
@@ -72,15 +71,10 @@ class _CustomSwitchState extends State<CustomSwitch> {
         ),
         GestureDetector(
           onTap: toggleSwitch,
-          // () {
-          //   setState(() {
-          //     widget.value = !widget.value;
-          //     widget.onChanged(widget.value);
-          //   });
-          // },
           child: Container(
             decoration: BoxDecoration(
-              color: widget.value == true
+              // if status is off or neither, white background
+              color: widget.value == SwitchStatus.on
                   ? _primaryColor
                   : const Color(0xFFFFFFFF),
               border: Border(
@@ -99,7 +93,7 @@ class _CustomSwitchState extends State<CustomSwitch> {
               child: Text(
                 'ON',
                 style: TextStyle(
-                  color: widget.value == true
+                  color: widget.value == SwitchStatus.on
                       ? const Color(0xFFFFFFFF)
                       : _selectedText,
                   fontWeight: FontWeight.bold,
