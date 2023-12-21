@@ -1,5 +1,6 @@
 import 'package:connectofrontend/models/device.dart';
 import 'package:connectofrontend/models/room.dart';
+import 'package:connectofrontend/widgets/custom_switch.dart';
 import 'package:flutter/material.dart';
 
 class RoomDevicesTab extends StatefulWidget {
@@ -65,6 +66,17 @@ class DeviceTab extends StatefulWidget {
 
 class _DeviceTabState extends State<DeviceTab> {
   double value = 0;
+  late SwitchStatus deviceState =
+      widget.device.isOn ? SwitchStatus.on : SwitchStatus.off;
+
+  void updateSwitch(SwitchStatus status) {
+    setState(() {
+      deviceState = status;
+      widget.device.isOn = status == SwitchStatus.on ? true : false;
+    });
+    print('Device state for ${widget.device.name}: $deviceState');
+    print('Device is: ${widget.device.isOn}');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,13 +100,18 @@ class _DeviceTabState extends State<DeviceTab> {
                   widget.device.name,
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Switch(
-                  value: widget.device.isOn,
-                  onChanged: (bool newValue) {
-                    setState(() {
-                      widget.device.isOn = newValue;
-                    });
-                  },
+                // Switch(
+                //   value: widget.device.isOn,
+                //   onChanged: (bool newValue) {
+                //     setState(() {
+                //       widget.device.isOn = newValue;
+                //     });
+                //   },
+                // ),
+                CustomSwitch(
+                  // value is state of device
+                  value: deviceState,
+                  onChanged: updateSwitch,
                 ),
               ],
             ),

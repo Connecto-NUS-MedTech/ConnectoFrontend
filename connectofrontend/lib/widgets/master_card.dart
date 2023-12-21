@@ -3,9 +3,8 @@ import 'package:connectofrontend/widgets/custom_switch.dart';
 
 class MasterCard extends StatefulWidget {
   final String cardText;
-  bool cardState;
 
-  MasterCard({super.key, required this.cardText, required this.cardState});
+  const MasterCard({super.key, required this.cardText});
 
   @override
   State<MasterCard> createState() {
@@ -14,11 +13,13 @@ class MasterCard extends StatefulWidget {
 }
 
 class _MasterCardState extends State<MasterCard> {
-  void updateSwitch(bool status) {
+  SwitchStatus cardState = SwitchStatus.neither;
+
+  void updateSwitch(SwitchStatus status) {
     setState(() {
-      widget.cardState = status;
+      cardState = status;
     });
-    print('printing card state for ${widget.cardText}: ${widget.cardState}');
+    print('printing card state for ${widget.cardText}: $cardState');
   }
 
   @override
@@ -52,7 +53,7 @@ class _MasterCardState extends State<MasterCard> {
               width: 56,
             ),
             CustomSwitch(
-              value: widget.cardState,
+              value: cardState,
               onChanged: updateSwitch,
             ),
           ],
