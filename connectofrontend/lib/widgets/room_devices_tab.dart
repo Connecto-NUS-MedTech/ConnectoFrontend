@@ -3,16 +3,21 @@ import 'package:connectofrontend/models/device/fan_device.dart';
 import 'package:connectofrontend/models/device/light_device.dart';
 import 'package:connectofrontend/models/room.dart';
 import 'package:connectofrontend/widgets/custom_switch.dart';
+import 'package:connectofrontend/widgets/room_settings_menu.dart';
 import 'package:flutter/material.dart';
 
 class RoomDevicesTab extends StatefulWidget {
   final Room room;
+  final Function(Room) onRoomAdded; // Not in use for now
   final Function(Room) onRoomUpdated;
+  final Function(Room) onRoomDeleted;
 
   const RoomDevicesTab({
     super.key,
     required this.room,
+    required this.onRoomAdded,
     required this.onRoomUpdated,
+    required this.onRoomDeleted,
   });
 
   @override
@@ -61,6 +66,7 @@ class _RoomDevicesTabState extends State<RoomDevicesTab> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
+                deviceNameController.clear();
                 Navigator.of(context).pop();
               },
               child: const Text('Cancel'),
@@ -114,9 +120,10 @@ class _RoomDevicesTabState extends State<RoomDevicesTab> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.more_vert),
-                  onPressed: () {},
+                RoomSettingsMenu(
+                  room: widget.room,
+                  onRoomUpdated: widget.onRoomUpdated,
+                  onRoomDeleted: widget.onRoomDeleted,
                 ),
               ],
             ),

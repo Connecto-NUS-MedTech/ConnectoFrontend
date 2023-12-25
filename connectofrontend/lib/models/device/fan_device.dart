@@ -5,7 +5,7 @@ class FanDevice extends Device {
 
   FanDevice({required String name, double speed = 0.0})
       : speed = speed.clamp(0.0, 1.0),
-        super(name: name, type: DeviceType.light);
+        super(name: name, type: DeviceType.fan);
 
   setSpeed(double speed) {
     this.speed = speed.clamp(0.0, 1.0);

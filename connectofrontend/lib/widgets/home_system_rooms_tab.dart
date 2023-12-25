@@ -12,16 +12,24 @@ class HomeSystemRoomsTab extends StatefulWidget {
 }
 
 class _HomeSystemRoomsTabState extends State<HomeSystemRoomsTab> {
-  void handleRoomAdded(Room newRoom) {
+  // Not in use for now
+  void handleRoomAdded(Room room) {
     setState(() {
-      widget.rooms.add(newRoom);
+      widget.rooms.add(room);
     });
   }
 
   void handleRoomUpdated(Room newRoom) {
+    // * See if widget re-renders if room is updated
     setState(() {
-      Room room = widget.rooms.firstWhere((r) => r.name == newRoom.name);
-      room.updateRoomDevices(newRoom.devices);
+      // Room room = widget.rooms.firstWhere((r) => r.name == newRoom.name);
+      // room.updateRoomDevices(newRoom.devices);
+    });
+  }
+
+  void handleRoomDeleted(Room room) {
+    setState(() {
+      widget.rooms.remove(room);
     });
   }
 
@@ -33,8 +41,12 @@ class _HomeSystemRoomsTabState extends State<HomeSystemRoomsTab> {
           .map(
             (room) => Container(
               margin: const EdgeInsets.symmetric(horizontal: 8),
-              child:
-                  RoomDevicesTab(room: room, onRoomUpdated: handleRoomUpdated),
+              child: RoomDevicesTab(
+                room: room,
+                onRoomAdded: handleRoomAdded,
+                onRoomUpdated: handleRoomUpdated,
+                onRoomDeleted: handleRoomDeleted,
+              ),
             ),
           )
           .toList(),
