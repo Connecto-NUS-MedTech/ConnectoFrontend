@@ -127,26 +127,27 @@ class _RoomDevicesTabState extends State<RoomDevicesTab> {
                 ),
               ],
             ),
-            ...widget.room.devices
-                .map((device) => DeviceTab(device: device))
-                .toList(),
+            Flexible(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: widget.room.devices
+                      .map((device) => DeviceTab(device: device))
+                      .toList(),
+                ),
+              ),
+            ),
             // TODO: Fix styling issue -- align to the left
             GestureDetector(
               onTap: () => _showAddDeviceDialog(context, widget.room),
-              child: const Align(
-                // * Doesn't work!?
-                // alignment: Alignment.centerLeft,
-                child: Row(
-                  // crossAxisAlignment: CrossAxisAlignment.start,
-                  // mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(Icons.add_circle_outline),
-                    Text(
-                      'Add Device',
-                      // style: TextStyle(color: Colors.blue),
-                    ),
-                  ],
-                ),
+              child: const Row(
+                // crossAxisAlignment: CrossAxisAlignment.start,
+                // mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(Icons.add_circle_outline),
+                  Text(
+                    'Add Device',
+                  ),
+                ],
               ),
             ),
           ],
