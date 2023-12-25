@@ -33,6 +33,28 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
     ),
   ];
 
+  void setAllDevices(String cardText, SwitchStatus newStatus) {
+    print('set all devices in $cardText to $newStatus');
+    Device deviceType = cardText == 'ALL LIGHTS'
+        ? LightDevice('Test Light', 0.5)
+        : FanDevice('Test Fan', 0.5);
+    // for all rooms for all devices, change the isOn
+    for (Room room in rooms) {
+      // if (cardText == 'ALL FANS') {
+      for (Device dev in room.devices) {
+        if (dev.runtimeType == deviceType.runtimeType) {
+          setState(() {
+            dev.isOn = newStatus == SwitchStatus.off ? false : true;
+          });
+        }
+      }
+    }
+  }
+
+  void deviceChanged() {
+    print('inside main dashboard');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,29 +77,31 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
                 height: 25,
               ),
               // Home Environmental Conditions Control section
-              const Column(
+              Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Home Environmental Conditions Control',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 24, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
                     child: Row(
                       children: [
                         Expanded(
                           child: MasterCard(
                             cardText: 'ALL LIGHTS',
+                            callback: setAllDevices,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 32,
                         ),
                         Expanded(
                           child: MasterCard(
                             cardText: 'ALL FANS',
+                            callback: setAllDevices,
                           ),
                         ),
                       ],

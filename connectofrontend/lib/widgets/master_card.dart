@@ -3,8 +3,13 @@ import 'package:connectofrontend/widgets/custom_switch.dart';
 
 class MasterCard extends StatefulWidget {
   final String cardText;
+  final Function(String, SwitchStatus) callback;
 
-  const MasterCard({super.key, required this.cardText});
+  const MasterCard({
+    super.key,
+    required this.cardText,
+    required this.callback,
+  });
 
   @override
   State<MasterCard> createState() {
@@ -19,6 +24,7 @@ class _MasterCardState extends State<MasterCard> {
     setState(() {
       cardState = status;
     });
+    widget.callback(widget.cardText, status);
     print('printing card state for ${widget.cardText}: $cardState');
   }
 
