@@ -1,4 +1,6 @@
-import 'package:connectofrontend/models/device.dart';
+import 'package:connectofrontend/models/device/device.dart';
+import 'package:connectofrontend/models/device/fan_device.dart';
+import 'package:connectofrontend/models/device/light_device.dart';
 import 'package:connectofrontend/models/room.dart';
 import 'package:connectofrontend/widgets/custom_switch.dart';
 import 'package:connectofrontend/widgets/home_system_rooms_tab.dart';
@@ -19,16 +21,16 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
     Room(
       name: 'Hallway',
       devices: [
-        LightDevice('Light 1', 0.5),
-        FanDevice('Fan 1', 0.8),
-        FanDevice('Fan 2', 0.8),
+        LightDevice(name: 'Light 1', brightness: 0.5),
+        FanDevice(name: 'Fan 1', speed: 0.8),
+        FanDevice(name: 'Fan 2', speed: 0.8),
       ],
     ),
     Room(
       name: 'Kitchen',
       devices: [
-        LightDevice('Light 1', 0.5),
-        LightDevice('Light 2', 0.5),
+        LightDevice(name: 'Light 1', brightness: 0.5),
+        LightDevice(name: 'Light 2', brightness: 0.5),
       ],
     ),
   ];
@@ -36,8 +38,8 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
   // when the main fan/light switch toggles, toggle all fan/light switches accordingly
   void toggleAllDevices(String cardText, SwitchStatus newStatus) {
     Device deviceType = cardText == 'ALL LIGHTS'
-        ? LightDevice('Test Light', 0.5)
-        : FanDevice('Test Fan', 0.5);
+        ? LightDevice(name: 'Test Light', brightness: 0.5)
+        : FanDevice(name: 'Test Fan', speed: 0.5);
     for (Room room in rooms) {
       for (Device dev in room.devices) {
         if (dev.runtimeType == deviceType.runtimeType) {
