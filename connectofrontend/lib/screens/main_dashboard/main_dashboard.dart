@@ -33,14 +33,12 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
     ),
   ];
 
-  void setAllDevices(String cardText, SwitchStatus newStatus) {
-    print('set all devices in $cardText to $newStatus');
+  // when the main fan/light switch toggles, toggle all fan/light switches accordingly
+  void toggleAllDevices(String cardText, SwitchStatus newStatus) {
     Device deviceType = cardText == 'ALL LIGHTS'
         ? LightDevice('Test Light', 0.5)
         : FanDevice('Test Fan', 0.5);
-    // for all rooms for all devices, change the isOn
     for (Room room in rooms) {
-      // if (cardText == 'ALL FANS') {
       for (Device dev in room.devices) {
         if (dev.runtimeType == deviceType.runtimeType) {
           setState(() {
@@ -49,10 +47,6 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
         }
       }
     }
-  }
-
-  void deviceChanged() {
-    print('inside main dashboard');
   }
 
   @override
@@ -92,7 +86,7 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
                         Expanded(
                           child: MasterCard(
                             cardText: 'ALL LIGHTS',
-                            callback: setAllDevices,
+                            callback: toggleAllDevices,
                           ),
                         ),
                         const SizedBox(
@@ -101,7 +95,7 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
                         Expanded(
                           child: MasterCard(
                             cardText: 'ALL FANS',
-                            callback: setAllDevices,
+                            callback: toggleAllDevices,
                           ),
                         ),
                       ],

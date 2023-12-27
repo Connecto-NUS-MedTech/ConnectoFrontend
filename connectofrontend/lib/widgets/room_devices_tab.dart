@@ -36,7 +36,7 @@ class _RoomDevicesTabState extends State<RoomDevicesTab> {
                 Text(
                   widget.room.name,
                   style: const TextStyle(
-                    fontSize: 24,
+                    fontSize: 32,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -66,44 +66,16 @@ class DeviceTab extends StatefulWidget {
 
 class _DeviceTabState extends State<DeviceTab> {
   double value = 0;
-  // initialise this whenever devicestate changes
-  // late SwitchStatus deviceState =
-  //     widget.device.isOn ? SwitchStatus.on : SwitchStatus.off;
-  // late SwitchStatus deviceState;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // Initialize deviceState in the initState method
-  //   deviceState = widget.device.isOn ? SwitchStatus.on : SwitchStatus.off;
-  // }
-
-  // @override
-  // void didUpdateWidget(covariant DeviceTab oldWidget) {
-  //   print('update hereee');
-  //   print('oldWidget, ${oldWidget.device.name} is ${oldWidget.device.isOn}');
-  //   print('curr widget, ${widget.device.name} is ${widget.device.isOn}');
-  //   super.didUpdateWidget(oldWidget);
-  //   // Re-evaluate deviceState when widget.device.isOn changes
-  //   if (widget.device.isOn != oldWidget.device.isOn) {
-  //     setState(() {
-  //       print('before setting state');
-  //       deviceState = widget.device.isOn ? SwitchStatus.on : SwitchStatus.off;
-  //       print('dones');
-  //     });
-  //   }
-  // }
 
   // Change status of device when switch is toggled
   void updateSwitch(SwitchStatus status) {
     setState(() {
-      // deviceState = status;
       widget.device.isOn = status == SwitchStatus.on ? true : false;
     });
-    // print('Device state for ${widget.device.name}: $deviceState');
     print('Device is: ${widget.device.isOn}');
-    // check if the main switch should change
+
     // OR once the state changes, go to main dashboard and trigger a function that checks if all devices are off
+    // pass the change to main dashboard
   }
 
   @override
@@ -128,20 +100,10 @@ class _DeviceTabState extends State<DeviceTab> {
                   widget.device.name,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
+                    fontSize: 24,
                   ),
                 ),
-                // TESTING
-                Text(widget.device.isOn.toString()),
-                // Switch(
-                //   value: widget.device.isOn,
-                //   onChanged: (bool newValue) {
-                //     setState(() {
-                //       widget.device.isOn = newValue;
-                //     });
-                //   },
-                // ),
                 CustomSwitch(
-                  // value is state of device
                   value:
                       widget.device.isOn ? SwitchStatus.on : SwitchStatus.off,
                   onChanged: updateSwitch,
