@@ -1,7 +1,10 @@
-import 'package:connectofrontend/models/device.dart';
+import 'package:connectofrontend/models/device/device.dart';
+import 'package:connectofrontend/models/device/fan_device.dart';
+import 'package:connectofrontend/models/device/light_device.dart';
 import 'package:connectofrontend/models/room.dart';
 import 'package:connectofrontend/widgets/home_system_rooms_tab.dart';
 import 'package:flutter/material.dart';
+import 'package:connectofrontend/widgets/master_card.dart';
 
 class MainDashboardScreen extends StatefulWidget {
   const MainDashboardScreen({super.key});
@@ -17,16 +20,16 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
     Room(
       name: 'Hallway',
       devices: [
-        LightDevice('Light 1', 0.5),
-        FanDevice('Fan 1', 0.8),
-        FanDevice('Fan 2', 0.8),
+        LightDevice(name: 'Light 1', brightness: 0.5),
+        FanDevice(name: 'Fan 1', speed: 0.8),
+        FanDevice(name: 'Fan 2', speed: 0.8),
       ],
     ),
     Room(
       name: 'Kitchen',
       devices: [
-        LightDevice('Light 1', 0.5),
-        LightDevice('Light 2', 0.5),
+        LightDevice(name: 'Light 1', brightness: 0.5),
+        LightDevice(name: 'Light 2', brightness: 0.5),
       ],
     ),
   ];
@@ -52,15 +55,36 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
               const SizedBox(
                 height: 25,
               ),
-              // TODO: Replace Container with custom widget
-              Container(
-                height: 100,
-                color: Colors.grey,
-                child: const Row(
-                  children: [
-                    Text('All Lights & All Fans widgets goes here'),
-                  ],
-                ),
+              // Home Environmental Conditions Control section
+              const Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Home Environmental Conditions Control',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(0, 24, 0, 0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: MasterCard(
+                            cardText: 'ALL LIGHTS',
+                          ),
+                        ),
+                        SizedBox(
+                          width: 32,
+                        ),
+                        Expanded(
+                          child: MasterCard(
+                            cardText: 'ALL FANS',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 25,

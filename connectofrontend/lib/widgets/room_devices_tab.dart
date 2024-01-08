@@ -1,13 +1,23 @@
-import 'package:connectofrontend/models/device.dart';
+import 'package:connectofrontend/models/device/device.dart';
+import 'package:connectofrontend/models/device/fan_device.dart';
+import 'package:connectofrontend/models/device/light_device.dart';
 import 'package:connectofrontend/models/room.dart';
+import 'package:connectofrontend/widgets/custom_switch.dart';
+import 'package:connectofrontend/widgets/room_settings_menu.dart';
 import 'package:flutter/material.dart';
 
 class RoomDevicesTab extends StatefulWidget {
   final Room room;
+  final Function(Room) onRoomAdded; // Not in use for now
+  final Function(Room) onRoomUpdated;
+  final Function(Room) onRoomDeleted;
 
   const RoomDevicesTab({
     super.key,
     required this.room,
+    required this.onRoomAdded,
+    required this.onRoomUpdated,
+    required this.onRoomDeleted,
   });
 
   @override
@@ -15,6 +25,77 @@ class RoomDevicesTab extends StatefulWidget {
 }
 
 class _RoomDevicesTabState extends State<RoomDevicesTab> {
+  String selectedDeviceType = 'Fan';
+  TextEditingController deviceNameController = TextEditingController();
+
+  Future<void> _showAddDeviceDialog(BuildContext context, Room room) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Add Device'),
+          content: Column(
+            children: [
+              TextField(
+                controller: deviceNameController,
+                decoration: const InputDecoration(labelText: 'Device Name'),
+              ),
+              DropdownButton<String>(
+                value: selectedDeviceType,
+                items: <String>['Fan', 'Light'].map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (newValue) {
+                  setState(() {
+                    selectedDeviceType = newValue!;
+                  });
+                },
+              ),
+              TextField(
+                controller: TextEditingController()..text = widget.room.name,
+                decoration: const InputDecoration(
+                  labelText: 'Room',
+                ),
+                readOnly: true,
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                deviceNameController.clear();
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Device newDevice;
+                if (selectedDeviceType == 'Fan') {
+                  newDevice = FanDevice(name: deviceNameController.text);
+                } else if (selectedDeviceType == 'Light') {
+                  newDevice = LightDevice(name: deviceNameController.text);
+                } else {
+                  throw Exception('Invalid device type');
+                }
+
+                widget.room.addDevice(newDevice);
+                widget.onRoomUpdated(widget.room);
+                deviceNameController.clear();
+
+                Navigator.of(context).pop();
+              },
+              child: const Text('Add'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -39,15 +120,36 @@ class _RoomDevicesTabState extends State<RoomDevicesTab> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.more_vert),
-                  onPressed: () {},
+                RoomSettingsMenu(
+                  room: widget.room,
+                  onRoomUpdated: widget.onRoomUpdated,
+                  onRoomDeleted: widget.onRoomDeleted,
                 ),
               ],
             ),
-            ...widget.room.devices
-                .map((device) => DeviceTab(device: device))
-                .toList(),
+            Flexible(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: widget.room.devices
+                      .map((device) => DeviceTab(device: device))
+                      .toList(),
+                ),
+              ),
+            ),
+            // TODO: Fix styling issue -- align to the left
+            GestureDetector(
+              onTap: () => _showAddDeviceDialog(context, widget.room),
+              child: const Row(
+                // crossAxisAlignment: CrossAxisAlignment.start,
+                // mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(Icons.add_circle_outline),
+                  Text(
+                    'Add Device',
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -65,6 +167,17 @@ class DeviceTab extends StatefulWidget {
 
 class _DeviceTabState extends State<DeviceTab> {
   double value = 0;
+  late SwitchStatus deviceState =
+      widget.device.isOn ? SwitchStatus.on : SwitchStatus.off;
+
+  void updateSwitch(SwitchStatus status) {
+    setState(() {
+      deviceState = status;
+      widget.device.isOn = status == SwitchStatus.on ? true : false;
+    });
+    print('Device state for ${widget.device.name}: $deviceState');
+    print('Device is: ${widget.device.isOn}');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,13 +201,18 @@ class _DeviceTabState extends State<DeviceTab> {
                   widget.device.name,
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Switch(
-                  value: widget.device.isOn,
-                  onChanged: (bool newValue) {
-                    setState(() {
-                      widget.device.isOn = newValue;
-                    });
-                  },
+                // Switch(
+                //   value: widget.device.isOn,
+                //   onChanged: (bool newValue) {
+                //     setState(() {
+                //       widget.device.isOn = newValue;
+                //     });
+                //   },
+                // ),
+                CustomSwitch(
+                  // value is state of device
+                  value: deviceState,
+                  onChanged: updateSwitch,
                 ),
               ],
             ),
