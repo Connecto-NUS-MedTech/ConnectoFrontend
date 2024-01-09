@@ -33,6 +33,21 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
         LightDevice(name: 'Light 2', brightness: 0.5),
       ],
     ),
+    // FOR TESTING, DELETE LATER
+    Room(
+      name: 'Test 1',
+      devices: [
+        LightDevice(name: 'Light 1', brightness: 0.5),
+        FanDevice(name: 'Fan 2', speed: 0.8),
+      ],
+    ),
+    Room(
+      name: 'Test 2',
+      devices: [
+        LightDevice(name: 'Light 1', brightness: 0.5),
+        LightDevice(name: 'Light 2', brightness: 0.5),
+      ],
+    ),
   ];
 
   // when the main fan/light switch toggles, toggle all fan/light switches accordingly
@@ -55,64 +70,78 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 50, 16, 32),
-          child: Column(
-            children: [
-              // TODO: Replace Container with custom widget
-              Container(
-                height: 125,
-                color: Colors.grey,
-                child: const Row(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 50, 16, 32),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // TODO: Replace Container with custom widget
+                Container(
+                  height: 125,
+                  color: Colors.grey,
+                  child: const Row(
+                    children: [
+                      Text('ExternalApplications widget goes here'),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                // Home Environmental Conditions Control section
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('ExternalApplications widget goes here'),
+                    const Text(
+                      'Home Environmental Conditions Control',
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: MasterCard(
+                              cardText: 'ALL LIGHTS',
+                              callback: toggleAllDevices,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 32,
+                          ),
+                          Expanded(
+                            child: MasterCard(
+                              cardText: 'ALL FANS',
+                              callback: toggleAllDevices,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-              // Home Environmental Conditions Control section
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Home Environmental Conditions Control',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: MasterCard(
-                            cardText: 'ALL LIGHTS',
-                            callback: toggleAllDevices,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 32,
-                        ),
-                        Expanded(
-                          child: MasterCard(
-                            cardText: 'ALL FANS',
-                            callback: toggleAllDevices,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-              SizedBox(
-                height: 400,
-                child: HomeSystemRoomsTab(rooms: rooms),
-              ),
-            ],
+                const SizedBox(
+                  height: 25,
+                ),
+
+                // Column(
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: [
+
+                //     HomeSystemRoomsTab(rooms: rooms),
+                //   ],
+                // ),
+
+                // SizedBox(
+                //   height: 800,
+                //   child: HomeSystemRoomsTab(rooms: rooms),
+                // ),
+                HomeSystemRoomsTab(rooms: rooms),
+              ],
+            ),
           ),
         ),
       ),

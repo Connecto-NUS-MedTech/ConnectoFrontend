@@ -35,18 +35,24 @@ class _HomeSystemRoomsTabState extends State<HomeSystemRoomsTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Wrap(
+      spacing: 32,
+      runSpacing: 24,
       children: widget.rooms
           .map(
-            (room) => Container(
-              margin: const EdgeInsets.symmetric(horizontal: 8),
-              child: RoomDevicesTab(
-                room: room,
-                onRoomAdded: handleRoomAdded,
-                onRoomUpdated: handleRoomUpdated,
-                onRoomDeleted: handleRoomDeleted,
-              ),
+            (room) => LayoutBuilder(
+              builder: (context, constraints) {
+                final itemWidth = constraints.maxWidth / 2 - 32;
+                return SizedBox(
+                  width: itemWidth,
+                  child: RoomDevicesTab(
+                    room: room,
+                    onRoomAdded: handleRoomAdded,
+                    onRoomUpdated: handleRoomUpdated,
+                    onRoomDeleted: handleRoomDeleted,
+                  ),
+                );
+              },
             ),
           )
           .toList(),

@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:connectofrontend/models/device/device.dart';
 import 'package:connectofrontend/models/device/fan_device.dart';
 import 'package:connectofrontend/models/device/light_device.dart';
@@ -5,6 +7,7 @@ import 'package:connectofrontend/models/room.dart';
 import 'package:connectofrontend/widgets/custom_switch.dart';
 import 'package:connectofrontend/widgets/room_settings_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class RoomDevicesTab extends StatefulWidget {
   final Room room;
@@ -98,20 +101,25 @@ class _RoomDevicesTabState extends State<RoomDevicesTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFFFFF),
+        borderRadius: BorderRadius.circular(8.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.15),
+            blurRadius: 10,
+            offset: const Offset(1, 4),
+          ),
+        ],
       ),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-        ),
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   widget.room.name,
@@ -127,16 +135,12 @@ class _RoomDevicesTabState extends State<RoomDevicesTab> {
                 ),
               ],
             ),
-            Flexible(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: widget.room.devices
-                      .map((device) => DeviceTab(device: device))
-                      .toList(),
-                ),
-              ),
+            const SizedBox(height: 24),
+            Column(
+              children: widget.room.devices
+                  .map((device) => DeviceTab(device: device))
+                  .toList(),
             ),
-            // TODO: Fix styling issue -- align to the left
             GestureDetector(
               onTap: () => _showAddDeviceDialog(context, widget.room),
               child: const Row(
@@ -144,8 +148,14 @@ class _RoomDevicesTabState extends State<RoomDevicesTab> {
                 // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Icon(Icons.add_circle_outline),
+                  SizedBox(
+                    width: 8,
+                  ),
                   Text(
                     'Add Device',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
                   ),
                 ],
               ),
@@ -154,6 +164,72 @@ class _RoomDevicesTabState extends State<RoomDevicesTab> {
         ),
       ),
     );
+
+    // return Card(
+    //   elevation: 5.0,
+    //   shape: RoundedRectangleBorder(
+    //     borderRadius: BorderRadius.circular(8),
+    //   ),
+    //   child: Container(
+    //     decoration: BoxDecoration(
+    //       color: Colors.white,
+    //       borderRadius: BorderRadius.circular(8),
+    //     ),
+    //     child: Padding(
+    //       padding: const EdgeInsets.all(24.0),
+    //       child: Column(
+    //         crossAxisAlignment: CrossAxisAlignment.end,
+    //         // crossAxisAlignment: CrossAxisAlignment.center,
+    //         children: [
+    //           Row(
+    //             mainAxisAlignment: MainAxisAlignment.end,
+    //             children: [
+    //               Text(
+    //                 widget.room.name,
+    //                 style: const TextStyle(
+    //                   fontSize: 32,
+    //                   fontWeight: FontWeight.bold,
+    //                 ),
+    //               ),
+    //               RoomSettingsMenu(
+    //                 room: widget.room,
+    //                 onRoomUpdated: widget.onRoomUpdated,
+    //                 onRoomDeleted: widget.onRoomDeleted,
+    //               ),
+    //             ],
+    //           ),
+
+    //           const SizedBox(
+    //             height: 24,
+    //           ),
+    //           Flexible(
+    //             child: SingleChildScrollView(
+    //               child: Column(
+    //                 children: widget.room.devices
+    //                     .map((device) => DeviceTab(device: device))
+    //                     .toList(),
+    //               ),
+    //             ),
+    //           ),
+    //           // TODO: Fix styling issue -- align to the left
+    //           GestureDetector(
+    //             onTap: () => _showAddDeviceDialog(context, widget.room),
+    //             child: const Row(
+    //               // crossAxisAlignment: CrossAxisAlignment.start,
+    //               // mainAxisAlignment: MainAxisAlignment.start,
+    //               children: [
+    //                 Icon(Icons.add_circle_outline),
+    //                 Text(
+    //                   'Add Device',
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }
 
@@ -171,7 +247,7 @@ class _DeviceTabState extends State<DeviceTab> {
   // Change status of device when switch is toggled
   void updateSwitch(SwitchStatus status) {
     setState(() {
-      widget.device.isOn = status == SwitchStatus.on ? true : false;
+      widget.device.isOn = status == SwitchStatus.on;
     });
     print('Device is: ${widget.device.isOn}');
 
@@ -181,50 +257,182 @@ class _DeviceTabState extends State<DeviceTab> {
 
   @override
   Widget build(BuildContext context) {
-    Icon deviceIcon = widget.device is LightDevice
-        ? const Icon(Icons.lightbulb, color: Colors.yellow)
-        : const Icon(Icons.ac_unit, color: Colors.blue);
+    String deviceIcon = widget.device is LightDevice
+        ? 'assets/icons/lightbulb.svg'
+        : 'assets/icons/fan.svg';
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Column(
-          children: <Widget>[
-            Row(
-              children: [
-                deviceIcon,
-                Text(
-                  widget.device.name,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                  ),
-                ),
-                CustomSwitch(
-                  value:
-                      widget.device.isOn ? SwitchStatus.on : SwitchStatus.off,
-                  onChanged: updateSwitch,
-                ),
-              ],
+    String deviceFeature =
+        widget.device is LightDevice ? 'Brightness' : 'Fan Speed';
+
+    double devicePercentage = widget.device is LightDevice
+        ? (widget.device as LightDevice).brightness
+        : (widget.device as FanDevice).speed;
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 24),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(8, 24, 32, 24),
+        child: Row(
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(right: 16),
+              child: Icon(Icons.drag_indicator_rounded),
             ),
-            Slider(
-              value: value,
-              min: 0,
-              max: 1,
-              // TODO: Persist the new value, communicate with IoT device
-              onChanged: (newValue) {
-                setState(() {
-                  value = newValue;
-                });
-              },
+            Expanded(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                            deviceIcon,
+                            height: 40,
+                            width: 40,
+                          ),
+                          const SizedBox(
+                            width: 16,
+                          ),
+                          Text(
+                            widget.device.name,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
+                            ),
+                          ),
+                        ],
+                      ),
+                      CustomSwitch(
+                        value: widget.device.isOn
+                            ? SwitchStatus.on
+                            : SwitchStatus.off,
+                        onChanged: updateSwitch,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        deviceFeature,
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      Text(
+                        '${(devicePercentage * 100).round()}%',
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      // Text(widget.device is LightDevice ? widget.device. : )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Slider(
+                    value: value,
+                    min: 0,
+                    max: 1,
+                    // TODO: Persist the new value, communicate with IoT device
+                    onChanged: (newValue) {
+                      setState(() {
+                        value = newValue;
+                      });
+                    },
+                    activeColor: const Color(0xFF455A64),
+                    inactiveColor: const Color(0xFFCFD8DC),
+                  ),
+                  // SliderThemeData(overlayShape: SliderComponentShape.noOverlay),
+                ],
+              ),
             ),
           ],
         ),
       ),
     );
+
+    // return Padding(
+    //   padding: const EdgeInsets.only(bottom: 24),
+    //   child: Container(
+    //     decoration: BoxDecoration(
+    //       border: Border.all(color: Colors.grey),
+    //       borderRadius: BorderRadius.circular(8),
+    //     ),
+    //     child: Padding(
+    //       padding: const EdgeInsets.fromLTRB(8, 24, 32, 24),
+    //       child: Column(
+    //         crossAxisAlignment: CrossAxisAlignment.start,
+    //         children: <Widget>[
+    //           Row(
+    //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //             children: [
+    //               Row(
+    //                 children: [
+    //                   SvgPicture.asset(
+    //                     deviceIcon,
+    //                     height: 40,
+    //                     width: 40,
+    //                   ),
+    //                   const SizedBox(
+    //                     width: 16,
+    //                   ),
+    //                   Text(
+    //                     widget.device.name,
+    //                     style: const TextStyle(
+    //                       fontWeight: FontWeight.bold,
+    //                       fontSize: 24,
+    //                     ),
+    //                   ),
+    //                 ],
+    //               ),
+    //               const SizedBox(
+    //                 width: 16,
+    //               ),
+    //               CustomSwitch(
+    //                 value:
+    //                     widget.device.isOn ? SwitchStatus.on : SwitchStatus.off,
+    //                 onChanged: updateSwitch,
+    //               ),
+    //             ],
+    //           ),
+    //           Row(
+    //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //             children: [
+    //               Text(
+    //                 deviceFeature,
+    //                 style: const TextStyle(fontSize: 16),
+    //               ),
+    //               const Text(
+    //                 '29%',
+    //                 style: TextStyle(fontSize: 16),
+    //               ),
+    //               // Text(widget.device is LightDevice ? widget.device. : )
+    //             ],
+    //           ),
+    //           Slider(
+    //             value: value,
+    //             min: 0,
+    //             max: 1,
+    //             // TODO: Persist the new value, communicate with IoT device
+    //             onChanged: (newValue) {
+    //               setState(() {
+    //                 value = newValue;
+    //               });
+    //             },
+    //             activeColor: const Color(0xFF455A64),
+    //             inactiveColor: const Color(0xFFCFD8DC),
+    //           ),
+    //           // SliderThemeData(overlayShape: SliderComponentShape.noOverlay),
+    //         ],
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }
