@@ -1,10 +1,9 @@
-import 'dart:collection';
-
 import 'package:connectofrontend/models/device/device.dart';
 import 'package:connectofrontend/models/device/fan_device.dart';
 import 'package:connectofrontend/models/device/light_device.dart';
 import 'package:connectofrontend/models/room.dart';
 import 'package:connectofrontend/widgets/custom_switch.dart';
+import 'package:connectofrontend/widgets/device_settings_menu.dart';
 import 'package:connectofrontend/widgets/room_settings_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -138,7 +137,22 @@ class _RoomDevicesTabState extends State<RoomDevicesTab> {
             const SizedBox(height: 24),
             Column(
               children: widget.room.devices
-                  .map((device) => DeviceTab(device: device))
+                  .map(
+                    (device) => DeviceTab(
+                      device: device,
+                      onDeviceUpdated: (Device device, [String? newName]) {
+                        // * Missing case -- device name updated
+                        setState(() {
+                          widget.room.updateRoomDevice(device);
+                        });
+                      },
+                      onDeviceDeleted: (Device device) {
+                        setState(() {
+                          widget.room.removeDevice(device);
+                        });
+                      },
+                    ),
+                  )
                   .toList(),
             ),
             GestureDetector(
@@ -167,7 +181,15 @@ class _RoomDevicesTabState extends State<RoomDevicesTab> {
 
 class DeviceTab extends StatefulWidget {
   final Device device;
-  const DeviceTab({super.key, required this.device});
+  final Function(Device, [String? newName]) onDeviceUpdated;
+  final Function(Device) onDeviceDeleted;
+
+  const DeviceTab({
+    super.key,
+    required this.device,
+    required this.onDeviceUpdated,
+    required this.onDeviceDeleted,
+  });
 
   @override
   State<DeviceTab> createState() => _DeviceTabState();
@@ -181,7 +203,6 @@ class _DeviceTabState extends State<DeviceTab> {
     setState(() {
       widget.device.isOn = status == SwitchStatus.on;
     });
-    print('Device is: ${widget.device.isOn}');
 
     // OR once the state changes, go to main dashboard and trigger a function that checks if all devices are off
     // pass the change to main dashboard
@@ -210,9 +231,10 @@ class _DeviceTabState extends State<DeviceTab> {
         padding: const EdgeInsets.fromLTRB(8, 24, 32, 24),
         child: Row(
           children: [
-            const Padding(
-              padding: EdgeInsets.only(right: 16),
-              child: Icon(Icons.drag_indicator_rounded),
+            DeviceSettingsMenu(
+              device: widget.device,
+              onDeviceUpdated: widget.onDeviceUpdated,
+              onDeviceDeleted: widget.onDeviceDeleted,
             ),
             Expanded(
               child: Column(

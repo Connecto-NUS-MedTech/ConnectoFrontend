@@ -20,8 +20,11 @@ class Room {
     devices.remove(device);
   }
 
-  void updateRoomDevices(List<Device> devices) {
-    this.devices = devices;
+  void updateRoomDevice(Device newDevice) {
+    int index = devices.indexWhere((device) => device.name == newDevice.name);
+    if (index != -1) {
+      devices[index] = newDevice;
+    }
   }
 
   @override
@@ -29,4 +32,9 @@ class Room {
 
   @override
   int get hashCode => name.hashCode;
+
+  @override
+  String toString() {
+    return 'Room $name';
+  }
 }

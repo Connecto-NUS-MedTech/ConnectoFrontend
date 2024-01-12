@@ -16,4 +16,9 @@ abstract class Device {
 
   @override
   int get hashCode => name.hashCode;
+
+  @override
+  String toString() {
+    return '[$type, $name]';
+  }
 }
