@@ -1,7 +1,8 @@
 import 'package:connectofrontend/models/device/device.dart';
+import 'package:connectofrontend/widgets/edit_dialog.dart';
 import 'package:flutter/material.dart';
 
-enum MenuOptions { editDevice, removeDevice }
+enum _DeviceOption { editDevice, removeDevice }
 
 class DeviceSettingsMenu extends StatelessWidget {
   final Device device;
@@ -17,30 +18,39 @@ class DeviceSettingsMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<MenuOptions>(
-      icon: const Icon(Icons.drag_indicator_rounded),
-      onSelected: (MenuOptions option) {
+    return PopupMenuButton<_DeviceOption>(
+      icon: const Icon(Icons.more_vert),
+      onSelected: (_DeviceOption option) {
         switch (option) {
-          case MenuOptions.editDevice:
+          case _DeviceOption.editDevice:
             onDeviceUpdated(device);
             break;
-          case MenuOptions.removeDevice:
+          case _DeviceOption.removeDevice:
             onDeviceDeleted(device);
             break;
         }
       },
-      itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuOptions>>[
-        const PopupMenuItem<MenuOptions>(
-          value: MenuOptions.editDevice,
-          child: Row(
-            children: <Widget>[
-              Icon(Icons.edit),
-              Text('Edit device'),
-            ],
+      itemBuilder: (BuildContext context) => <PopupMenuEntry<_DeviceOption>>[
+        PopupMenuItem<_DeviceOption>(
+          value: _DeviceOption.editDevice,
+          child: EditDialog(
+            field: 'Name',
+            value: device.name,
+            onEditSaved: (String deviceName) {
+              device.rename(deviceName);
+              onDeviceUpdated(device);
+              Navigator.pop(context);
+            },
+            child: const Row(
+              children: <Widget>[
+                Icon(Icons.edit),
+                Text('Edit device'),
+              ],
+            ),
           ),
         ),
-        const PopupMenuItem<MenuOptions>(
-          value: MenuOptions.removeDevice,
+        const PopupMenuItem<_DeviceOption>(
+          value: _DeviceOption.removeDevice,
           child: Row(
             children: <Widget>[
               Icon(Icons.remove_circle_outline, color: Colors.red),

@@ -77,9 +77,10 @@ class _RoomDevicesTabState extends State<RoomDevicesTab> {
               onPressed: () {
                 Device newDevice;
                 if (selectedDeviceType == 'Fan') {
-                  newDevice = FanDevice(name: deviceNameController.text);
+                  newDevice = FanDevice(id: 0, name: deviceNameController.text);
                 } else if (selectedDeviceType == 'Light') {
-                  newDevice = LightDevice(name: deviceNameController.text);
+                  newDevice =
+                      LightDevice(id: 1, name: deviceNameController.text);
                 } else {
                   throw Exception('Invalid device type');
                 }

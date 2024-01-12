@@ -2,7 +2,7 @@ import 'package:connectofrontend/models/room.dart';
 import 'package:connectofrontend/widgets/edit_dialog.dart';
 import 'package:flutter/material.dart';
 
-enum MenuOptions { moveLeft, moveRight, editRoom, removeRoom }
+enum _RoomOption { moveLeft, moveRight, editRoom, removeRoom }
 
 class RoomSettingsMenu extends StatelessWidget {
   final Room room;
@@ -18,26 +18,26 @@ class RoomSettingsMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<MenuOptions>(
+    return PopupMenuButton<_RoomOption>(
       icon: const Icon(Icons.more_vert),
-      onSelected: (MenuOptions option) {
+      onSelected: (_RoomOption option) {
         // TODO: Add logic for move left, right, edit
         switch (option) {
-          case MenuOptions.moveRight:
+          case _RoomOption.moveRight:
             break;
-          case MenuOptions.moveLeft:
+          case _RoomOption.moveLeft:
             break;
-          case MenuOptions.editRoom:
+          case _RoomOption.editRoom:
             onRoomUpdated(room);
             break;
-          case MenuOptions.removeRoom:
+          case _RoomOption.removeRoom:
             onRoomDeleted(room);
             break;
         }
       },
-      itemBuilder: (BuildContext context) => <PopupMenuEntry<MenuOptions>>[
-        const PopupMenuItem<MenuOptions>(
-          value: MenuOptions.moveLeft,
+      itemBuilder: (BuildContext context) => <PopupMenuEntry<_RoomOption>>[
+        const PopupMenuItem<_RoomOption>(
+          value: _RoomOption.moveLeft,
           child: Row(
             children: <Widget>[
               Icon(Icons.arrow_forward),
@@ -45,8 +45,8 @@ class RoomSettingsMenu extends StatelessWidget {
             ],
           ),
         ),
-        const PopupMenuItem<MenuOptions>(
-          value: MenuOptions.moveLeft,
+        const PopupMenuItem<_RoomOption>(
+          value: _RoomOption.moveLeft,
           child: Row(
             children: <Widget>[
               Icon(Icons.arrow_back),
@@ -54,8 +54,8 @@ class RoomSettingsMenu extends StatelessWidget {
             ],
           ),
         ),
-        PopupMenuItem<MenuOptions>(
-          value: MenuOptions.editRoom,
+        PopupMenuItem<_RoomOption>(
+          value: _RoomOption.editRoom,
           child: EditDialog(
             field: 'Name',
             value: room.name,
@@ -72,8 +72,8 @@ class RoomSettingsMenu extends StatelessWidget {
             ),
           ),
         ),
-        const PopupMenuItem<MenuOptions>(
-          value: MenuOptions.removeRoom,
+        const PopupMenuItem<_RoomOption>(
+          value: _RoomOption.removeRoom,
           child: Row(
             children: <Widget>[
               Icon(Icons.remove_circle_outline, color: Colors.red),

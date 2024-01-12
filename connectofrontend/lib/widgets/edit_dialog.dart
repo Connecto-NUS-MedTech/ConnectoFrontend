@@ -31,25 +31,27 @@ class _EditDialogState extends State<EditDialog> {
         TextEditingController(text: widget.value ?? widget.field);
   }
 
-  Future<void> _showEditDialog(BuildContext context) async {
+  Future<void> _showDialog(BuildContext context) async {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(widget.field),
-          content: Column(
-            children: [
-              TextField(
-                controller: textValueController,
-                decoration: InputDecoration(labelText: widget.field),
-              ),
-            ],
+          content: SizedBox(
+            height: 200,
+            child: Column(
+              children: [
+                TextField(
+                  controller: textValueController,
+                  decoration: InputDecoration(labelText: widget.field),
+                ),
+              ],
+            ),
           ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 textValueController.clear();
-                Navigator.of(context).pop();
               },
               child: const Text('Cancel'),
             ),
@@ -57,21 +59,23 @@ class _EditDialogState extends State<EditDialog> {
               onPressed: () {
                 widget.onEditSaved(textValueController.text);
                 textValueController.clear();
-
-                Navigator.of(context).pop();
               },
               child: const Text('Save'),
             ),
           ],
         );
       },
-    );
+    ).then((_) {
+      if (Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _showEditDialog(context),
+      onTap: () => _showDialog(context),
       child: widget.child,
     );
   }
