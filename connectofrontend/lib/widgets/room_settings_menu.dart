@@ -1,4 +1,5 @@
 import 'package:connectofrontend/models/room.dart';
+import 'package:connectofrontend/widgets/edit_dialog.dart';
 import 'package:flutter/material.dart';
 
 enum MenuOptions { moveLeft, moveRight, editRoom, removeRoom }
@@ -53,13 +54,22 @@ class RoomSettingsMenu extends StatelessWidget {
             ],
           ),
         ),
-        const PopupMenuItem<MenuOptions>(
+        PopupMenuItem<MenuOptions>(
           value: MenuOptions.editRoom,
-          child: Row(
-            children: <Widget>[
-              Icon(Icons.edit),
-              Text('Edit room'),
-            ],
+          child: EditDialog(
+            field: 'Name',
+            value: room.name,
+            onEditSaved: (String roomName) {
+              room.rename(roomName);
+              onRoomUpdated(room);
+              Navigator.pop(context);
+            },
+            child: const Row(
+              children: <Widget>[
+                Icon(Icons.edit),
+                Text('Edit room'),
+              ],
+            ),
           ),
         ),
         const PopupMenuItem<MenuOptions>(

@@ -20,10 +20,11 @@ class _HomeSystemRoomsTabState extends State<HomeSystemRoomsTab> {
   }
 
   void handleRoomUpdated(Room newRoom) {
-    // * See if widget re-renders if room is updated
     setState(() {
-      // Room room = widget.rooms.firstWhere((r) => r.name == newRoom.name);
-      // room.updateRoomDevices(newRoom.devices);
+      int roomIndex = widget.rooms.indexWhere((r) => r.id == newRoom.id);
+      if (roomIndex != -1) {
+        widget.rooms[roomIndex] = newRoom;
+      }
     });
   }
 

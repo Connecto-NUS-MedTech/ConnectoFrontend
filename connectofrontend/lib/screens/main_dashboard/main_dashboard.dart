@@ -19,6 +19,7 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
   List<Device> devices = [];
   List<Room> rooms = [
     Room(
+      id: 0,
       name: 'Hallway',
       devices: [
         LightDevice(name: 'Light 1', brightness: 0.5),
@@ -27,6 +28,7 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
       ],
     ),
     Room(
+      id: 1,
       name: 'Kitchen',
       devices: [
         LightDevice(name: 'Light 1', brightness: 0.5),
@@ -35,6 +37,7 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
     ),
     // FOR TESTING, DELETE LATER
     Room(
+      id: 0,
       name: 'Test 1',
       devices: [
         LightDevice(name: 'Light 1', brightness: 0.5),
@@ -42,6 +45,7 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
       ],
     ),
     Room(
+      id: 0,
       name: 'Test 2',
       devices: [
         LightDevice(name: 'Light 1', brightness: 0.5),

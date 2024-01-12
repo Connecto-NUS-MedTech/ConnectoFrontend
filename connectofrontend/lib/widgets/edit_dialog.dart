@@ -1,0 +1,78 @@
+import 'package:flutter/material.dart';
+
+class EditDialog extends StatefulWidget {
+  // If more field-value pairs are needed, use an Array instead
+  final String field;
+  final String? value;
+  final Widget child;
+
+  // Callback function to save the new value(s)
+  final Function(String) onEditSaved;
+
+  const EditDialog({
+    super.key,
+    required this.field,
+    required this.value,
+    required this.child,
+    required this.onEditSaved,
+  });
+
+  @override
+  State<EditDialog> createState() => _EditDialogState();
+}
+
+class _EditDialogState extends State<EditDialog> {
+  late TextEditingController textValueController;
+
+  @override
+  void initState() {
+    super.initState();
+    textValueController =
+        TextEditingController(text: widget.value ?? widget.field);
+  }
+
+  Future<void> _showEditDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(widget.field),
+          content: Column(
+            children: [
+              TextField(
+                controller: textValueController,
+                decoration: InputDecoration(labelText: widget.field),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                textValueController.clear();
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                widget.onEditSaved(textValueController.text);
+                textValueController.clear();
+
+                Navigator.of(context).pop();
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _showEditDialog(context),
+      child: widget.child,
+    );
+  }
+}

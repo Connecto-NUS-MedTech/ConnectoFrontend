@@ -1,13 +1,20 @@
 import 'package:connectofrontend/models/device/device.dart';
 
 class Room {
+  final int id;
   String name;
   List<Device> devices;
 
   Room({
+    required this.id,
     required this.name,
     required this.devices,
   });
+
+  void rename(String name) {
+    if (name.isEmpty) return;
+    this.name = name;
+  }
 
   void addDevice(Device device) {
     if (devices.any((d) => d.name == device.name)) {

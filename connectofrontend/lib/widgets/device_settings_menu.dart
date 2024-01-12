@@ -18,7 +18,7 @@ class DeviceSettingsMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<MenuOptions>(
-      icon: const Icon(Icons.more_vert),
+      icon: const Icon(Icons.drag_indicator_rounded),
       onSelected: (MenuOptions option) {
         switch (option) {
           case MenuOptions.editDevice:
