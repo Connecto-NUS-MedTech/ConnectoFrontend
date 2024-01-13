@@ -2,10 +2,10 @@ import 'package:connectofrontend/models/device/device.dart';
 import 'package:connectofrontend/models/device/fan_device.dart';
 import 'package:connectofrontend/models/device/light_device.dart';
 import 'package:connectofrontend/models/room.dart';
-import 'package:connectofrontend/widgets/custom_switch.dart';
-import 'package:connectofrontend/widgets/home_system_rooms_tab.dart';
+import 'package:connectofrontend/widgets/home_system/custom_switch.dart';
+import 'package:connectofrontend/widgets/home_system/home_system_rooms_tab.dart';
 import 'package:flutter/material.dart';
-import 'package:connectofrontend/widgets/master_card.dart';
+import 'package:connectofrontend/widgets/home_system/master_card.dart';
 
 class MainDashboardScreen extends StatefulWidget {
   const MainDashboardScreen({super.key});

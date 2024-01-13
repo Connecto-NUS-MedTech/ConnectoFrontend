@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:connectofrontend/widgets/custom_switch.dart';
+import 'package:connectofrontend/widgets/home_system/custom_switch.dart';
 
 class MasterCard extends StatefulWidget {
   final String cardText;

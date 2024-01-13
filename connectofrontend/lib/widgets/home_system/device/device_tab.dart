@@ -1,7 +1,7 @@
 import 'package:connectofrontend/models/device/device.dart';
 import 'package:connectofrontend/models/device/light_device.dart';
-import 'package:connectofrontend/widgets/custom_switch.dart';
-import 'package:connectofrontend/widgets/device_settings_menu.dart';
+import 'package:connectofrontend/widgets/home_system/custom_switch.dart';
+import 'package:connectofrontend/widgets/home_system/device/device_settings_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

@@ -2,17 +2,17 @@ import 'package:connectofrontend/models/device/device.dart';
 import 'package:connectofrontend/models/device/fan_device.dart';
 import 'package:connectofrontend/models/device/light_device.dart';
 import 'package:connectofrontend/models/room.dart';
-import 'package:connectofrontend/widgets/device_tab.dart';
-import 'package:connectofrontend/widgets/room_settings_menu.dart';
+import 'package:connectofrontend/widgets/home_system/device/device_tab.dart';
+import 'package:connectofrontend/widgets/home_system/room/room_settings_menu.dart';
 import 'package:flutter/material.dart';
 
-class RoomDevicesTab extends StatefulWidget {
+class RoomTab extends StatefulWidget {
   final Room room;
   final Function(Room) onRoomAdded; // Not in use for now
   final Function(Room) onRoomUpdated;
   final Function(Room) onRoomDeleted;
 
-  const RoomDevicesTab({
+  const RoomTab({
     super.key,
     required this.room,
     required this.onRoomAdded,
@@ -21,10 +21,10 @@ class RoomDevicesTab extends StatefulWidget {
   });
 
   @override
-  State<RoomDevicesTab> createState() => _RoomDevicesTabState();
+  State<RoomTab> createState() => _RoomTabState();
 }
 
-class _RoomDevicesTabState extends State<RoomDevicesTab> {
+class _RoomTabState extends State<RoomTab> {
   String selectedDeviceType = 'Fan';
   TextEditingController deviceNameController = TextEditingController();
 

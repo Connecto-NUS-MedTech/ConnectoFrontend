@@ -1,5 +1,5 @@
 import 'package:connectofrontend/models/room.dart';
-import 'package:connectofrontend/widgets/room_devices_tab.dart';
+import 'package:connectofrontend/widgets/home_system/room/room_tab.dart';
 import 'package:flutter/material.dart';
 
 class HomeSystemRoomsTab extends StatefulWidget {
@@ -46,7 +46,7 @@ class _HomeSystemRoomsTabState extends State<HomeSystemRoomsTab> {
                 final itemWidth = constraints.maxWidth / 2.5 - 32;
                 return SizedBox(
                   width: itemWidth,
-                  child: RoomDevicesTab(
+                  child: RoomTab(
                     room: room,
                     onRoomAdded: handleRoomAdded,
                     onRoomUpdated: handleRoomUpdated,

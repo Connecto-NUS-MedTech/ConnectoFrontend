@@ -1,5 +1,5 @@
 import 'package:connectofrontend/models/device/device.dart';
-import 'package:connectofrontend/widgets/edit_dialog.dart';
+import 'package:connectofrontend/widgets/home_system/edit_dialog.dart';
 import 'package:flutter/material.dart';
 
 enum _DeviceOption { editDevice, removeDevice }
