@@ -144,8 +144,6 @@ class _RoomDevicesTabState extends State<RoomDevicesTab> {
             GestureDetector(
               onTap: () => _showAddDeviceDialog(context, widget.room),
               child: const Row(
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Icon(Icons.add_circle_outline),
                   SizedBox(
@@ -164,72 +162,6 @@ class _RoomDevicesTabState extends State<RoomDevicesTab> {
         ),
       ),
     );
-
-    // return Card(
-    //   elevation: 5.0,
-    //   shape: RoundedRectangleBorder(
-    //     borderRadius: BorderRadius.circular(8),
-    //   ),
-    //   child: Container(
-    //     decoration: BoxDecoration(
-    //       color: Colors.white,
-    //       borderRadius: BorderRadius.circular(8),
-    //     ),
-    //     child: Padding(
-    //       padding: const EdgeInsets.all(24.0),
-    //       child: Column(
-    //         crossAxisAlignment: CrossAxisAlignment.end,
-    //         // crossAxisAlignment: CrossAxisAlignment.center,
-    //         children: [
-    //           Row(
-    //             mainAxisAlignment: MainAxisAlignment.end,
-    //             children: [
-    //               Text(
-    //                 widget.room.name,
-    //                 style: const TextStyle(
-    //                   fontSize: 32,
-    //                   fontWeight: FontWeight.bold,
-    //                 ),
-    //               ),
-    //               RoomSettingsMenu(
-    //                 room: widget.room,
-    //                 onRoomUpdated: widget.onRoomUpdated,
-    //                 onRoomDeleted: widget.onRoomDeleted,
-    //               ),
-    //             ],
-    //           ),
-
-    //           const SizedBox(
-    //             height: 24,
-    //           ),
-    //           Flexible(
-    //             child: SingleChildScrollView(
-    //               child: Column(
-    //                 children: widget.room.devices
-    //                     .map((device) => DeviceTab(device: device))
-    //                     .toList(),
-    //               ),
-    //             ),
-    //           ),
-    //           // TODO: Fix styling issue -- align to the left
-    //           GestureDetector(
-    //             onTap: () => _showAddDeviceDialog(context, widget.room),
-    //             child: const Row(
-    //               // crossAxisAlignment: CrossAxisAlignment.start,
-    //               // mainAxisAlignment: MainAxisAlignment.start,
-    //               children: [
-    //                 Icon(Icons.add_circle_outline),
-    //                 Text(
-    //                   'Add Device',
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 }
 
@@ -348,7 +280,6 @@ class _DeviceTabState extends State<DeviceTab> {
                     activeColor: const Color(0xFF455A64),
                     inactiveColor: const Color(0xFFCFD8DC),
                   ),
-                  // SliderThemeData(overlayShape: SliderComponentShape.noOverlay),
                 ],
               ),
             ),
@@ -356,83 +287,5 @@ class _DeviceTabState extends State<DeviceTab> {
         ),
       ),
     );
-
-    // return Padding(
-    //   padding: const EdgeInsets.only(bottom: 24),
-    //   child: Container(
-    //     decoration: BoxDecoration(
-    //       border: Border.all(color: Colors.grey),
-    //       borderRadius: BorderRadius.circular(8),
-    //     ),
-    //     child: Padding(
-    //       padding: const EdgeInsets.fromLTRB(8, 24, 32, 24),
-    //       child: Column(
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         children: <Widget>[
-    //           Row(
-    //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //             children: [
-    //               Row(
-    //                 children: [
-    //                   SvgPicture.asset(
-    //                     deviceIcon,
-    //                     height: 40,
-    //                     width: 40,
-    //                   ),
-    //                   const SizedBox(
-    //                     width: 16,
-    //                   ),
-    //                   Text(
-    //                     widget.device.name,
-    //                     style: const TextStyle(
-    //                       fontWeight: FontWeight.bold,
-    //                       fontSize: 24,
-    //                     ),
-    //                   ),
-    //                 ],
-    //               ),
-    //               const SizedBox(
-    //                 width: 16,
-    //               ),
-    //               CustomSwitch(
-    //                 value:
-    //                     widget.device.isOn ? SwitchStatus.on : SwitchStatus.off,
-    //                 onChanged: updateSwitch,
-    //               ),
-    //             ],
-    //           ),
-    //           Row(
-    //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //             children: [
-    //               Text(
-    //                 deviceFeature,
-    //                 style: const TextStyle(fontSize: 16),
-    //               ),
-    //               const Text(
-    //                 '29%',
-    //                 style: TextStyle(fontSize: 16),
-    //               ),
-    //               // Text(widget.device is LightDevice ? widget.device. : )
-    //             ],
-    //           ),
-    //           Slider(
-    //             value: value,
-    //             min: 0,
-    //             max: 1,
-    //             // TODO: Persist the new value, communicate with IoT device
-    //             onChanged: (newValue) {
-    //               setState(() {
-    //                 value = newValue;
-    //               });
-    //             },
-    //             activeColor: const Color(0xFF455A64),
-    //             inactiveColor: const Color(0xFFCFD8DC),
-    //           ),
-    //           // SliderThemeData(overlayShape: SliderComponentShape.noOverlay),
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 }

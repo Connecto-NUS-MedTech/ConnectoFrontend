@@ -42,7 +42,7 @@ class _HomeSystemRoomsTabState extends State<HomeSystemRoomsTab> {
           .map(
             (room) => LayoutBuilder(
               builder: (context, constraints) {
-                final itemWidth = constraints.maxWidth / 2 - 32;
+                final itemWidth = constraints.maxWidth / 2.5 - 32;
                 return SizedBox(
                   width: itemWidth,
                   child: RoomDevicesTab(

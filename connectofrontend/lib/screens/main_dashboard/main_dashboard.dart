@@ -126,19 +126,6 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
                 const SizedBox(
                   height: 25,
                 ),
-
-                // Column(
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   children: [
-
-                //     HomeSystemRoomsTab(rooms: rooms),
-                //   ],
-                // ),
-
-                // SizedBox(
-                //   height: 800,
-                //   child: HomeSystemRoomsTab(rooms: rooms),
-                // ),
                 HomeSystemRoomsTab(rooms: rooms),
               ],
             ),
