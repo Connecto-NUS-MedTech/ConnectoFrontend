@@ -63,7 +63,7 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
       for (Device dev in room.devices) {
         if (dev.runtimeType == deviceType.runtimeType) {
           setState(() {
-            dev.isOn = newStatus == SwitchStatus.off ? false : true;
+            dev.isOn = newStatus != SwitchStatus.off;
           });
         }
       }

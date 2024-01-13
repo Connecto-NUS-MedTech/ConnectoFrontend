@@ -197,8 +197,6 @@ class DeviceTab extends StatefulWidget {
 }
 
 class _DeviceTabState extends State<DeviceTab> {
-  double value = 0;
-
   // Change status of device when switch is toggled
   void updateSwitch(SwitchStatus status) {
     setState(() {
@@ -218,9 +216,7 @@ class _DeviceTabState extends State<DeviceTab> {
     String deviceFeature =
         widget.device is LightDevice ? 'Brightness' : 'Fan Speed';
 
-    double devicePercentage = widget.device is LightDevice
-        ? (widget.device as LightDevice).brightness
-        : (widget.device as FanDevice).speed;
+    double devicePercentage = widget.device.value;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 24),
@@ -291,13 +287,13 @@ class _DeviceTabState extends State<DeviceTab> {
                     height: 16,
                   ),
                   Slider(
-                    value: value,
+                    value: widget.device.value,
                     min: 0,
                     max: 1,
                     // TODO: Persist the new value, communicate with IoT device
                     onChanged: (newValue) {
                       setState(() {
-                        value = newValue;
+                        widget.device.setValue(newValue);
                       });
                     },
                     activeColor: const Color(0xFF455A64),

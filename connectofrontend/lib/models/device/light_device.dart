@@ -7,7 +7,11 @@ class LightDevice extends Device {
       : brightness = brightness.clamp(0.0, 1.0),
         super(id: id, name: name, type: DeviceType.light);
 
-  setBrightness(double brightness) {
-    this.brightness = brightness.clamp(0.0, 1.0);
+  @override
+  double get value => brightness;
+
+  @override
+  setValue(double value) {
+    brightness = value.clamp(0.0, 1.0);
   }
 }

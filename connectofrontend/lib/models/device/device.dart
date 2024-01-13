@@ -16,7 +16,10 @@ abstract class Device {
     if (name.isEmpty) return;
     this.name = name;
   }
-  
+
+  double get value;
+  void setValue(double value);
+
   @override
   bool operator ==(Object other) =>
       other is Device && other.name == name && other.type == type;

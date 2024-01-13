@@ -28,7 +28,7 @@ class Room {
   }
 
   void updateRoomDevice(Device newDevice) {
-    int index = devices.indexWhere((device) => device.name == newDevice.name);
+    int index = devices.indexWhere((device) => device.id == newDevice.id);
     if (index != -1) {
       devices[index] = newDevice;
     }
