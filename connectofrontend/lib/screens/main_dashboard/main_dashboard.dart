@@ -4,8 +4,9 @@ import 'package:connectofrontend/models/device/light_device.dart';
 import 'package:connectofrontend/models/room.dart';
 import 'package:connectofrontend/widgets/home_system/custom_switch.dart';
 import 'package:connectofrontend/widgets/home_system/home_system_rooms_tab.dart';
+import 'package:connectofrontend/widgets/home_system/home_env_control.dart';
+
 import 'package:flutter/material.dart';
-import 'package:connectofrontend/widgets/home_system/master_card.dart';
 
 class MainDashboardScreen extends StatefulWidget {
   const MainDashboardScreen({super.key});
@@ -94,38 +95,9 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
                   height: 25,
                 ),
                 // Home Environmental Conditions Control section
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Home Environmental Conditions Control',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: MasterCard(
-                              cardText: 'ALL LIGHTS',
-                              callback: toggleAllDevices,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 32,
-                          ),
-                          Expanded(
-                            child: MasterCard(
-                              cardText: 'ALL FANS',
-                              callback: toggleAllDevices,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                HomeEnvironmentalConditionsControlTab(
+                  rooms: rooms,
+                  onChanged: toggleAllDevices,
                 ),
                 const SizedBox(
                   height: 25,
