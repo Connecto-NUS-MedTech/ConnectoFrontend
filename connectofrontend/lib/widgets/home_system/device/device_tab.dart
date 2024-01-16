@@ -26,6 +26,13 @@ class _DeviceTabState extends State<DeviceTab> {
   void updateSwitch(SwitchStatus status) {
     setState(() {
       widget.device.isOn = status == SwitchStatus.on;
+      // Change slider value when Custom Switch is toggled on/off
+      // if (status == SwitchStatus.off) {
+      //   widget.device.setValue(0);
+      // } else if (status == SwitchStatus.on) {
+      //   // TODO: Check if 0.5 is a good idea
+      //   widget.device.setValue(0.5);
+      // }
     });
 
     // OR once the state changes, go to main dashboard and trigger a function that checks if all devices are off
@@ -112,13 +119,19 @@ class _DeviceTabState extends State<DeviceTab> {
                     height: 16,
                   ),
                   Slider(
-                    value: widget.device.value,
+                    value: widget.device.isOn ? widget.device.value : 0,
                     min: 0,
                     max: 1,
                     // TODO: Persist the new value, communicate with IoT device
                     onChanged: (newValue) {
                       setState(() {
                         widget.device.setValue(newValue);
+                        // change Custom Switch status according to slider %
+                        if (newValue == 0) {
+                          widget.device.isOn = false;
+                        } else {
+                          widget.device.isOn = true;
+                        }
                       });
                     },
                     activeColor: const Color(0xFF455A64),

@@ -17,7 +17,20 @@ abstract class Device {
     this.name = name;
   }
 
-  double get value;
+  // Connects switch and slider
+  // TODO: Check - when initial value = 0 (manually dragged slider to 0)
+  // and afterwards switch is turned on, set value = 0.5
+  double get value {
+    if (!isOn) {
+      return 0;
+    } else if (isOn && getValue() == 0) {
+      return 0.5;
+    }
+    return getValue();
+  }
+
+  double getValue();
+
   void setValue(double value);
 
   @override
