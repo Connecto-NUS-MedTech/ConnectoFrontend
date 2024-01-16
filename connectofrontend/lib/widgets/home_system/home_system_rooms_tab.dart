@@ -1,5 +1,5 @@
 import 'package:connectofrontend/models/room.dart';
-import 'package:connectofrontend/widgets/room_devices_tab.dart';
+import 'package:connectofrontend/widgets/home_system/room/room_tab.dart';
 import 'package:flutter/material.dart';
 
 class HomeSystemRoomsTab extends StatefulWidget {
@@ -20,10 +20,11 @@ class _HomeSystemRoomsTabState extends State<HomeSystemRoomsTab> {
   }
 
   void handleRoomUpdated(Room newRoom) {
-    // * See if widget re-renders if room is updated
     setState(() {
-      // Room room = widget.rooms.firstWhere((r) => r.name == newRoom.name);
-      // room.updateRoomDevices(newRoom.devices);
+      int roomIndex = widget.rooms.indexWhere((r) => r.id == newRoom.id);
+      if (roomIndex != -1) {
+        widget.rooms[roomIndex] = newRoom;
+      }
     });
   }
 
@@ -35,18 +36,24 @@ class _HomeSystemRoomsTabState extends State<HomeSystemRoomsTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Wrap(
+      spacing: 32,
+      runSpacing: 24,
       children: widget.rooms
           .map(
-            (room) => Container(
-              margin: const EdgeInsets.symmetric(horizontal: 8),
-              child: RoomDevicesTab(
-                room: room,
-                onRoomAdded: handleRoomAdded,
-                onRoomUpdated: handleRoomUpdated,
-                onRoomDeleted: handleRoomDeleted,
-              ),
+            (room) => LayoutBuilder(
+              builder: (context, constraints) {
+                final itemWidth = constraints.maxWidth / 2.5 - 32;
+                return SizedBox(
+                  width: itemWidth,
+                  child: RoomTab(
+                    room: room,
+                    onRoomAdded: handleRoomAdded,
+                    onRoomUpdated: handleRoomUpdated,
+                    onRoomDeleted: handleRoomDeleted,
+                  ),
+                );
+              },
             ),
           )
           .toList(),

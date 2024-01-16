@@ -3,11 +3,15 @@ import 'package:connectofrontend/models/device/device.dart';
 class FanDevice extends Device {
   double speed;
 
-  FanDevice({required String name, double speed = 0.0})
+  FanDevice({required id, required String name, double speed = 0.0})
       : speed = speed.clamp(0.0, 1.0),
-        super(name: name, type: DeviceType.fan);
+        super(id: id, name: name, type: DeviceType.fan);
 
-  setSpeed(double speed) {
-    this.speed = speed.clamp(0.0, 1.0);
+  @override
+  double get value => speed;
+
+  @override
+  setValue(double value) {
+    speed = value.clamp(0.0, 1.0);
   }
 }

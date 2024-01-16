@@ -24,7 +24,7 @@ class _CustomSwitchState extends State<CustomSwitch> {
 
   void toggleSwitch() {
     setState(() {
-      // TO DO: Update the connection with the bottom home devices tabs
+      // TODO: Update the connection with the bottom home devices tabs
       widget.value =
           widget.value == SwitchStatus.on ? SwitchStatus.off : SwitchStatus.on;
       widget.onChanged(widget.value);
