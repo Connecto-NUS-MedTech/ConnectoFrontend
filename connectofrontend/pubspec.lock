@@ -124,10 +124,25 @@ packages:
     dependency: transitive
     description:
       name: gotrue
+<<<<<<< Updated upstream
       sha256: f3a47cdbc59e543f453a1ef150050cd7650fe756254ac1fcac1d2a2f6f2b5a21
       url: "https://pub.dev"
     source: hosted
     version: "1.12.6"
+=======
+      sha256: "0af635a935d4ec78e8885f71d71d1994460b1a855faee9b5b520e9b5417ceb02"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.0"
+  gtk:
+    dependency: transitive
+    description:
+      name: gtk
+      sha256: e8ce9ca4b1df106e4d72dad201d345ea1a036cc12c360f1a7d5a758f78ffa42c
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
+>>>>>>> Stashed changes
   hive:
     dependency: transitive
     description:
@@ -292,10 +307,17 @@ packages:
     dependency: transitive
     description:
       name: postgrest
+<<<<<<< Updated upstream
       sha256: f190eddc5779842dfa529fa239ec4b1025f6f968c18052ba6fffc0aecac93e6b
       url: "https://pub.dev"
     source: hosted
     version: "1.5.2"
+=======
+      sha256: "748ebffffb60b4eaa270955dcf3742a19a2b315344c41ff1b4a0ebcd322b5181"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
+>>>>>>> Stashed changes
   realtime_client:
     dependency: transitive
     description:
@@ -449,18 +471,32 @@ packages:
     dependency: "direct main"
     description:
       name: supabase
+<<<<<<< Updated upstream
       sha256: "1434bb9375f88f51802dadf7b99568117c434f6a9af7f8a55e5be94c8b4da7c9"
       url: "https://pub.dev"
     source: hosted
     version: "1.11.11"
+=======
+      sha256: cee9fd3fe6465a81a2536e2e2e0d9ec0b48d5f195015e060f70e2bd1b619bb26
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.4"
+>>>>>>> Stashed changes
   supabase_flutter:
     dependency: "direct main"
     description:
       name: supabase_flutter
+<<<<<<< Updated upstream
       sha256: "8d68a4fa3215bc23811469fc3499c3895ebb35a2363d6edcfffaa426d5effd84"
       url: "https://pub.dev"
     source: hosted
     version: "1.10.25"
+=======
+      sha256: "118070e5d827e4dfd7feaf5a1679e0ecdca548b16a1b6ec15c2a507cf2520bb2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0"
+>>>>>>> Stashed changes
   term_glyph:
     dependency: transitive
     description:
@@ -630,5 +666,10 @@ packages:
     source: hosted
     version: "1.1.1"
 sdks:
+<<<<<<< Updated upstream
   dart: ">=3.2.0 <4.0.0"
   flutter: ">=3.16.0"
+=======
+  dart: ">=3.2.0-194.0.dev <4.0.0"
+  flutter: ">=3.13.0"
+>>>>>>> Stashed changes

@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+<<<<<<< Updated upstream
 import 'package:connectofrontend/screens/signup.dart';
+=======
+import 'package:connectofrontend/screens/signup/signup.dart';
+import 'package:connectofrontend/main.dart';
+>>>>>>> Stashed changes
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -128,7 +133,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 16),
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              print('Is it coming here?');
+                              final data = await supabase
+                                  .from('User_Table')
+                                  .select('Name');
+                              print(data);
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFFFFFFF),
                               minimumSize: const Size(160, 48),
