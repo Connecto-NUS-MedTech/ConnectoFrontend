@@ -22,12 +22,21 @@ class _CustomSwitchState extends State<CustomSwitch> {
   final Color _primaryColor = const Color(0xFF455A64);
   final Color _selectedText = const Color(0xFFA5A5A5);
 
+// manually toggle main switch
   void toggleSwitch() {
+    print('in toggleSwitch BEFORE: ${widget.value}');
     setState(() {
-      // TODO: Update the connection with the bottom home devices tabs
-      widget.value =
-          widget.value == SwitchStatus.on ? SwitchStatus.off : SwitchStatus.on;
+      // If the previous SwitchStatus is neither or off, toggling it will turn it on
+      if (widget.value == SwitchStatus.neither ||
+          widget.value == SwitchStatus.off) {
+        widget.value = SwitchStatus.on;
+      } else {
+        widget.value = SwitchStatus.off;
+      }
+      // widget.value =
+      //     widget.value == SwitchStatus.on ? SwitchStatus.off : SwitchStatus.on;
       widget.onChanged(widget.value);
+      print('in toggleSwitch AFTER: ${widget.value}');
     });
   }
 

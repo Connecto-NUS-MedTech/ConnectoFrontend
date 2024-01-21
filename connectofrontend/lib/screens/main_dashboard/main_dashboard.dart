@@ -8,6 +8,12 @@ import 'package:connectofrontend/widgets/home_system/home_env_control.dart';
 
 import 'package:flutter/material.dart';
 
+typedef ToggleMainSwitchCallback = void Function(
+  bool toToggle,
+  Type deviceType,
+  bool deviceStatus,
+);
+
 class MainDashboardScreen extends StatefulWidget {
   const MainDashboardScreen({super.key});
 
@@ -71,6 +77,35 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
     }
   }
 
+  SwitchStatus status = SwitchStatus.neither;
+  // random
+  String deviceToToggle = 'Fan';
+
+// pass this to HECC -> pass to MC
+// called when individual device switch is toggled
+  void onAllSwitchStatusChanged(
+    bool toToggle,
+    Type deviceType,
+    bool deviceStatus,
+  ) {
+    // toToggle == true means the master switch needs to change
+    if (toToggle) {
+      setState(() {
+        status = deviceStatus == true ? SwitchStatus.on : SwitchStatus.off;
+        deviceToToggle = deviceType == FanDevice ? 'Fan' : 'Light';
+      });
+    } else {
+      // no need to toggle - passes neither and curr device
+      setState(() {
+        status = SwitchStatus.neither;
+        deviceToToggle = deviceType == FanDevice ? 'Fan' : 'Light';
+      });
+    }
+    // print(
+    //     'in MD SAME? device Type is $deviceType, device to toggle is $deviceToToggle');
+    // print('Received value from HomeSystemRoomsTab to toggle?: $toToggle');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,11 +133,17 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
                 HomeEnvironmentalConditionsControlTab(
                   rooms: rooms,
                   onChanged: toggleAllDevices,
+                  // these are for if the switches in MasterCard need to change when the devices' status changes
+                  newStatus: status,
+                  newDevice: deviceToToggle,
                 ),
                 const SizedBox(
                   height: 25,
                 ),
-                HomeSystemRoomsTab(rooms: rooms),
+                HomeSystemRoomsTab(
+                  rooms: rooms,
+                  allSwitchStatus: onAllSwitchStatusChanged,
+                ),
               ],
             ),
           ),

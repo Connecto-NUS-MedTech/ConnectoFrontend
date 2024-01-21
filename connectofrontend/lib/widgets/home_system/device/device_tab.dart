@@ -9,12 +9,14 @@ class DeviceTab extends StatefulWidget {
   final Device device;
   final Function(Device) onDeviceUpdated;
   final Function(Device) onDeviceDeleted;
+  final Function(Device, bool) onSwitchChanged;
 
   const DeviceTab({
     super.key,
     required this.device,
     required this.onDeviceUpdated,
     required this.onDeviceDeleted,
+    required this.onSwitchChanged,
   });
 
   @override
@@ -26,17 +28,10 @@ class _DeviceTabState extends State<DeviceTab> {
   void updateSwitch(SwitchStatus status) {
     setState(() {
       widget.device.isOn = status == SwitchStatus.on;
-      // Change slider value when Custom Switch is toggled on/off
-      // if (status == SwitchStatus.off) {
-      //   widget.device.setValue(0);
-      // } else if (status == SwitchStatus.on) {
-      //   // TODO: Check if 0.5 is a good idea
-      //   widget.device.setValue(0.5);
-      // }
-    });
 
-    // OR once the state changes, go to main dashboard and trigger a function that checks if all devices are off
-    // pass the change to main dashboard
+      // send data to parent
+      widget.onSwitchChanged(widget.device, widget.device.isOn);
+    });
   }
 
   @override

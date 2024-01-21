@@ -1,11 +1,21 @@
 import 'package:connectofrontend/models/room.dart';
 import 'package:connectofrontend/widgets/home_system/room/room_tab.dart';
+import 'package:connectofrontend/models/device/device.dart';
+import 'package:connectofrontend/models/device/fan_device.dart';
+import 'package:connectofrontend/models/device/light_device.dart';
+import 'package:connectofrontend/screens/main_dashboard/main_dashboard.dart';
 import 'package:flutter/material.dart';
 
 class HomeSystemRoomsTab extends StatefulWidget {
   final List<Room> rooms;
+  // final Function(bool) allSwitchStatus;
+  final ToggleMainSwitchCallback allSwitchStatus;
 
-  const HomeSystemRoomsTab({super.key, required this.rooms});
+  const HomeSystemRoomsTab({
+    super.key,
+    required this.rooms,
+    required this.allSwitchStatus,
+  });
 
   @override
   State<HomeSystemRoomsTab> createState() => _HomeSystemRoomsTabState();
@@ -34,6 +44,27 @@ class _HomeSystemRoomsTabState extends State<HomeSystemRoomsTab> {
     });
   }
 
+  bool checkAllSwitches(Device device, bool deviceStatus) {
+    Type deviceType =
+        device.runtimeType == LightDevice ? LightDevice : FanDevice;
+
+    for (Room room in widget.rooms) {
+      for (Device dev in room.devices) {
+        // print(
+        //   'deviceStatus is $deviceStatus || current dev is $dev and status is $dev.isOn',
+        // );
+        if (dev.runtimeType == deviceType && dev.isOn != deviceStatus) {
+          // print('FALSE ITS A BOO');
+          widget.allSwitchStatus(false, deviceType, deviceStatus);
+          return false;
+        }
+      }
+    }
+    // print('WOO HOOOO ITS TRUE');
+    widget.allSwitchStatus(true, deviceType, deviceStatus);
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Wrap(
@@ -43,7 +74,7 @@ class _HomeSystemRoomsTabState extends State<HomeSystemRoomsTab> {
           .map(
             (room) => LayoutBuilder(
               builder: (context, constraints) {
-                final itemWidth = constraints.maxWidth / 2.5 - 32;
+                final itemWidth = constraints.maxWidth / 2 - 32;
                 return SizedBox(
                   width: itemWidth,
                   child: RoomTab(
@@ -51,6 +82,7 @@ class _HomeSystemRoomsTabState extends State<HomeSystemRoomsTab> {
                     onRoomAdded: handleRoomAdded,
                     onRoomUpdated: handleRoomUpdated,
                     onRoomDeleted: handleRoomDeleted,
+                    onDeviceSwitchToggled: checkAllSwitches,
                   ),
                 );
               },
