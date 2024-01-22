@@ -6,6 +6,7 @@ class MasterCard extends StatefulWidget {
   final Function(String, SwitchStatus) callback;
   final SwitchStatus newStatus;
   final String newDevice;
+  // final Function(String, SwitchStatus) updateDeviceCallback;
 
   const MasterCard({
     super.key,
@@ -13,6 +14,7 @@ class MasterCard extends StatefulWidget {
     required this.callback,
     required this.newStatus,
     required this.newDevice,
+    // required this.updateDeviceCallback,
   });
 
   @override
@@ -81,6 +83,8 @@ class _MasterCardState extends State<MasterCard> {
     toUpdateSwitch = true;
     print('new device is ${widget.newDevice}');
     widget.callback(widget.cardText, status);
+    // update the parent with this device's new status
+    // widget.updateDeviceCallback(widget.cardText, status);
 
     // print('updateSwitch for ${widget.cardText}: $cardState');
   }

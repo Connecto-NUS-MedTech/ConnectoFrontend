@@ -22,6 +22,7 @@ class MainDashboardScreen extends StatefulWidget {
 }
 
 class MainDashboardScreenState extends State<MainDashboardScreen> {
+  late void Function(String deviceType, SwitchStatus staus) myMethod;
   // Hardcoded for now -- fetch from DB or local storage in the future
   List<Device> devices = [];
   List<Room> rooms = [
@@ -101,6 +102,8 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
         deviceToToggle = deviceType == FanDevice ? 'Fan' : 'Light';
       });
     }
+    print('status in MD: $deviceStatus and toToggle: $toToggle');
+    myMethod.call(deviceToToggle, status);
     // print(
     //     'in MD SAME? device Type is $deviceType, device to toggle is $deviceToToggle');
     // print('Received value from HomeSystemRoomsTab to toggle?: $toToggle');
@@ -136,6 +139,13 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
                   // these are for if the switches in MasterCard need to change when the devices' status changes
                   newStatus: status,
                   newDevice: deviceToToggle,
+                  builder: (
+                    BuildContext context,
+                    void Function(String deviceType, SwitchStatus staus)
+                        methodFromChild,
+                  ) {
+                    myMethod = methodFromChild;
+                  },
                 ),
                 const SizedBox(
                   height: 25,
