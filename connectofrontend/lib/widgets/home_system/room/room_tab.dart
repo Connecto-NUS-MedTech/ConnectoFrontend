@@ -30,6 +30,12 @@ class _RoomTabState extends State<RoomTab> {
   String selectedDeviceType = 'Fan';
   TextEditingController deviceNameController = TextEditingController();
 
+  @override
+  void dispose() {
+    deviceNameController.dispose();
+    super.dispose();
+  }
+
   Future<void> _showAddDeviceDialog(BuildContext context) async {
     return showDialog(
       context: context,
