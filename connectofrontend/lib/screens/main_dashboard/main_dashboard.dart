@@ -5,8 +5,13 @@ import 'package:connectofrontend/models/room.dart';
 import 'package:connectofrontend/widgets/home_system/custom_switch.dart';
 import 'package:connectofrontend/widgets/home_system/home_system_rooms_tab.dart';
 import 'package:connectofrontend/widgets/home_system/home_env_control.dart';
-
 import 'package:flutter/material.dart';
+
+typedef ToggleMainSwitchCallback = void Function(
+  bool toToggle,
+  Type deviceType,
+  bool deviceStatus,
+);
 
 class MainDashboardScreen extends StatefulWidget {
   const MainDashboardScreen({super.key});
@@ -16,6 +21,7 @@ class MainDashboardScreen extends StatefulWidget {
 }
 
 class MainDashboardScreenState extends State<MainDashboardScreen> {
+  late void Function(String deviceType, SwitchStatus staus) myMethod;
   // Hardcoded for now -- fetch from DB or local storage in the future
   List<Device> devices = [];
   List<Room> rooms = [
@@ -71,6 +77,32 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
     }
   }
 
+  // random
+  SwitchStatus status = SwitchStatus.off;
+  String deviceToToggle = 'Fan';
+
+  // called when individual device switch is toggled
+  void onAllSwitchStatusChanged(
+    bool toToggle,
+    Type deviceType,
+    bool deviceStatus,
+  ) {
+    // toToggle == true means the master switch needs to change
+    if (toToggle) {
+      setState(() {
+        status = deviceStatus == true ? SwitchStatus.on : SwitchStatus.off;
+        deviceToToggle = deviceType == FanDevice ? 'Fan' : 'Light';
+      });
+    } else {
+      // no need to toggle - passes neither and curr device
+      setState(() {
+        status = SwitchStatus.neither;
+        deviceToToggle = deviceType == FanDevice ? 'Fan' : 'Light';
+      });
+    }
+    myMethod.call(deviceToToggle, status);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,11 +130,23 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
                 HomeEnvironmentalConditionsControlTab(
                   rooms: rooms,
                   onChanged: toggleAllDevices,
+                  newStatus: status,
+                  newDevice: deviceToToggle,
+                  builder: (
+                    BuildContext context,
+                    void Function(String deviceType, SwitchStatus staus)
+                        methodFromChild,
+                  ) {
+                    myMethod = methodFromChild;
+                  },
                 ),
                 const SizedBox(
                   height: 25,
                 ),
-                HomeSystemRoomsTab(rooms: rooms),
+                HomeSystemRoomsTab(
+                  rooms: rooms,
+                  allSwitchStatus: onAllSwitchStatusChanged,
+                ),
               ],
             ),
           ),

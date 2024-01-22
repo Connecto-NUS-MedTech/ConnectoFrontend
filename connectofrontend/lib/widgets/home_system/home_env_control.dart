@@ -3,14 +3,25 @@ import 'package:connectofrontend/models/room.dart';
 import 'package:connectofrontend/widgets/home_system/custom_switch.dart';
 import 'package:connectofrontend/widgets/home_system/master_card.dart';
 
+typedef MyBuilder = void Function(
+  BuildContext context,
+  void Function(String, SwitchStatus) methodFromChild,
+);
+
 class HomeEnvironmentalConditionsControlTab extends StatefulWidget {
   final List<Room> rooms;
   final Function(String, SwitchStatus) onChanged;
+  final SwitchStatus newStatus;
+  final String newDevice;
+  final MyBuilder builder;
 
   const HomeEnvironmentalConditionsControlTab({
     super.key,
     required this.rooms,
     required this.onChanged,
+    required this.newStatus,
+    required this.newDevice,
+    required this.builder,
   });
 
   @override
@@ -21,13 +32,37 @@ class HomeEnvironmentalConditionsControlTab extends StatefulWidget {
 
 class _HomeEnvironmentalConditionsControlTab
     extends State<HomeEnvironmentalConditionsControlTab> {
+  // random values
+  String selectedDevice = 'None';
+  SwitchStatus status = SwitchStatus.off;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedDevice = widget.newDevice;
+    status = widget.newStatus;
+  }
+
   // update main dashboard when main switch status changes
   void updateMainDB(String cardText, SwitchStatus newStatus) {
     widget.onChanged(cardText, newStatus);
+
+    setState(() {
+      selectedDevice = cardText == 'ALL FANS' ? 'Fan' : 'Light';
+      status = newStatus;
+    });
+  }
+
+  void childMethod(String deviceType, SwitchStatus deviceStatus) {
+    setState(() {
+      selectedDevice = deviceType;
+      status = deviceStatus;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    widget.builder.call(context, childMethod);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,6 +79,8 @@ class _HomeEnvironmentalConditionsControlTab
                 child: MasterCard(
                   cardText: 'ALL LIGHTS',
                   callback: updateMainDB,
+                  newStatus: status,
+                  newDevice: selectedDevice,
                 ),
               ),
               const SizedBox(
@@ -53,6 +90,8 @@ class _HomeEnvironmentalConditionsControlTab
                 child: MasterCard(
                   cardText: 'ALL FANS',
                   callback: updateMainDB,
+                  newStatus: status,
+                  newDevice: selectedDevice,
                 ),
               ),
             ],

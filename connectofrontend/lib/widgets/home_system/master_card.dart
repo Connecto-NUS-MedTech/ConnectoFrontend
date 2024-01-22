@@ -4,11 +4,15 @@ import 'package:connectofrontend/widgets/home_system/custom_switch.dart';
 class MasterCard extends StatefulWidget {
   final String cardText;
   final Function(String, SwitchStatus) callback;
+  final SwitchStatus newStatus;
+  final String newDevice;
 
   const MasterCard({
     super.key,
     required this.cardText,
     required this.callback,
+    required this.newStatus,
+    required this.newDevice,
   });
 
   @override
@@ -18,14 +22,29 @@ class MasterCard extends StatefulWidget {
 }
 
 class _MasterCardState extends State<MasterCard> {
-  SwitchStatus cardState = SwitchStatus.neither;
+  SwitchStatus cardState = SwitchStatus.off;
+  // bool toUpdateSwitch = false;
+
+  SwitchStatus determineCardState() {
+    String deviceType = widget.newDevice == 'Fan' ? 'ALL FANS' : 'ALL LIGHTS';
+
+    if (deviceType == widget.cardText &&
+        widget.newStatus != SwitchStatus.neither) {
+      cardState = widget.newStatus;
+      return widget.newStatus;
+    } else if (deviceType == widget.cardText &&
+        widget.newStatus == SwitchStatus.neither) {
+      cardState = widget.newStatus;
+      return SwitchStatus.neither;
+    }
+    return cardState;
+  }
 
   void updateSwitch(SwitchStatus status) {
     setState(() {
       cardState = status;
     });
     widget.callback(widget.cardText, status);
-    print('printing card state for ${widget.cardText}: $cardState');
   }
 
   @override
@@ -59,7 +78,7 @@ class _MasterCardState extends State<MasterCard> {
               width: 56,
             ),
             CustomSwitch(
-              value: cardState,
+              value: determineCardState(),
               onChanged: updateSwitch,
             ),
           ],

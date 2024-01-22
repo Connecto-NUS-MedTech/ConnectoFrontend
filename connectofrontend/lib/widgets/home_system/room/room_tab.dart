@@ -11,6 +11,7 @@ class RoomTab extends StatefulWidget {
   final Function(Room) onRoomAdded; // Not in use for now
   final Function(Room) onRoomUpdated;
   final Function(Room) onRoomDeleted;
+  final Function(Device, bool) onDeviceSwitchToggled;
 
   const RoomTab({
     super.key,
@@ -18,6 +19,7 @@ class RoomTab extends StatefulWidget {
     required this.onRoomAdded,
     required this.onRoomUpdated,
     required this.onRoomDeleted,
+    required this.onDeviceSwitchToggled,
   });
 
   @override
@@ -97,6 +99,10 @@ class _RoomTabState extends State<RoomTab> {
     );
   }
 
+  void passSwitchData(Device device, bool deviceStatus) {
+    widget.onDeviceSwitchToggled(device, deviceStatus);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -149,6 +155,7 @@ class _RoomTabState extends State<RoomTab> {
                           widget.room.removeDevice(device);
                         });
                       },
+                      onSwitchChanged: passSwitchData,
                     ),
                   )
                   .toList(),

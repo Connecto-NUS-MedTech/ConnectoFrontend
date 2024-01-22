@@ -18,13 +18,11 @@ abstract class Device {
   }
 
   // Connects switch and slider
-  // TODO: Check - when initial value = 0 (manually dragged slider to 0)
-  // and afterwards switch is turned on, set value = 0.5
   double get value {
     if (!isOn) {
       return 0;
     } else if (isOn && getValue() == 0) {
-      return 0.5;
+      return 1;
     }
     return getValue();
   }
