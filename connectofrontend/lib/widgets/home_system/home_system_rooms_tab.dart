@@ -64,7 +64,7 @@ class _HomeSystemRoomsTabState extends State<HomeSystemRoomsTab> {
   Widget build(BuildContext context) {
     return Wrap(
       spacing: 32,
-      runSpacing: 24,
+      // runSpacing: 24,
       children: widget.rooms
           .map(
             (room) => LayoutBuilder(

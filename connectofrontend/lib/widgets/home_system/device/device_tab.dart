@@ -123,8 +123,10 @@ class _DeviceTabState extends State<DeviceTab> {
                         // Change Custom Switch status according to slider %
                         if (newValue == 0) {
                           widget.device.isOn = false;
+                          updateSwitch(SwitchStatus.off);
                         } else {
                           widget.device.isOn = true;
+                          updateSwitch(SwitchStatus.on);
                         }
                       });
                     },
