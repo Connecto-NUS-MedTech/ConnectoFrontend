@@ -1,10 +1,14 @@
+import 'package:connectofrontend/screens/main_dashboard/main_dashboard.dart';
 import 'package:connectofrontend/screens/screen_wrapper.dart';
 import 'package:connectofrontend/screens/signup/signup2.dart';
+import 'package:connectofrontend/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class OTPScreen extends StatefulWidget {
-  const OTPScreen({super.key});
+  final String email;
+  const OTPScreen({Key? key, required this.email}) : super(key: key);
 
   @override
   State<OTPScreen> createState() {
@@ -15,24 +19,32 @@ class OTPScreen extends StatefulWidget {
 class _OTPScreen extends State<OTPScreen> {
   // TODO: shift focus to previous textfield when delete is pressed
   /// Verify the OTP entered by the user and return true if the OTP is valid,
-  bool _verifyOTP() {
-    // TODO: disable button if OTP does not match actual OTP, enable if correct OTP
-    if (_otpEntered.length == 4 && int.tryParse(_otpEntered) != null) {
-      return true;
+  Future<bool> _verifyOTP() async {
+    try {
+      // OTP verification logic
+      await supabase.auth.verifyOTP(
+        email: widget.email,
+        token: _otpEntered,
+        type: OtpType.email,
+      );
+      return true; // On success
+    } catch (error) {
+      return false; // On failure
     }
-    return false;
   }
 
-  String _otpEntered = 'aaaa';
+  String _otpEntered = '';
 
-  void updateOTP(digit, i) {
-    setState(
-      () {
-        _otpEntered = _otpEntered.substring(0, i) +
-            digit +
-            _otpEntered.substring(i + 1, _otpEntered.length);
-      },
-    );
+  void updateOTP(String digit) {
+    setState(() {
+      if (digit.isEmpty && _otpEntered.isNotEmpty) {
+        // Remove the last character
+        _otpEntered = _otpEntered.substring(0, _otpEntered.length - 1);
+      } else if (_otpEntered.length < 6) {
+        // Append new digit
+        _otpEntered += digit;
+      }
+    });
   }
 
   @override
@@ -108,13 +120,15 @@ class _OTPScreen extends State<OTPScreen> {
                                     inputFormatters: [
                                       FilteringTextInputFormatter.digitsOnly,
                                     ],
-                                    onSaved: (pin1) {},
                                     onChanged: (value) {
                                       if (value.length == 1) {
-                                        FocusScope.of(context).nextFocus();
-                                        updateOTP(value, 0);
+                                        updateOTP(value);
+                                        FocusScope.of(context)
+                                            .nextFocus(); // Move to next field
                                       } else if (value.isEmpty) {
-                                        updateOTP('a', 0);
+                                        updateOTP(''); // Delete last digit
+                                        FocusScope.of(context)
+                                            .previousFocus(); // Move to previous field
                                       }
                                     },
                                     keyboardType: TextInputType.number,
@@ -127,7 +141,6 @@ class _OTPScreen extends State<OTPScreen> {
                                       ),
                                     ),
                                     textAlign: TextAlign.center,
-                                    // style:
                                   ),
                                 ),
                                 SizedBox(
@@ -138,13 +151,15 @@ class _OTPScreen extends State<OTPScreen> {
                                     inputFormatters: [
                                       FilteringTextInputFormatter.digitsOnly,
                                     ],
-                                    onSaved: (pin2) {},
                                     onChanged: (value) {
                                       if (value.length == 1) {
-                                        FocusScope.of(context).nextFocus();
-                                        updateOTP(value, 1);
+                                        updateOTP(value);
+                                        FocusScope.of(context)
+                                            .nextFocus(); // Move to next field
                                       } else if (value.isEmpty) {
-                                        updateOTP('a', 1);
+                                        updateOTP(''); // Delete last digit
+                                        FocusScope.of(context)
+                                            .previousFocus(); // Move to previous field
                                       }
                                     },
                                     keyboardType: TextInputType.number,
@@ -157,7 +172,6 @@ class _OTPScreen extends State<OTPScreen> {
                                       ),
                                     ),
                                     textAlign: TextAlign.center,
-                                    // style:
                                   ),
                                 ),
                                 SizedBox(
@@ -168,13 +182,15 @@ class _OTPScreen extends State<OTPScreen> {
                                     inputFormatters: [
                                       FilteringTextInputFormatter.digitsOnly,
                                     ],
-                                    onSaved: (pin3) {},
                                     onChanged: (value) {
                                       if (value.length == 1) {
-                                        FocusScope.of(context).nextFocus();
-                                        updateOTP(value, 2);
+                                        updateOTP(value);
+                                        FocusScope.of(context)
+                                            .nextFocus(); // Move to next field
                                       } else if (value.isEmpty) {
-                                        updateOTP('a', 2);
+                                        updateOTP(''); // Delete last digit
+                                        FocusScope.of(context)
+                                            .previousFocus(); // Move to previous field
                                       }
                                     },
                                     keyboardType: TextInputType.number,
@@ -187,7 +203,6 @@ class _OTPScreen extends State<OTPScreen> {
                                       ),
                                     ),
                                     textAlign: TextAlign.center,
-                                    // style:
                                   ),
                                 ),
                                 SizedBox(
@@ -198,13 +213,15 @@ class _OTPScreen extends State<OTPScreen> {
                                     inputFormatters: [
                                       FilteringTextInputFormatter.digitsOnly,
                                     ],
-                                    onSaved: (pin4) {},
                                     onChanged: (value) {
                                       if (value.length == 1) {
-                                        // FocusScope.of(context).nextFocus();
-                                        updateOTP(value, 3);
+                                        updateOTP(value);
+                                        FocusScope.of(context)
+                                            .nextFocus(); // Move to next field
                                       } else if (value.isEmpty) {
-                                        updateOTP('a', 3);
+                                        updateOTP(''); // Delete last digit
+                                        FocusScope.of(context)
+                                            .previousFocus(); // Move to previous field
                                       }
                                     },
                                     keyboardType: TextInputType.number,
@@ -217,7 +234,68 @@ class _OTPScreen extends State<OTPScreen> {
                                       ),
                                     ),
                                     textAlign: TextAlign.center,
-                                    // style:
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 64,
+                                  width: 64,
+                                  child: TextFormField(
+                                    autofocus: true,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly,
+                                    ],
+                                    onChanged: (value) {
+                                      if (value.length == 1) {
+                                        updateOTP(value);
+                                        FocusScope.of(context)
+                                            .nextFocus(); // Move to next field
+                                      } else if (value.isEmpty) {
+                                        updateOTP(''); // Delete last digit
+                                        FocusScope.of(context)
+                                            .previousFocus(); // Move to previous field
+                                      }
+                                    },
+                                    keyboardType: TextInputType.number,
+                                    maxLength: 1,
+                                    decoration: InputDecoration(
+                                      counterText: '',
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(200),
+                                      ),
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 64,
+                                  width: 64,
+                                  child: TextFormField(
+                                    autofocus: true,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly,
+                                    ],
+                                    onChanged: (value) {
+                                      if (value.length == 1) {
+                                        updateOTP(value);
+                                        FocusScope.of(context)
+                                            .nextFocus(); // Move to next field
+                                      } else if (value.isEmpty) {
+                                        updateOTP(''); // Delete last digit
+                                        FocusScope.of(context)
+                                            .previousFocus(); // Move to previous field
+                                      }
+                                    },
+                                    keyboardType: TextInputType.number,
+                                    maxLength: 1,
+                                    decoration: InputDecoration(
+                                      counterText: '',
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(200),
+                                      ),
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                               ],
@@ -257,17 +335,26 @@ class _OTPScreen extends State<OTPScreen> {
                           padding: const EdgeInsets.only(top: 40),
                           child: ElevatedButton(
                             // TODO: onPressed to allow account creation
-                            onPressed: _verifyOTP()
-                                ? () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const ScreenWrapper(),
-                                      ),
-                                    );
-                                  }
-                                : null,
+                            onPressed: () async {
+                              if (await _verifyOTP()) {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const MainDashboardScreen(),
+                                  ),
+                                );
+                              } else {
+                                // Handle the case where OTP verification fails
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'OTP Verification failed. Please try again.',
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFFF9900),
                               minimumSize: const Size(160, 48),

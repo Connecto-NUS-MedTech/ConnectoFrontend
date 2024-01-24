@@ -75,7 +75,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               minimumSize: const Size(160, 48),
                             ),
                             child: const Text(
-                              'Email address',
+                              'OTP to Email',
                               style: TextStyle(
                                 color: Color(0xFF212121),
                                 fontSize: 24,

@@ -1,7 +1,12 @@
+import 'dart:async';
+import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:connectofrontend/screens/login.dart';
 import 'package:connectofrontend/screens/signup/signup.dart';
 import 'package:connectofrontend/screens/signup/otp.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:connectofrontend/main.dart';
 
 class SignupScreen2 extends StatefulWidget {
   const SignupScreen2({super.key});
@@ -13,6 +18,72 @@ class SignupScreen2 extends StatefulWidget {
 }
 
 class _SignupScreenState2 extends State<SignupScreen2> {
+  bool _isLoading = false;
+  bool _redirecting = false;
+  late final TextEditingController _emailController = TextEditingController();
+  late final StreamSubscription<AuthState> _authStateSubscription;
+
+  // user enters email and clicks on send otp
+  Future<void> _signIn() async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      await supabase.auth.signInWithOtp(
+        email: _emailController.text.trim(),
+      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Check your email for OTP!')),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                OTPScreen(email: _emailController.text.trim()),
+          ),
+        );
+      }
+    } on AuthException catch (error) {
+      SnackBar(
+        content: Text(error.message),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      );
+    } catch (error) {
+      SnackBar(
+        content: const Text('Unexpected error occurred'),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      );
+    } finally {
+      if (mounted) {
+        setState(() {});
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    // check if user is already logged in
+    _authStateSubscription = supabase.auth.onAuthStateChange.listen(
+      (data) {
+        if (_redirecting) return;
+        final session = data.session;
+        if (session != null) {
+          _redirecting = true;
+          Navigator.of(context).pushReplacementNamed('/dashboard');
+        }
+      },
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _authStateSubscription.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(context) {
     return Scaffold(
@@ -72,19 +143,22 @@ class _SignupScreenState2 extends State<SignupScreen2> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Image.asset('assets/images/project_connecto_icon.png'),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 56),
-                          child: TextFormField(
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'Name',
-                            ),
-                          ),
+                        Image.asset(
+                          'assets/images/project_connecto_icon.png',
                         ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(top: 56),
+                        //   child: TextFormField(
+                        //     decoration: const InputDecoration(
+                        //       border: OutlineInputBorder(),
+                        //       labelText: 'Name',
+                        //     ),
+                        //   ),
+                        // ),
                         Padding(
                           padding: const EdgeInsets.only(top: 32),
                           child: TextFormField(
+                            controller: _emailController,
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
                               labelText: 'Email',
@@ -94,61 +168,50 @@ class _SignupScreenState2 extends State<SignupScreen2> {
                         Padding(
                           padding: const EdgeInsets.only(top: 40),
                           child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const OTPScreen(),
-                                ),
-                              );
-                            },
+                            onPressed: _isLoading ? null : _signIn,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFFF9900),
                               minimumSize: const Size(160, 48),
                             ),
-                            child: const Text(
-                              'Get OTP',
-                              style: TextStyle(
-                                color: Color(0xFF212121),
-                                fontSize: 24,
-                              ),
+                            child: Text(
+                              _isLoading ? 'Loading' : 'Send OTP to Email',
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 24),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Text(
-                                'Already have an account? Login ',
-                                style: TextStyle(
-                                  color: Color(0xFF212121),
-                                  fontSize: 16,
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const LoginScreen(),
-                                    ),
-                                  );
-                                },
-                                child: const Text(
-                                  'here',
-                                  style: TextStyle(
-                                    color: Color(0xFF44C7FF),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(top: 24),
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.center,
+                        //     mainAxisSize: MainAxisSize.min,
+                        //     children: [
+                        //       const Text(
+                        //         'Already have an account? Login ',
+                        //         style: TextStyle(
+                        //           color: Color(0xFF212121),
+                        //           fontSize: 16,
+                        //         ),
+                        //       ),
+                        //       GestureDetector(
+                        //         onTap: () {
+                        //           Navigator.push(
+                        //             context,
+                        //             MaterialPageRoute(
+                        //               builder: (context) => const LoginScreen(),
+                        //             ),
+                        //           );
+                        //         },
+                        //         child: const Text(
+                        //           'here',
+                        //           style: TextStyle(
+                        //             color: Color(0xFF44C7FF),
+                        //             fontWeight: FontWeight.bold,
+                        //             fontSize: 16,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                         const Padding(
                           padding: EdgeInsets.only(top: 32),
                           child: Text(''),
