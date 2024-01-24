@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:connectofrontend/models/room.dart';
+import 'package:connectofrontend/providers/home_system_state.dart';
 import 'package:connectofrontend/widgets/home_system/custom_switch.dart';
 import 'package:connectofrontend/widgets/home_system/master_card.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 typedef MyBuilder = void Function(
   BuildContext context,
@@ -10,7 +12,6 @@ typedef MyBuilder = void Function(
 
 class HomeEnvironmentalConditionsControlTab extends StatefulWidget {
   final List<Room> rooms;
-  final Function(String, SwitchStatus) onChanged;
   final SwitchStatus newStatus;
   final String newDevice;
   final MyBuilder builder;
@@ -18,7 +19,6 @@ class HomeEnvironmentalConditionsControlTab extends StatefulWidget {
   const HomeEnvironmentalConditionsControlTab({
     super.key,
     required this.rooms,
-    required this.onChanged,
     required this.newStatus,
     required this.newDevice,
     required this.builder,
@@ -43,16 +43,6 @@ class _HomeEnvironmentalConditionsControlTab
     status = widget.newStatus;
   }
 
-  // update main dashboard when main switch status changes
-  void updateMainDB(String cardText, SwitchStatus newStatus) {
-    widget.onChanged(cardText, newStatus);
-
-    setState(() {
-      selectedDevice = cardText == 'ALL FANS' ? 'Fan' : 'Light';
-      status = newStatus;
-    });
-  }
-
   void childMethod(String deviceType, SwitchStatus deviceStatus) {
     setState(() {
       selectedDevice = deviceType;
@@ -63,6 +53,19 @@ class _HomeEnvironmentalConditionsControlTab
   @override
   Widget build(BuildContext context) {
     widget.builder.call(context, childMethod);
+
+    // update main dashboard when main switch status changes
+    void updateMainDB(String cardText, SwitchStatus newStatus) {
+      var homeSystemState =
+          Provider.of<HomeSystemState>(context, listen: false);
+      homeSystemState.toggleAllDevices(cardText, newStatus);
+
+      setState(() {
+        selectedDevice = cardText == 'ALL FANS' ? 'Fan' : 'Light';
+        status = newStatus;
+      });
+    }
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,

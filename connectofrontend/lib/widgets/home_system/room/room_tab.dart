@@ -2,23 +2,19 @@ import 'package:connectofrontend/models/device/device.dart';
 import 'package:connectofrontend/models/device/fan_device.dart';
 import 'package:connectofrontend/models/device/light_device.dart';
 import 'package:connectofrontend/models/room.dart';
+import 'package:connectofrontend/providers/home_system_state.dart';
 import 'package:connectofrontend/widgets/home_system/device/device_tab.dart';
 import 'package:connectofrontend/widgets/home_system/room/room_settings_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RoomTab extends StatefulWidget {
   final Room room;
-  final Function(Room) onRoomAdded; // Not in use for now
-  final Function(Room) onRoomUpdated;
-  final Function(Room) onRoomDeleted;
   final Function(Device, bool) onDeviceSwitchToggled;
 
   const RoomTab({
     super.key,
     required this.room,
-    required this.onRoomAdded,
-    required this.onRoomUpdated,
-    required this.onRoomDeleted,
     required this.onDeviceSwitchToggled,
   });
 
@@ -37,6 +33,8 @@ class _RoomTabState extends State<RoomTab> {
   }
 
   Future<void> _showAddDeviceDialog(BuildContext context) async {
+    var updateRoom =
+        Provider.of<HomeSystemState>(context, listen: false).updateRoom;
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -92,9 +90,8 @@ class _RoomTabState extends State<RoomTab> {
                 }
 
                 widget.room.addDevice(newDevice);
-                widget.onRoomUpdated(widget.room);
+                updateRoom(widget.room);
                 deviceNameController.clear();
-
                 Navigator.of(context).pop();
               },
               child: const Text('Add'),
@@ -140,8 +137,6 @@ class _RoomTabState extends State<RoomTab> {
                 ),
                 RoomSettingsMenu(
                   room: widget.room,
-                  onRoomUpdated: widget.onRoomUpdated,
-                  onRoomDeleted: widget.onRoomDeleted,
                 ),
               ],
             ),

@@ -1,23 +1,26 @@
 import 'package:connectofrontend/models/room.dart';
+import 'package:connectofrontend/providers/home_system_state.dart';
 import 'package:connectofrontend/widgets/home_system/edit_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 enum _RoomOption { moveLeft, moveRight, editRoom, removeRoom }
 
 class RoomSettingsMenu extends StatelessWidget {
   final Room room;
-  final Function(Room) onRoomUpdated;
-  final Function(Room) onRoomDeleted;
 
   const RoomSettingsMenu({
     super.key,
     required this.room,
-    required this.onRoomUpdated,
-    required this.onRoomDeleted,
   });
 
   @override
   Widget build(BuildContext context) {
+    var updateRoom =
+        Provider.of<HomeSystemState>(context, listen: false).updateRoom;
+    var deleteRoom =
+        Provider.of<HomeSystemState>(context, listen: false).deleteRoom;
+
     return PopupMenuButton<_RoomOption>(
       icon: const Icon(Icons.more_vert),
       onSelected: (_RoomOption option) {
@@ -28,10 +31,10 @@ class RoomSettingsMenu extends StatelessWidget {
           case _RoomOption.moveLeft:
             break;
           case _RoomOption.editRoom:
-            onRoomUpdated(room);
+            updateRoom(room);
             break;
           case _RoomOption.removeRoom:
-            onRoomDeleted(room);
+            deleteRoom(room);
             break;
         }
       },
@@ -61,7 +64,7 @@ class RoomSettingsMenu extends StatelessWidget {
             value: room.name,
             onEditSaved: (String roomName) {
               room.rename(roomName);
-              onRoomUpdated(room);
+              updateRoom(room);
               Navigator.pop(context);
             },
             child: const Row(
