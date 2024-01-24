@@ -4,7 +4,7 @@ import 'package:connectofrontend/widgets/home_system/edit_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-enum _RoomOption { moveLeft, moveRight, editRoom, removeRoom }
+enum _RoomOption { moveLeft, moveRight, editRoom, unbookmarkRoom }
 
 class RoomSettingsMenu extends StatelessWidget {
   final Room room;
@@ -18,13 +18,14 @@ class RoomSettingsMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     var updateRoom =
         Provider.of<HomeSystemState>(context, listen: false).updateRoom;
-    var deleteRoom =
-        Provider.of<HomeSystemState>(context, listen: false).deleteRoom;
+    var unbookmarkRoom =
+        Provider.of<HomeSystemState>(context, listen: false).unbookmarkRoom;
 
     return PopupMenuButton<_RoomOption>(
       icon: const Icon(Icons.more_vert),
       onSelected: (_RoomOption option) {
         // TODO: Add logic for move left, right, edit
+        // TODO: Differentiate between deleting Room and unbookmarking Room
         switch (option) {
           case _RoomOption.moveRight:
             break;
@@ -33,8 +34,8 @@ class RoomSettingsMenu extends StatelessWidget {
           case _RoomOption.editRoom:
             updateRoom(room);
             break;
-          case _RoomOption.removeRoom:
-            deleteRoom(room);
+          case _RoomOption.unbookmarkRoom:
+            unbookmarkRoom(room);
             break;
         }
       },
@@ -76,7 +77,7 @@ class RoomSettingsMenu extends StatelessWidget {
           ),
         ),
         const PopupMenuItem<_RoomOption>(
-          value: _RoomOption.removeRoom,
+          value: _RoomOption.unbookmarkRoom,
           child: Row(
             children: <Widget>[
               Icon(Icons.remove_circle_outline, color: Colors.red),

@@ -1,14 +1,15 @@
 import 'dart:math';
 
-import 'package:connectofrontend/models/room.dart';
-import 'package:connectofrontend/providers/home_system_state.dart';
-import 'package:connectofrontend/widgets/home_system/room/room_tab.dart';
 import 'package:connectofrontend/models/device/device.dart';
 import 'package:connectofrontend/models/device/fan_device.dart';
 import 'package:connectofrontend/models/device/light_device.dart';
+import 'package:connectofrontend/models/room.dart';
+import 'package:connectofrontend/providers/home_system_state.dart';
 import 'package:connectofrontend/screens/main_dashboard/main_dashboard.dart';
+import 'package:connectofrontend/widgets/home_system/room/room_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 
 class HomeSystemRoomsTab extends StatefulWidget {
   final ToggleMainSwitchCallback allSwitchStatus;
@@ -27,7 +28,8 @@ class _HomeSystemRoomsTabState extends State<HomeSystemRoomsTab> {
   Widget build(BuildContext context) {
     var homeSystemState = Provider.of<HomeSystemState>(context);
     int index = homeSystemState.index;
-    List<Room> rooms = homeSystemState.rooms;
+    // `rooms` depends on the screen this belongs to (use a prop in the future?)
+    List<Room> rooms = homeSystemState.bookmarkedRooms;
 
     // When one switch in device tab changes, check if all switches have the same status
     bool checkAllSwitches(Device device, bool deviceStatus) {

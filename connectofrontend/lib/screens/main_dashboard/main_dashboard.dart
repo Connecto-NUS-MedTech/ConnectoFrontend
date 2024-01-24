@@ -77,6 +77,7 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
                 ),
                 // Home Environmental Conditions Control section
                 HomeEnvironmentalConditionsControlTab(
+                  // * use bookmarkedRooms instead if this is not meant to control ALL rooms
                   rooms: rooms,
                   newStatus: status,
                   newDevice: deviceToToggle,
