@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class DeviceTab extends StatefulWidget {
   final Device device;
+  // TODO: Refactor to remove the callbacks!!
   final Function(Device) onDeviceUpdated;
   final Function(Device) onDeviceDeleted;
   final Function(Device, bool) onSwitchChanged;
@@ -51,19 +52,14 @@ class _DeviceTabState extends State<DeviceTab> {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 24, 32, 24),
+        padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
         child: Row(
           children: [
-            DeviceSettingsMenu(
-              device: widget.device,
-              onDeviceUpdated: widget.onDeviceUpdated,
-              onDeviceDeleted: widget.onDeviceDeleted,
-            ),
             Expanded(
               child: Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Row(
                         children: [
@@ -72,9 +68,7 @@ class _DeviceTabState extends State<DeviceTab> {
                             height: 40,
                             width: 40,
                           ),
-                          const SizedBox(
-                            width: 16,
-                          ),
+                          const SizedBox(width: 16),
                           Text(
                             widget.device.name,
                             style: const TextStyle(
@@ -82,6 +76,7 @@ class _DeviceTabState extends State<DeviceTab> {
                               fontSize: 24,
                             ),
                           ),
+                          const SizedBox(width: 120),
                         ],
                       ),
                       CustomSwitch(
@@ -90,24 +85,30 @@ class _DeviceTabState extends State<DeviceTab> {
                             : SwitchStatus.off,
                         onChanged: updateSwitch,
                       ),
+                      DeviceSettingsMenu(
+                        device: widget.device,
+                        onDeviceUpdated: widget.onDeviceUpdated,
+                        onDeviceDeleted: widget.onDeviceDeleted,
+                      ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        deviceFeature,
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                      Text(
-                        '${(devicePercentage * 100).round()}%',
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                      // Text(widget.device is LightDevice ? widget.device. : )
-                    ],
+                  const SizedBox(height: 40),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          deviceFeature,
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        Text(
+                          '${(devicePercentage * 100).round()}%',
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        // Text(widget.device is LightDevice ? widget.device. : )
+                      ],
+                    ),
                   ),
                   const SizedBox(
                     height: 16,
