@@ -58,6 +58,7 @@ class _EditDialogState extends State<EditDialog> {
             TextButton(
               onPressed: () {
                 textValueController.clear();
+                Navigator.of(context).pop();
               },
               child: const Text('Cancel'),
             ),

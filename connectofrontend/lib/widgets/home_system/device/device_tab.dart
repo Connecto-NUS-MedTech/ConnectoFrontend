@@ -1,22 +1,20 @@
 import 'package:connectofrontend/models/device/device.dart';
 import 'package:connectofrontend/models/device/light_device.dart';
+import 'package:connectofrontend/models/room.dart';
 import 'package:connectofrontend/widgets/home_system/custom_switch.dart';
 import 'package:connectofrontend/widgets/home_system/device/device_settings_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class DeviceTab extends StatefulWidget {
+  final Room room;
   final Device device;
-  // TODO: Refactor to remove the callbacks!!
-  final Function(Device) onDeviceUpdated;
-  final Function(Device) onDeviceDeleted;
   final Function(Device, bool) onSwitchChanged;
 
   const DeviceTab({
     super.key,
+    required this.room,
     required this.device,
-    required this.onDeviceUpdated,
-    required this.onDeviceDeleted,
     required this.onSwitchChanged,
   });
 
@@ -86,9 +84,8 @@ class _DeviceTabState extends State<DeviceTab> {
                         onChanged: updateSwitch,
                       ),
                       DeviceSettingsMenu(
+                        room: widget.room,
                         device: widget.device,
-                        onDeviceUpdated: widget.onDeviceUpdated,
-                        onDeviceDeleted: widget.onDeviceDeleted,
                       ),
                     ],
                   ),

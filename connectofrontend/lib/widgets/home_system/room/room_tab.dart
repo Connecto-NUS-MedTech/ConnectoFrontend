@@ -145,17 +145,8 @@ class _RoomTabState extends State<RoomTab> {
               children: widget.room.devices
                   .map(
                     (device) => DeviceTab(
+                      room: widget.room,
                       device: device,
-                      onDeviceUpdated: (Device device) {
-                        setState(() {
-                          widget.room.updateRoomDevice(device);
-                        });
-                      },
-                      onDeviceDeleted: (Device device) {
-                        setState(() {
-                          widget.room.removeDevice(device);
-                        });
-                      },
                       onSwitchChanged: passSwitchData,
                     ),
                   )
