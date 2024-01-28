@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
               title: 'Connecto',
               theme: ThemeData(
                 primarySwatch: Colors.orange,
-                scaffoldBackgroundColor: const Color(0xFFEFEFEF),
+                scaffoldBackgroundColor: const Color(0xFFF5F5F5),
               ),
               home: const OnboardingScreen(),
             ),
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
               title: 'Connecto',
               theme: CupertinoThemeData(
                 primaryColor: CupertinoColors.activeOrange,
-                scaffoldBackgroundColor: Color(0xFFEFEFEF),
+                scaffoldBackgroundColor: Color(0xFFF5F5F5),
               ),
               home: OnboardingScreen(),
             ),

@@ -13,23 +13,99 @@ class HomeSystemHeaderRow extends StatefulWidget {
 }
 
 class _HomeSystemHeaderRowState extends State<HomeSystemHeaderRow> {
+  final Color _primaryColor = const Color(0xFF455A64);
+
   @override
   Widget build(BuildContext context) {
     var homeSystemState = Provider.of<HomeSystemState>(context);
 
-    const bookmarkButton = Row(
-      children: [
-        Icon(Icons.add_circle_outline),
-        SizedBox(width: 8),
-        Text(
-          'Bookmark Room',
-          style: TextStyle(fontSize: 20),
+    final bookmarkButton = Container(
+      decoration: BoxDecoration(
+        color: _primaryColor,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
+      child: const Row(
+        children: [
+          Icon(
+            Icons.bookmark_add_rounded,
+            color: Color(0xFFFFFFFF),
+          ),
+          SizedBox(width: 8),
+          Text(
+            'Bookmark Room',
+            style: TextStyle(
+              fontSize: 16,
+              // fontWeight: FontWeight.w500,
+              color: Color(0xFFFFFFFF),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    final paginateLeftButton = GestureDetector(
+      onTap: homeSystemState.paginateLeft,
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: _primaryColor,
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(16),
         ),
-      ],
+        child: Row(
+          children: [
+            Icon(
+              Icons.arrow_left,
+              color: _primaryColor,
+            ),
+            Text(
+              'Prev page',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: _primaryColor,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    final paginateRightButton = GestureDetector(
+      onTap: homeSystemState.paginateRight,
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: _primaryColor,
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Row(
+          children: [
+            Icon(
+              Icons.arrow_right,
+              color: _primaryColor,
+            ),
+            Text(
+              'Next page',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: _primaryColor,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
 
     var gestureDetector = homeSystemState.unbookmarkedRooms.isEmpty
-        ? const Opacity(
+        ? Opacity(
             opacity: 0.5,
             child: bookmarkButton,
           )
@@ -60,23 +136,52 @@ class _HomeSystemHeaderRowState extends State<HomeSystemHeaderRow> {
           );
 
     return Container(
-      margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+      margin: const EdgeInsets.only(top: 40, bottom: 24),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          IconButton(
-            icon: const Icon(Icons.arrow_left),
-            iconSize: 40,
-            onPressed: homeSystemState.paginateLeft,
+          const Column(
+            children: [
+              Text(
+                'Bookmarked Rooms',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+              ),
+            ],
           ),
-          IconButton(
-            icon: const Icon(Icons.arrow_right),
-            iconSize: 40,
-            onPressed: homeSystemState.paginateRight,
+          Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  paginateLeftButton,
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  paginateRightButton,
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  gestureDetector,
+                ],
+              ),
+            ],
           ),
-          gestureDetector,
         ],
       ),
+      // Row(
+      //   mainAxisAlignment: MainAxisAlignment.end,
+      //   children: [
+      //     paginateLeftButton,
+      //     const SizedBox(
+      //       width: 16,
+      //     ),
+      //     paginateRightButton,
+      //     const SizedBox(
+      //       width: 16,
+      //     ),
+      //     gestureDetector,
+      //   ],
+      // ),
     );
   }
 }
