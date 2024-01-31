@@ -103,6 +103,10 @@ class HomeSystemState with ChangeNotifier {
 
   void unbookmarkRoom(Room room) {
     bookmarkedRooms.remove(room);
+    // check if the room removed was the last room
+    if (index == bookmarkedRooms.length && index > 0) {
+      index -= 2;
+    }
     notifyListeners();
   }
 
