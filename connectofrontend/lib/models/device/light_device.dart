@@ -8,13 +8,11 @@ class LightDevice extends Device {
         super(id: id, name: name, type: DeviceType.light);
 
   @override
-  // double get value => brightness;
-  double getValue() {
-    return brightness;
-  }
+  double get value => brightness;
 
   @override
   setValue(double value) {
     brightness = value.clamp(0.0, 1.0);
+    isOn = brightness > 0;
   }
 }

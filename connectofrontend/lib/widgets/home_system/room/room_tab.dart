@@ -10,12 +10,10 @@ import 'package:provider/provider.dart';
 
 class RoomTab extends StatefulWidget {
   final Room room;
-  final Function(Device, bool) onDeviceSwitchToggled;
 
   const RoomTab({
     super.key,
     required this.room,
-    required this.onDeviceSwitchToggled,
   });
 
   @override
@@ -102,10 +100,6 @@ class _RoomTabState extends State<RoomTab> {
     );
   }
 
-  void passSwitchData(Device device, bool deviceStatus) {
-    widget.onDeviceSwitchToggled(device, deviceStatus);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -135,9 +129,7 @@ class _RoomTabState extends State<RoomTab> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                RoomSettingsMenu(
-                  room: widget.room,
-                ),
+                RoomSettingsMenu(room: widget.room),
               ],
             ),
             const SizedBox(height: 24),
@@ -147,7 +139,6 @@ class _RoomTabState extends State<RoomTab> {
                     (device) => DeviceTab(
                       room: widget.room,
                       device: device,
-                      onSwitchChanged: passSwitchData,
                     ),
                   )
                   .toList(),
@@ -157,14 +148,10 @@ class _RoomTabState extends State<RoomTab> {
               child: const Row(
                 children: [
                   Icon(Icons.add_circle_outline),
-                  SizedBox(
-                    width: 8,
-                  ),
+                  SizedBox(width: 8),
                   Text(
                     'Add Device',
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
+                    style: TextStyle(fontSize: 20),
                   ),
                 ],
               ),

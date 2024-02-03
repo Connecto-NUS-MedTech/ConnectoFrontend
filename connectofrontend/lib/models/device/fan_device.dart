@@ -8,13 +8,11 @@ class FanDevice extends Device {
         super(id: id, name: name, type: DeviceType.fan);
 
   @override
-  // double get value => speed;
-  double getValue() {
-    return speed;
-  }
+  double get value => speed;
 
   @override
   setValue(double value) {
     speed = value.clamp(0.0, 1.0);
+    isOn = speed > 0;
   }
 }

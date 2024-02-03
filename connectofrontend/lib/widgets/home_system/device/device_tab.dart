@@ -1,21 +1,21 @@
 import 'package:connectofrontend/models/device/device.dart';
 import 'package:connectofrontend/models/device/light_device.dart';
 import 'package:connectofrontend/models/room.dart';
+import 'package:connectofrontend/providers/home_system_state.dart';
 import 'package:connectofrontend/widgets/home_system/custom_switch.dart';
 import 'package:connectofrontend/widgets/home_system/device/device_settings_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class DeviceTab extends StatefulWidget {
   final Room room;
   final Device device;
-  final Function(Device, bool) onSwitchChanged;
 
   const DeviceTab({
     super.key,
     required this.room,
     required this.device,
-    required this.onSwitchChanged,
   });
 
   @override
@@ -23,17 +23,10 @@ class DeviceTab extends StatefulWidget {
 }
 
 class _DeviceTabState extends State<DeviceTab> {
-  // Change status of device when switch is toggled
-  void updateSwitch(SwitchStatus status) {
-    setState(() {
-      widget.device.isOn = status == SwitchStatus.on;
-      // Send data to parent
-      widget.onSwitchChanged(widget.device, widget.device.isOn);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    var homeSystemState = Provider.of<HomeSystemState>(context);
+
     String deviceIcon = widget.device is LightDevice
         ? 'assets/icons/lightbulb.svg'
         : 'assets/icons/fan.svg';
@@ -41,7 +34,15 @@ class _DeviceTabState extends State<DeviceTab> {
     String deviceFeature =
         widget.device is LightDevice ? 'Brightness' : 'Fan Speed';
 
-    double devicePercentage = widget.device.value;
+    double sliderValue = widget.device.isOn ? widget.device.value : 0;
+
+    /// `status` should only be on/off
+    void setDeviceSwitchStatus(SwitchStatus status) {
+      homeSystemState.updateDeviceStatus(
+        widget.device,
+        status == SwitchStatus.on,
+      );
+    }
 
     return Container(
       margin: const EdgeInsets.only(bottom: 24),
@@ -81,7 +82,7 @@ class _DeviceTabState extends State<DeviceTab> {
                         value: widget.device.isOn
                             ? SwitchStatus.on
                             : SwitchStatus.off,
-                        onChanged: updateSwitch,
+                        onChanged: setDeviceSwitchStatus,
                       ),
                       DeviceSettingsMenu(
                         room: widget.room,
@@ -100,31 +101,25 @@ class _DeviceTabState extends State<DeviceTab> {
                           style: const TextStyle(fontSize: 16),
                         ),
                         Text(
-                          '${(devicePercentage * 100).round()}%',
+                          '${(sliderValue * 100).round()}%',
                           style: const TextStyle(fontSize: 16),
                         ),
-                        // Text(widget.device is LightDevice ? widget.device. : )
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 16,
-                  ),
+                  const SizedBox(height: 16),
                   Slider(
-                    value: widget.device.isOn ? widget.device.value : 0,
+                    value: sliderValue,
                     min: 0,
                     max: 1,
                     // TODO: Persist the new value, communicate with IoT device
                     onChanged: (newValue) {
                       setState(() {
                         widget.device.setValue(newValue);
-                        // Change Custom Switch status according to slider %
                         if (newValue == 0) {
-                          widget.device.isOn = false;
-                          updateSwitch(SwitchStatus.off);
+                          setDeviceSwitchStatus(SwitchStatus.off);
                         } else {
-                          widget.device.isOn = true;
-                          updateSwitch(SwitchStatus.on);
+                          setDeviceSwitchStatus(SwitchStatus.on);
                         }
                       });
                     },

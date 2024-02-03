@@ -8,6 +8,14 @@ import 'package:flutter/material.dart';
 class HomeSystemState with ChangeNotifier {
   // index of first Room to display in MainDashboard
   int index = 0;
+
+  // Hardcoded for now
+  // Currently, these are only for bookmarked rooms
+  int numLightsOn = 0;
+  int numFansOn = 0;
+  int totalLightDevices = 3;
+  int totalFanDevices = 2;
+
   // Hardcoded for now -- fetch from DB or local storage in the future
   List<Room> bookmarkedRooms = [
     Room(
@@ -86,6 +94,8 @@ class HomeSystemState with ChangeNotifier {
 
   void bookmarkRoom(Room room) {
     bookmarkedRooms.add(room);
+    totalLightDevices += room.numberOfLightDevices;
+    totalFanDevices += room.numberOfFanDevices;
     notifyListeners();
   }
 
@@ -103,6 +113,8 @@ class HomeSystemState with ChangeNotifier {
 
   void unbookmarkRoom(Room room) {
     bookmarkedRooms.remove(room);
+    totalLightDevices -= room.numberOfLightDevices;
+    totalFanDevices -= room.numberOfFanDevices;
     // check if the room removed was the last room
     if (index == bookmarkedRooms.length && index > 0) {
       index -= 2;
@@ -110,16 +122,32 @@ class HomeSystemState with ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleAllDevices(String cardText, SwitchStatus newStatus) {
-    Device deviceType = cardText == 'ALL LIGHTS'
-        ? LightDevice(id: 0, name: 'Test Light', brightness: 0.5)
-        : FanDevice(id: 0, name: 'Test Fan', speed: 0.5);
-    for (Room room in rooms) {
+  ///  Device methods
+  void updateDeviceStatus(Device device, bool status) {
+    if (device.isOn == status) return;
+    device.isOn = status;
+    if (status) {
+      device is LightDevice ? numLightsOn++ : numFansOn++;
+    } else {
+      device is LightDevice ? numLightsOn-- : numFansOn--;
+    }
+    notifyListeners();
+  }
+
+  // Sets the `isOn` status for all devices of given type
+  void setAllDevices(Type deviceType, bool status) {
+    for (Room room in bookmarkedRooms) {
       for (Device dev in room.devices) {
-        if (dev.runtimeType == deviceType.runtimeType) {
-          dev.isOn = newStatus != SwitchStatus.off;
+        if (dev.runtimeType == deviceType) {
+          dev.isOn = status;
         }
       }
+    }
+    if (deviceType == LightDevice) {
+      numLightsOn = status ? totalLightDevices : 0;
+    }
+    if (deviceType == FanDevice) {
+      numFansOn = status ? totalFanDevices : 0;
     }
     notifyListeners();
   }

@@ -18,16 +18,7 @@ abstract class Device {
   }
 
   // Connects switch and slider
-  double get value {
-    if (!isOn) {
-      return 0;
-    } else if (isOn && getValue() == 0) {
-      return 1;
-    }
-    return getValue();
-  }
-
-  double getValue();
+  double get value;
 
   void setValue(double value);
 
@@ -40,6 +31,6 @@ abstract class Device {
 
   @override
   String toString() {
-    return '[$type, $name]';
+    return '[$type, $name, $isOn]';
   }
 }
