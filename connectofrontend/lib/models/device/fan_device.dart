@@ -13,5 +13,6 @@ class FanDevice extends Device {
   @override
   setValue(double value) {
     speed = value.clamp(0.0, 1.0);
+    isOn = speed > 0;
   }
 }

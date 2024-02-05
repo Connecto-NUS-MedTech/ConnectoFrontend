@@ -31,6 +31,12 @@ class _EditDialogState extends State<EditDialog> {
         TextEditingController(text: widget.value ?? widget.field);
   }
 
+  @override
+  void dispose() {
+    textValueController.dispose();
+    super.dispose();
+  }
+
   Future<void> _showDialog(BuildContext context) async {
     return showDialog(
       context: context,
@@ -52,6 +58,7 @@ class _EditDialogState extends State<EditDialog> {
             TextButton(
               onPressed: () {
                 textValueController.clear();
+                Navigator.of(context).pop();
               },
               child: const Text('Cancel'),
             ),

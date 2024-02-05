@@ -1,14 +1,15 @@
+import 'package:connectofrontend/models/device/light_device.dart';
+import 'package:connectofrontend/providers/home_system_state.dart';
 import 'package:flutter/material.dart';
 import 'package:connectofrontend/widgets/home_system/custom_switch.dart';
+import 'package:provider/provider.dart';
 
 class MasterCard extends StatefulWidget {
-  final String cardText;
-  final Function(String, SwitchStatus) callback;
+  final Type deviceType;
 
   const MasterCard({
     super.key,
-    required this.cardText,
-    required this.callback,
+    required this.deviceType,
   });
 
   @override
@@ -18,18 +19,34 @@ class MasterCard extends StatefulWidget {
 }
 
 class _MasterCardState extends State<MasterCard> {
-  SwitchStatus cardState = SwitchStatus.neither;
-
-  void updateSwitch(SwitchStatus status) {
-    setState(() {
-      cardState = status;
-    });
-    widget.callback(widget.cardText, status);
-    print('printing card state for ${widget.cardText}: $cardState');
-  }
-
   @override
   Widget build(BuildContext context) {
+    var homeSystemState = Provider.of<HomeSystemState>(context);
+
+    SwitchStatus getSwitchStatus() {
+      if (widget.deviceType == LightDevice) {
+        return homeSystemState.numLightsOn == homeSystemState.totalLightDevices
+            ? SwitchStatus.on
+            : homeSystemState.numLightsOn == 0
+                ? SwitchStatus.off
+                : SwitchStatus.neither;
+      } else {
+        return homeSystemState.numFansOn == homeSystemState.totalFanDevices
+            ? SwitchStatus.on
+            : homeSystemState.numFansOn == 0
+                ? SwitchStatus.off
+                : SwitchStatus.neither;
+      }
+    }
+
+    /// `status` should only be on or off
+    void setMasterSwitchStatus(SwitchStatus status) {
+      homeSystemState.setAllDevices(
+        widget.deviceType,
+        status == SwitchStatus.on,
+      );
+    }
+
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFFFFFFFF),
@@ -49,18 +66,16 @@ class _MasterCardState extends State<MasterCard> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              widget.cardText,
+              widget.deviceType == LightDevice ? 'ALL LIGHTS' : 'ALL FANS',
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(
-              width: 56,
-            ),
+            const SizedBox(width: 56),
             CustomSwitch(
-              value: cardState,
-              onChanged: updateSwitch,
+              value: getSwitchStatus(),
+              onChanged: setMasterSwitchStatus,
             ),
           ],
         ),

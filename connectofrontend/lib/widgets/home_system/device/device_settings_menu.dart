@@ -1,32 +1,39 @@
 import 'package:connectofrontend/models/device/device.dart';
+import 'package:connectofrontend/models/room.dart';
+import 'package:connectofrontend/providers/home_system_state.dart';
 import 'package:connectofrontend/widgets/home_system/edit_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 enum _DeviceOption { editDevice, removeDevice }
 
 class DeviceSettingsMenu extends StatelessWidget {
+  final Room room;
   final Device device;
-  final Function(Device) onDeviceUpdated;
-  final Function(Device) onDeviceDeleted;
 
   const DeviceSettingsMenu({
     super.key,
+    required this.room,
     required this.device,
-    required this.onDeviceUpdated,
-    required this.onDeviceDeleted,
   });
 
   @override
   Widget build(BuildContext context) {
+    var homeSystemState = Provider.of<HomeSystemState>(context);
+
     return PopupMenuButton<_DeviceOption>(
-      icon: const Icon(Icons.drag_indicator_rounded),
+      icon: const Icon(Icons.more_vert),
       onSelected: (_DeviceOption option) {
+
         switch (option) {
           case _DeviceOption.editDevice:
-            onDeviceUpdated(device);
+            // TODO: Catch duplicate name errors
+            room.updateRoomDevice(device);
+            homeSystemState.updateRoom(room);
             break;
           case _DeviceOption.removeDevice:
-            onDeviceDeleted(device);
+            room.removeDevice(device);
+            homeSystemState.updateRoom(room);
             break;
         }
       },
@@ -38,7 +45,7 @@ class DeviceSettingsMenu extends StatelessWidget {
             value: device.name,
             onEditSaved: (String deviceName) {
               device.rename(deviceName);
-              onDeviceUpdated(device);
+              homeSystemState.updateRoom(room);
               Navigator.pop(context);
             },
             child: const Row(

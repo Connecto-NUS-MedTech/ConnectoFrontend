@@ -13,5 +13,6 @@ class LightDevice extends Device {
   @override
   setValue(double value) {
     brightness = value.clamp(0.0, 1.0);
+    isOn = brightness > 0;
   }
 }

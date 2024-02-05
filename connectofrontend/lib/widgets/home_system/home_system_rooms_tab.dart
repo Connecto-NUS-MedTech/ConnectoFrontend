@@ -1,62 +1,60 @@
+import 'dart:math';
+
 import 'package:connectofrontend/models/room.dart';
+import 'package:connectofrontend/providers/home_system_state.dart';
 import 'package:connectofrontend/widgets/home_system/room/room_tab.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeSystemRoomsTab extends StatefulWidget {
-  final List<Room> rooms;
-
-  const HomeSystemRoomsTab({super.key, required this.rooms});
+  const HomeSystemRoomsTab({super.key});
 
   @override
   State<HomeSystemRoomsTab> createState() => _HomeSystemRoomsTabState();
 }
 
 class _HomeSystemRoomsTabState extends State<HomeSystemRoomsTab> {
-  // Not in use for now
-  void handleRoomAdded(Room room) {
-    setState(() {
-      widget.rooms.add(room);
-    });
-  }
-
-  void handleRoomUpdated(Room newRoom) {
-    setState(() {
-      int roomIndex = widget.rooms.indexWhere((r) => r.id == newRoom.id);
-      if (roomIndex != -1) {
-        widget.rooms[roomIndex] = newRoom;
-      }
-    });
-  }
-
-  void handleRoomDeleted(Room room) {
-    setState(() {
-      widget.rooms.remove(room);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 32,
-      runSpacing: 24,
-      children: widget.rooms
-          .map(
-            (room) => LayoutBuilder(
-              builder: (context, constraints) {
-                final itemWidth = constraints.maxWidth / 2.5 - 32;
-                return SizedBox(
-                  width: itemWidth,
-                  child: RoomTab(
-                    room: room,
-                    onRoomAdded: handleRoomAdded,
-                    onRoomUpdated: handleRoomUpdated,
-                    onRoomDeleted: handleRoomDeleted,
+    var homeSystemState = Provider.of<HomeSystemState>(context);
+    int index = homeSystemState.index;
+    // `rooms` depends on the screen this belongs to (use a prop in the future?)
+    List<Room> rooms = homeSystemState.bookmarkedRooms;
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: rooms.isEmpty
+            ? <Widget>[] // Consider replacing with a prompt to bookmark rooms?
+            : rooms
+                .sublist(index, min(index + 2, rooms.length))
+                .map(
+                  (room) => SizedBox(
+                    width:
+                        // 72 is the size of the navigation bar, 32 is the margin
+                        (MediaQuery.of(context).size.width - 72 - 8 - 32) / 2,
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 32),
+                      child: RoomTab(room: room),
+                    ),
                   ),
-                );
-              },
-            ),
-          )
-          .toList(),
+
+                  // LayoutBuilder(
+                  //   builder: (context, constraints) {
+                  //     final itemWidth = constraints.maxWidth / 2 - 32;
+                  //     return SizedBox(
+                  //       width: itemWidth,
+                  //       child: RoomTab(
+                  //         room: room,
+                  //         onDeviceSwitchToggled: checkAllSwitches,
+                  //       ),
+                  //     );
+                  //   },
+                  // ),
+                )
+                .toList(),
+      ),
     );
   }
 }

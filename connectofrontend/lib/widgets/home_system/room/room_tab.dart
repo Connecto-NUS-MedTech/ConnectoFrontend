@@ -2,22 +2,18 @@ import 'package:connectofrontend/models/device/device.dart';
 import 'package:connectofrontend/models/device/fan_device.dart';
 import 'package:connectofrontend/models/device/light_device.dart';
 import 'package:connectofrontend/models/room.dart';
+import 'package:connectofrontend/providers/home_system_state.dart';
 import 'package:connectofrontend/widgets/home_system/device/device_tab.dart';
 import 'package:connectofrontend/widgets/home_system/room/room_settings_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RoomTab extends StatefulWidget {
   final Room room;
-  final Function(Room) onRoomAdded; // Not in use for now
-  final Function(Room) onRoomUpdated;
-  final Function(Room) onRoomDeleted;
 
   const RoomTab({
     super.key,
     required this.room,
-    required this.onRoomAdded,
-    required this.onRoomUpdated,
-    required this.onRoomDeleted,
   });
 
   @override
@@ -28,7 +24,15 @@ class _RoomTabState extends State<RoomTab> {
   String selectedDeviceType = 'Fan';
   TextEditingController deviceNameController = TextEditingController();
 
+  @override
+  void dispose() {
+    deviceNameController.dispose();
+    super.dispose();
+  }
+
   Future<void> _showAddDeviceDialog(BuildContext context) async {
+    var updateRoom =
+        Provider.of<HomeSystemState>(context, listen: false).updateRoom;
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -84,9 +88,8 @@ class _RoomTabState extends State<RoomTab> {
                 }
 
                 widget.room.addDevice(newDevice);
-                widget.onRoomUpdated(widget.room);
+                updateRoom(widget.room);
                 deviceNameController.clear();
-
                 Navigator.of(context).pop();
               },
               child: const Text('Add'),
@@ -126,11 +129,7 @@ class _RoomTabState extends State<RoomTab> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                RoomSettingsMenu(
-                  room: widget.room,
-                  onRoomUpdated: widget.onRoomUpdated,
-                  onRoomDeleted: widget.onRoomDeleted,
-                ),
+                RoomSettingsMenu(room: widget.room),
               ],
             ),
             const SizedBox(height: 24),
@@ -138,17 +137,8 @@ class _RoomTabState extends State<RoomTab> {
               children: widget.room.devices
                   .map(
                     (device) => DeviceTab(
+                      room: widget.room,
                       device: device,
-                      onDeviceUpdated: (Device device) {
-                        setState(() {
-                          widget.room.updateRoomDevice(device);
-                        });
-                      },
-                      onDeviceDeleted: (Device device) {
-                        setState(() {
-                          widget.room.removeDevice(device);
-                        });
-                      },
                     ),
                   )
                   .toList(),
@@ -158,14 +148,10 @@ class _RoomTabState extends State<RoomTab> {
               child: const Row(
                 children: [
                   Icon(Icons.add_circle_outline),
-                  SizedBox(
-                    width: 8,
-                  ),
+                  SizedBox(width: 8),
                   Text(
                     'Add Device',
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
+                    style: TextStyle(fontSize: 20),
                   ),
                 ],
               ),

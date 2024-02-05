@@ -1,37 +1,41 @@
 import 'package:connectofrontend/models/room.dart';
+import 'package:connectofrontend/providers/home_system_state.dart';
 import 'package:connectofrontend/widgets/home_system/edit_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-enum _RoomOption { moveLeft, moveRight, editRoom, removeRoom }
+enum _RoomOption { moveLeft, moveRight, editRoom, unbookmarkRoom }
 
 class RoomSettingsMenu extends StatelessWidget {
   final Room room;
-  final Function(Room) onRoomUpdated;
-  final Function(Room) onRoomDeleted;
 
   const RoomSettingsMenu({
     super.key,
     required this.room,
-    required this.onRoomUpdated,
-    required this.onRoomDeleted,
   });
 
   @override
   Widget build(BuildContext context) {
+    var updateRoom =
+        Provider.of<HomeSystemState>(context, listen: false).updateRoom;
+    var unbookmarkRoom =
+        Provider.of<HomeSystemState>(context, listen: false).unbookmarkRoom;
+
     return PopupMenuButton<_RoomOption>(
       icon: const Icon(Icons.more_vert),
       onSelected: (_RoomOption option) {
         // TODO: Add logic for move left, right, edit
+        // TODO: Differentiate between deleting Room and unbookmarking Room
         switch (option) {
           case _RoomOption.moveRight:
             break;
           case _RoomOption.moveLeft:
             break;
           case _RoomOption.editRoom:
-            onRoomUpdated(room);
+            updateRoom(room);
             break;
-          case _RoomOption.removeRoom:
-            onRoomDeleted(room);
+          case _RoomOption.unbookmarkRoom:
+            unbookmarkRoom(room);
             break;
         }
       },
@@ -61,7 +65,7 @@ class RoomSettingsMenu extends StatelessWidget {
             value: room.name,
             onEditSaved: (String roomName) {
               room.rename(roomName);
-              onRoomUpdated(room);
+              updateRoom(room);
               Navigator.pop(context);
             },
             child: const Row(
@@ -73,7 +77,7 @@ class RoomSettingsMenu extends StatelessWidget {
           ),
         ),
         const PopupMenuItem<_RoomOption>(
-          value: _RoomOption.removeRoom,
+          value: _RoomOption.unbookmarkRoom,
           child: Row(
             children: <Widget>[
               Icon(Icons.remove_circle_outline, color: Colors.red),

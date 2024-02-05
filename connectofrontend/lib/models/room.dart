@@ -1,4 +1,6 @@
 import 'package:connectofrontend/models/device/device.dart';
+import 'package:connectofrontend/models/device/fan_device.dart';
+import 'package:connectofrontend/models/device/light_device.dart';
 
 class Room {
   final int id;
@@ -10,6 +12,14 @@ class Room {
     required this.name,
     required this.devices,
   });
+
+  int get numberOfLightDevices {
+    return devices.whereType<LightDevice>().length;
+  }
+
+  int get numberOfFanDevices {
+    return devices.whereType<FanDevice>().length;
+  }
 
   void rename(String name) {
     if (name.isEmpty) return;

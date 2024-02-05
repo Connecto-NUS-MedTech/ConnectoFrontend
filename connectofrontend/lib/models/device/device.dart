@@ -17,7 +17,9 @@ abstract class Device {
     this.name = name;
   }
 
+  // Connects switch and slider
   double get value;
+
   void setValue(double value);
 
   @override
@@ -29,6 +31,6 @@ abstract class Device {
 
   @override
   String toString() {
-    return '[$type, $name]';
+    return '[$type, $name, $isOn]';
   }
 }
