@@ -1,3 +1,4 @@
+import 'package:connectofrontend/screens/home_system/home_system.dart';
 import 'package:connectofrontend/screens/main_dashboard/main_dashboard.dart';
 import 'package:flutter/material.dart';
 
@@ -44,8 +45,7 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
 
   final List<Widget> _pages = [
     const MainDashboardScreen(),
-    // TODO: Replace with the other Screen widgets
-    const Text('Home System'),
+    const HomeSystemScreen(),
     const Text('Chat'),
     const Text('Settings'),
     const Text('Apps'),

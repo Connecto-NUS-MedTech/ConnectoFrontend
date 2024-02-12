@@ -3,10 +3,28 @@ import 'package:connectofrontend/providers/home_system_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+enum Screen { mainDashboard, homeSystem }
+
 class HomeSystemHeaderRow extends StatefulWidget {
+  final Screen parentScreen;
+  final String rowTitle;
+  final IconData buttonIcon;
+  final String buttonText;
+
   const HomeSystemHeaderRow({
+    required this.parentScreen,
     super.key,
-  });
+  })  : rowTitle =
+            (parentScreen == Screen.mainDashboard)
+            ? 'Bookmark Rooms'
+            : 'My Rooms',
+        buttonIcon = (parentScreen == Screen.mainDashboard)
+            ? Icons.bookmark_add_rounded
+            : Icons.add,
+        buttonText =
+            (parentScreen == Screen.mainDashboard)
+            ? 'Bookmark Room'
+            : 'Add Room';
 
   @override
   State<HomeSystemHeaderRow> createState() => _HomeSystemHeaderRowState();
@@ -25,16 +43,16 @@ class _HomeSystemHeaderRowState extends State<HomeSystemHeaderRow> {
         borderRadius: BorderRadius.circular(16),
       ),
       padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
-      child: const Row(
+      child: Row(
         children: [
           Icon(
-            Icons.bookmark_add_rounded,
-            color: Color(0xFFFFFFFF),
+            widget.buttonIcon,
+            color: const Color(0xFFFFFFFF),
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           Text(
-            'Bookmark Room',
-            style: TextStyle(
+            widget.buttonText,
+            style: const TextStyle(
               fontSize: 16,
               // fontWeight: FontWeight.w500,
               color: Color(0xFFFFFFFF),
@@ -45,7 +63,7 @@ class _HomeSystemHeaderRowState extends State<HomeSystemHeaderRow> {
     );
 
     final paginateLeftButton = GestureDetector(
-      onTap: homeSystemState.paginateLeft,
+      onTap: () => homeSystemState.paginateLeft(widget.parentScreen),
       child: Container(
         padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
         decoration: BoxDecoration(
@@ -75,7 +93,7 @@ class _HomeSystemHeaderRowState extends State<HomeSystemHeaderRow> {
     );
 
     final paginateRightButton = GestureDetector(
-      onTap: homeSystemState.paginateRight,
+      onTap: () => homeSystemState.paginateRight(widget.parentScreen),
       child: Container(
         padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
         decoration: BoxDecoration(
@@ -140,11 +158,12 @@ class _HomeSystemHeaderRowState extends State<HomeSystemHeaderRow> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Column(
+          Column(
             children: [
               Text(
-                'Bookmarked Rooms',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                widget.rowTitle,
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
               ),
             ],
           ),
@@ -154,13 +173,9 @@ class _HomeSystemHeaderRowState extends State<HomeSystemHeaderRow> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   paginateLeftButton,
-                  const SizedBox(
-                    width: 16,
-                  ),
+                  const SizedBox(width: 16),
                   paginateRightButton,
-                  const SizedBox(
-                    width: 16,
-                  ),
+                  const SizedBox(width: 16),
                   gestureDetector,
                 ],
               ),
@@ -168,20 +183,6 @@ class _HomeSystemHeaderRowState extends State<HomeSystemHeaderRow> {
           ),
         ],
       ),
-      // Row(
-      //   mainAxisAlignment: MainAxisAlignment.end,
-      //   children: [
-      //     paginateLeftButton,
-      //     const SizedBox(
-      //       width: 16,
-      //     ),
-      //     paginateRightButton,
-      //     const SizedBox(
-      //       width: 16,
-      //     ),
-      //     gestureDetector,
-      //   ],
-      // ),
     );
   }
 }

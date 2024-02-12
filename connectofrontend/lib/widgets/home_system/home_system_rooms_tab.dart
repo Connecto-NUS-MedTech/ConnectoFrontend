@@ -2,12 +2,14 @@ import 'dart:math';
 
 import 'package:connectofrontend/models/room.dart';
 import 'package:connectofrontend/providers/home_system_state.dart';
+import 'package:connectofrontend/widgets/home_system/home_system_header_row.dart';
 import 'package:connectofrontend/widgets/home_system/room/room_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeSystemRoomsTab extends StatefulWidget {
-  const HomeSystemRoomsTab({super.key});
+  final Screen parentScreen;
+  const HomeSystemRoomsTab({required this.parentScreen, super.key});
 
   @override
   State<HomeSystemRoomsTab> createState() => _HomeSystemRoomsTabState();
@@ -17,9 +19,12 @@ class _HomeSystemRoomsTabState extends State<HomeSystemRoomsTab> {
   @override
   Widget build(BuildContext context) {
     var homeSystemState = Provider.of<HomeSystemState>(context);
-    int index = homeSystemState.index;
-    // `rooms` depends on the screen this belongs to (use a prop in the future?)
-    List<Room> rooms = homeSystemState.bookmarkedRooms;
+    int index = widget.parentScreen == Screen.mainDashboard
+        ? homeSystemState.bookmarkedRoomsIndex
+        : homeSystemState.allRoomsIndex;
+    List<Room> rooms = widget.parentScreen == Screen.mainDashboard
+        ? homeSystemState.bookmarkedRooms
+        : homeSystemState.rooms;
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
