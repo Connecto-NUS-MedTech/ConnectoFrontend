@@ -102,6 +102,14 @@ class HomeSystemState with ChangeNotifier {
     notifyListeners();
   }
 
+  /// Room methods
+  void createRoom(Room room) {
+    if (rooms.any((r) => r.name == room.name)) {
+      throw Exception('Room name already exists');
+    }
+    rooms.add(room);
+  }
+
   void bookmarkRoom(Room room) {
     bookmarkedRooms.add(room);
     totalLightDevices += room.numberOfLightDevices;

@@ -1,5 +1,6 @@
-import 'package:connectofrontend/models/room.dart';
 import 'package:connectofrontend/providers/home_system_state.dart';
+import 'package:connectofrontend/widgets/home_system/add_room_button.dart';
+import 'package:connectofrontend/widgets/home_system/bookmark_room_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,15 +15,13 @@ class HomeSystemHeaderRow extends StatefulWidget {
   const HomeSystemHeaderRow({
     required this.parentScreen,
     super.key,
-  })  : rowTitle =
-            (parentScreen == Screen.mainDashboard)
+  })  : rowTitle = (parentScreen == Screen.mainDashboard)
             ? 'Bookmark Rooms'
             : 'My Rooms',
         buttonIcon = (parentScreen == Screen.mainDashboard)
             ? Icons.bookmark_add_rounded
             : Icons.add,
-        buttonText =
-            (parentScreen == Screen.mainDashboard)
+        buttonText = (parentScreen == Screen.mainDashboard)
             ? 'Bookmark Room'
             : 'Add Room';
 
@@ -37,7 +36,7 @@ class _HomeSystemHeaderRowState extends State<HomeSystemHeaderRow> {
   Widget build(BuildContext context) {
     var homeSystemState = Provider.of<HomeSystemState>(context);
 
-    final bookmarkButton = Container(
+    final headerRowButtonUi = Container(
       decoration: BoxDecoration(
         color: _primaryColor,
         borderRadius: BorderRadius.circular(16),
@@ -122,37 +121,6 @@ class _HomeSystemHeaderRowState extends State<HomeSystemHeaderRow> {
       ),
     );
 
-    var gestureDetector = homeSystemState.unbookmarkedRooms.isEmpty
-        ? Opacity(
-            opacity: 0.5,
-            child: bookmarkButton,
-          )
-        : GestureDetector(
-            onTapDown: (TapDownDetails details) {
-              showMenu(
-                context: context,
-                position: RelativeRect.fromLTRB(
-                  details.globalPosition.dx,
-                  details.globalPosition.dy,
-                  details.globalPosition.dx,
-                  details.globalPosition.dy,
-                ),
-                items: homeSystemState.unbookmarkedRooms
-                    .map(
-                      (room) => PopupMenuItem<Room>(
-                        value: room,
-                        child: Text(room.name),
-                      ),
-                    )
-                    .toList(),
-              ).then((Room? room) {
-                if (room == null) return;
-                homeSystemState.bookmarkRoom(room);
-              });
-            },
-            child: bookmarkButton,
-          );
-
     return Container(
       margin: const EdgeInsets.only(bottom: 24),
       child: Row(
@@ -176,7 +144,9 @@ class _HomeSystemHeaderRowState extends State<HomeSystemHeaderRow> {
                   const SizedBox(width: 16),
                   paginateRightButton,
                   const SizedBox(width: 16),
-                  gestureDetector,
+                  widget.parentScreen == Screen.mainDashboard
+                      ? BookmarkRoomButton(child: headerRowButtonUi)
+                      : AddRoomButton(child: headerRowButtonUi),
                 ],
               ),
             ],
