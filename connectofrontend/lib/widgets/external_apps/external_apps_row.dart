@@ -18,46 +18,72 @@ class ExternalApplicationsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 125,
-      color: Colors.grey,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: externalApps.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Column(
-              children: [
-                IconButton(
-                  icon: Icon(
-                    externalApps[index].icon,
-                    size: 48, // Adjust the size of the icon
-                  ),
-                  onPressed: () async {
-                    await LaunchApp.openApp(
-                      androidPackageName: 'com.android.chrome',
-                      openStore: false,
-                    );
-                    // Handle app button click
-                    // You can navigate to the app or perform any other action
-                  },
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'External Applications',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+        ),
+        const SizedBox(
+          height: 32.0,
+        ),
+        SizedBox(
+          height: 152,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: externalApps.length,
+            itemBuilder: (context, index) {
+              return Container(
+                width: 172,
+                margin: const EdgeInsets.only(right: 32),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFFFFF),
+                  borderRadius: BorderRadius.circular(8.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.15),
+                      blurRadius: 15,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  height: 8, // Add spacing between the icon and text
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      padding: EdgeInsets.zero,
+                      icon: Icon(
+                        externalApps[index].icon,
+                        size: 48, // Adjust the size of the icon
+                      ),
+                      onPressed: () async {
+                        await LaunchApp.openApp(
+                          androidPackageName: 'com.android.chrome',
+                          openStore: false,
+                        );
+                        // Handle app button click
+                        // You can navigate to the app or perform any other action
+                      },
+                    ),
+                    const SizedBox(
+                      height: 8, // Add spacing between the icon and text
+                    ),
+                    Text(
+                      externalApps[index].name,
+                      style: const TextStyle(
+                        fontSize: 16, // Adjust the size of the text
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  externalApps[index].name,
-                  style: const TextStyle(
-                    fontSize: 16, // Adjust the size of the text
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

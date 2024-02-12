@@ -136,7 +136,7 @@ class _HomeSystemHeaderRowState extends State<HomeSystemHeaderRow> {
           );
 
     return Container(
-      margin: const EdgeInsets.only(top: 40, bottom: 24),
+      margin: const EdgeInsets.only(bottom: 24),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
