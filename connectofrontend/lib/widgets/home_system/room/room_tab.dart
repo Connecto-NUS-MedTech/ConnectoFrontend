@@ -86,9 +86,17 @@ class _RoomTabState extends State<RoomTab> {
                 } else {
                   throw Exception('Invalid device type');
                 }
-
-                widget.room.addDevice(newDevice);
-                updateRoom(widget.room);
+                try {
+                  widget.room.addDevice(newDevice);
+                  updateRoom(widget.room);
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('$e'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
                 deviceNameController.clear();
                 Navigator.of(context).pop();
               },

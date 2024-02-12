@@ -123,7 +123,7 @@ class HomeSystemState with ChangeNotifier {
     if (index1 != -1) {
       bookmarkedRooms[index1] = newRoom;
     }
-    if (index1 != -1) {
+    if (index2 != -1) {
       rooms[index2] = newRoom;
     }
     notifyListeners();
