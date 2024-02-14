@@ -1,6 +1,6 @@
 enum DeviceType { light, fan }
 
-abstract class Device {
+abstract class Device implements Comparable<Device> {
   final int id;
   String name;
   DeviceType type;
@@ -32,5 +32,17 @@ abstract class Device {
   @override
   String toString() {
     return '[$type, $name, $isOn]';
+  }
+  
+  @override
+  /// Sort Fan before Light, then sort by name
+  int compareTo(Device other) {
+    if (type == DeviceType.fan && other.type == DeviceType.light) {
+      return -1;
+    } else if (type == DeviceType.light && other.type == DeviceType.fan) {
+      return 1;
+    } else {
+      return name.compareTo(other.name);
+    }
   }
 }

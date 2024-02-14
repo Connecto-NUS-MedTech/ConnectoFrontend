@@ -113,6 +113,12 @@ class _RoomTabState extends State<RoomTab> {
 
   @override
   Widget build(BuildContext context) {
+    List<Device> devices = widget.room.devices;
+    if (widget.parentScreen == Screen.homeSystem) {
+      // Important: create a copy before sorting
+      devices = devices.toList()..sort();
+    }
+
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFFFFFFFF),
@@ -140,12 +146,15 @@ class _RoomTabState extends State<RoomTab> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                RoomSettingsMenu(parentScreen: widget.parentScreen, room: widget.room),
+                RoomSettingsMenu(
+                  parentScreen: widget.parentScreen,
+                  room: widget.room,
+                ),
               ],
             ),
             const SizedBox(height: 24),
             Column(
-              children: widget.room.devices
+              children: devices
                   .map(
                     (device) => DeviceTab(
                       room: widget.room,
