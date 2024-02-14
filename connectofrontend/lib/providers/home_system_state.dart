@@ -108,6 +108,13 @@ class HomeSystemState with ChangeNotifier {
       throw Exception('Room name already exists');
     }
     rooms.add(room);
+    notifyListeners();
+  }
+
+  void deleteRoom(Room room) {
+    rooms.remove(room);
+    bookmarkedRooms.remove(room);
+    notifyListeners();
   }
 
   void bookmarkRoom(Room room) {

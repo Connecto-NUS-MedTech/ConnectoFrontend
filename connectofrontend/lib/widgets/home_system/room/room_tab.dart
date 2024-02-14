@@ -4,15 +4,18 @@ import 'package:connectofrontend/models/device/light_device.dart';
 import 'package:connectofrontend/models/room.dart';
 import 'package:connectofrontend/providers/home_system_state.dart';
 import 'package:connectofrontend/widgets/home_system/device/device_tab.dart';
+import 'package:connectofrontend/widgets/home_system/home_system_header_row.dart';
 import 'package:connectofrontend/widgets/home_system/room/room_settings_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class RoomTab extends StatefulWidget {
+  final Screen parentScreen;
   final Room room;
 
   const RoomTab({
     super.key,
+    required this.parentScreen,
     required this.room,
   });
 
@@ -137,7 +140,7 @@ class _RoomTabState extends State<RoomTab> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                RoomSettingsMenu(room: widget.room),
+                RoomSettingsMenu(parentScreen: widget.parentScreen, room: widget.room),
               ],
             ),
             const SizedBox(height: 24),

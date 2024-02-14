@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 class HomeSystemRoomsTab extends StatefulWidget {
   final Screen parentScreen;
-  const HomeSystemRoomsTab({required this.parentScreen, super.key});
+  const HomeSystemRoomsTab({super.key, required this.parentScreen});
 
   @override
   State<HomeSystemRoomsTab> createState() => _HomeSystemRoomsTabState();
@@ -41,22 +41,12 @@ class _HomeSystemRoomsTabState extends State<HomeSystemRoomsTab> {
                         (MediaQuery.of(context).size.width - 72 - 8 - 32) / 2,
                     child: Container(
                       margin: const EdgeInsets.only(right: 32),
-                      child: RoomTab(room: room),
+                      child: RoomTab(
+                        parentScreen: widget.parentScreen,
+                        room: room,
+                      ),
                     ),
                   ),
-
-                  // LayoutBuilder(
-                  //   builder: (context, constraints) {
-                  //     final itemWidth = constraints.maxWidth / 2 - 32;
-                  //     return SizedBox(
-                  //       width: itemWidth,
-                  //       child: RoomTab(
-                  //         room: room,
-                  //         onDeviceSwitchToggled: checkAllSwitches,
-                  //       ),
-                  //     );
-                  //   },
-                  // ),
                 )
                 .toList(),
       ),

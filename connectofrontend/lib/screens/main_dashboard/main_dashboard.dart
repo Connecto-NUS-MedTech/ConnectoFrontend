@@ -48,9 +48,7 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
                 const ExternalApplicationsRow(),
                 const SizedBox(height: 40),
                 // Home Environmental Conditions Control section
-                HomeEnvironmentalConditionsControlTab(
-                  rooms: bookmarkedRooms,
-                ),
+                HomeEnvironmentalConditionsControlTab(rooms: bookmarkedRooms),
                 const SizedBox(height: 40),
                 HomeSystemHeaderRow(parentScreen: Screen.mainDashboard),
                 const HomeSystemRoomsTab(parentScreen: Screen.mainDashboard),
