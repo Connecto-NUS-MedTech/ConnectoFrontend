@@ -56,6 +56,7 @@ class RoomSettingsMenu extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Icon(Icons.arrow_forward),
+                SizedBox(width: 8),
                 Text('Move right'),
               ],
             ),
@@ -65,6 +66,7 @@ class RoomSettingsMenu extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Icon(Icons.arrow_back),
+                SizedBox(width: 8),
                 Text('Move left'),
               ],
             ),
@@ -79,6 +81,7 @@ class RoomSettingsMenu extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Icon(Icons.arrow_back),
+                  SizedBox(width: 8),
                   Text('Move to front'),
                 ],
               ),
@@ -90,6 +93,7 @@ class RoomSettingsMenu extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Icon(Icons.remove_circle_outline, color: Colors.red),
+                  SizedBox(width: 8),
                   Text(
                     'Remove bookmark',
                     style: TextStyle(color: Colors.red),
@@ -114,6 +118,7 @@ class RoomSettingsMenu extends StatelessWidget {
                 child: const Row(
                   children: <Widget>[
                     Icon(Icons.edit),
+                    SizedBox(width: 8),
                     Text('Edit room'),
                   ],
                 ),
@@ -126,6 +131,7 @@ class RoomSettingsMenu extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Icon(Icons.remove_circle_outline, color: Colors.red),
+                  SizedBox(width: 8),
                   Text(
                     'Delete room',
                     style: TextStyle(color: Colors.red),

@@ -4,11 +4,13 @@ import 'package:connectofrontend/models/room.dart';
 import 'package:connectofrontend/providers/home_system_state.dart';
 import 'package:connectofrontend/widgets/home_system/custom_switch.dart';
 import 'package:connectofrontend/widgets/home_system/device/device_settings_menu.dart';
+import 'package:connectofrontend/widgets/home_system/home_system_header_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class DeviceTab extends StatefulWidget {
+  final Screen parentScreen;
   final Room room;
   final Device device;
 
@@ -16,6 +18,7 @@ class DeviceTab extends StatefulWidget {
     super.key,
     required this.room,
     required this.device,
+    required this.parentScreen,
   });
 
   @override
@@ -85,6 +88,7 @@ class _DeviceTabState extends State<DeviceTab> {
                         onChanged: setDeviceSwitchStatus,
                       ),
                       DeviceSettingsMenu(
+                        parentScreen: widget.parentScreen,
                         room: widget.room,
                         device: widget.device,
                       ),

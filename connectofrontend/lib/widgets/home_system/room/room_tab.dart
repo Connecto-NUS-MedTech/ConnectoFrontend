@@ -157,6 +157,7 @@ class _RoomTabState extends State<RoomTab> {
               children: devices
                   .map(
                     (device) => DeviceTab(
+                      parentScreen: widget.parentScreen,
                       room: widget.room,
                       device: device,
                     ),

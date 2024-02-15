@@ -44,6 +44,32 @@ class Room {
     }
   }
 
+// Used name currently since id is not unique
+  void moveToTop(Device device) {
+    int index = devices.indexWhere((d) => d.name == device.name);
+    devices.removeAt(index);
+    devices.insert(0, device);
+  }
+
+  void moveDeviceUp(Device device) {
+    int index = devices.indexWhere((d) => d.name == device.name);
+    // Only take action if it is not the first device
+    if (index != 0) {
+      devices.removeAt(index);
+      devices.insert(index - 1, device);
+    }
+  }
+
+  void moveDeviceDown(Device device) {
+    int index = devices.indexWhere((d) => d.name == device.name);
+    int lastIndex = devices.length - 1;
+    // Only take action if it is not the last device
+    if (index != lastIndex) {
+      devices.removeAt(index);
+      devices.insert(index + 1, device);
+    }
+  }
+
   @override
   bool operator ==(Object other) => other is Room && other.name == name;
 
