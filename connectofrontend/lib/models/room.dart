@@ -5,13 +5,13 @@ import 'package:connectofrontend/models/device/light_device.dart';
 class Room {
   final int id;
   String name;
-  List<Device> devices;
+  final List<Device> devices;
 
   Room({
     required this.id,
     required this.name,
-    required this.devices,
-  });
+    List<Device>? devices,
+  }) : devices = devices ?? [];
 
   int get numberOfLightDevices {
     return devices.whereType<LightDevice>().length;

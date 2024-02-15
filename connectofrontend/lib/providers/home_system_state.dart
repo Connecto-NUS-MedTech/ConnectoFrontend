@@ -2,12 +2,13 @@ import 'package:connectofrontend/models/device/device.dart';
 import 'package:connectofrontend/models/device/fan_device.dart';
 import 'package:connectofrontend/models/device/light_device.dart';
 import 'package:connectofrontend/models/room.dart';
-import 'package:connectofrontend/widgets/home_system/custom_switch.dart';
+import 'package:connectofrontend/widgets/home_system/home_system_header_row.dart';
 import 'package:flutter/material.dart';
 
 class HomeSystemState with ChangeNotifier {
-  // index of first Room to display in MainDashboard
-  int index = 0;
+  // index of first Room to display in MainDashboard and HomeSystem respectively
+  int bookmarkedRoomsIndex = 0;
+  int allRoomsIndex = 0;
 
   // Hardcoded for now
   // Currently, these are only for bookmarked rooms
@@ -77,18 +78,42 @@ class HomeSystemState with ChangeNotifier {
       .difference(Set<Room>.from(bookmarkedRooms))
       .toList();
 
-  void paginateLeft() {
-    if (index > 0) {
-      index -= 2;
+  void paginateLeft(Screen screen) {
+    if (screen == Screen.mainDashboard) {
+      if (bookmarkedRoomsIndex <= 0) return;
+      bookmarkedRoomsIndex -= 2;
+    }
+    if (screen == Screen.homeSystem) {
+      if (allRoomsIndex <= 0) return;
+      allRoomsIndex -= 2;
     }
     notifyListeners();
   }
 
-  // TODO: Update to take in arg for screen type
-  void paginateRight() {
-    if (index < bookmarkedRooms.length - 2) {
-      index += 2;
+  void paginateRight(Screen screen) {
+    if (screen == Screen.mainDashboard) {
+      if (bookmarkedRoomsIndex >= bookmarkedRooms.length - 2) return;
+      bookmarkedRoomsIndex += 2;
     }
+    if (screen == Screen.homeSystem) {
+      if (allRoomsIndex >= rooms.length - 2) return;
+      allRoomsIndex += 2;
+    }
+    notifyListeners();
+  }
+
+  /// Room methods
+  void createRoom(Room room) {
+    if (rooms.any((r) => r.name == room.name)) {
+      throw Exception('Room name already exists');
+    }
+    rooms.add(room);
+    notifyListeners();
+  }
+
+  void deleteRoom(Room room) {
+    rooms.remove(room);
+    bookmarkedRooms.remove(room);
     notifyListeners();
   }
 
@@ -105,7 +130,7 @@ class HomeSystemState with ChangeNotifier {
     if (index1 != -1) {
       bookmarkedRooms[index1] = newRoom;
     }
-    if (index1 != -1) {
+    if (index2 != -1) {
       rooms[index2] = newRoom;
     }
     notifyListeners();
@@ -116,8 +141,9 @@ class HomeSystemState with ChangeNotifier {
     totalLightDevices -= room.numberOfLightDevices;
     totalFanDevices -= room.numberOfFanDevices;
     // check if the room removed was the last room
-    if (index == bookmarkedRooms.length && index > 0) {
-      index -= 2;
+    if (bookmarkedRoomsIndex == bookmarkedRooms.length &&
+        bookmarkedRoomsIndex > 0) {
+      bookmarkedRoomsIndex -= 2;
     }
     notifyListeners();
   }

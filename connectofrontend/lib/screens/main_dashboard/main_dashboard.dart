@@ -28,15 +28,30 @@ class MainDashboardScreenState extends State<MainDashboardScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const ExternalApplicationsRow(),
-                const SizedBox(height: 25),
-                // Home Environmental Conditions Control section
-                HomeEnvironmentalConditionsControlTab(
-                  rooms: bookmarkedRooms,
+                const Text(
+                  'Main Dashboard',
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-                const SizedBox(height: 25),
-                const HomeSystemHeaderRow(),
-                const HomeSystemRoomsTab(),
+                const SizedBox(height: 8),
+                // change name to user's name
+                const Text(
+                  'Welcome Home, Doraemon!',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                const SizedBox(height: 24),
+                const ExternalApplicationsRow(),
+                const SizedBox(height: 40),
+                // Home Environmental Conditions Control section
+                HomeEnvironmentalConditionsControlTab(rooms: bookmarkedRooms),
+                const SizedBox(height: 40),
+                HomeSystemHeaderRow(parentScreen: Screen.mainDashboard),
+                const HomeSystemRoomsTab(parentScreen: Screen.mainDashboard),
               ],
             ),
           ),
