@@ -1,26 +1,50 @@
 import 'package:connectofrontend/models/external_app.dart';
+import 'package:connectofrontend/screens/external_apps/app_selection.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:device_apps/device_apps.dart';
 
-class ExternalApplicationsRow extends StatelessWidget {
-  const ExternalApplicationsRow({Key? key});
+class ExternalApplicationsRow extends StatefulWidget {
+  const ExternalApplicationsRow({super.key});
 
-  // Replace this with your actual list of apps
-  final List<ExternalApp> externalApps = const [
-    ExternalApp(
-        name: 'Chrome', packageName: 'com.android.chrome', icon: Icons.apps),
-    ExternalApp(
-        name: 'Instagram',
-        packageName: 'com.instagram.android',
-        icon: Icons.apps),
-    ExternalApp(
-        name: 'Maps',
-        packageName: 'com.android.maps',
-        icon: Icons.apps), // Add more apps as needed
-    ExternalApp(name: 'Add App', packageName: '', icon: Icons.add),
-    ExternalApp(name: 'Add App', packageName: '', icon: Icons.add),
+  @override
+  State<ExternalApplicationsRow> createState() =>
+      _ExternalApplicationsRowState();
+}
+
+class _ExternalApplicationsRowState extends State<ExternalApplicationsRow> {
+  final List<ExternalApp> externalApps = [
+    const ExternalApp(
+      name: 'Chrome',
+      packageName: 'com.android.chrome',
+      icon: Icons.apps,
+    ),
+    const ExternalApp(
+      name: 'Instagram',
+      packageName: 'com.instagram.android',
+      icon: Icons.apps,
+    ),
+    const ExternalApp(
+      name: 'Maps',
+      packageName: 'com.android.maps',
+      icon: Icons.apps,
+    ),
+    const ExternalApp(name: 'Add App', packageName: '', icon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', icon: Icons.add),
   ];
+
+  /// Replaces first ExternalApp in list whose packageName is empty
+  handleAppSelected(Application app) {
+    setState(() {
+      final index = externalApps
+          .indexWhere((externalApp) => externalApp.packageName.isEmpty);
+      externalApps[index] = ExternalApp(
+        name: app.appName,
+        packageName: app.packageName,
+        icon: Icons.apps,
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,32 +74,15 @@ class ExternalApplicationsRow extends StatelessWidget {
                   } else {
                     List<Application> apps =
                         await DeviceApps.getInstalledApplications();
-                        
-                    print(apps[0].appName);
-                    print(apps[0]);
-                    showModalBottomSheet<void>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return Container(
-                          height: 200,
-                          child: ListView.builder(
-                            itemCount: apps.length,
-                            itemBuilder: (context, index) {
-                              return Card(
-                                child: ListTile(
-                                  title: Text(apps[index].appName),
-                                  onTap: () {
-                                    // Perform action when a specific app is tapped
-                                    print(
-                                        'Selected App: ${apps[index].appName}');
-                                    Navigator.pop(context); // Close the modal
-                                  },
-                                ),
-                              );
-                            },
-                          ),
-                        );
-                      },
+                    if (!context.mounted) return;
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AppSelectionScreen(
+                          apps: apps,
+                          onAppSelected: handleAppSelected,
+                        ),
+                      ),
                     );
                   }
                 },
