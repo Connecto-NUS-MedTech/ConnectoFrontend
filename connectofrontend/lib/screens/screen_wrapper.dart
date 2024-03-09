@@ -1,5 +1,6 @@
 import 'package:connectofrontend/screens/home_system/home_system.dart';
 import 'package:connectofrontend/screens/main_dashboard/main_dashboard.dart';
+import 'package:connectofrontend/screens/external_apps/external_apps.dart';
 import 'package:flutter/material.dart';
 
 /// Wrapper widget for all screens (besides the authentication and onboarding screens)
@@ -48,7 +49,7 @@ class _ScreenWrapperState extends State<ScreenWrapper> {
     const HomeSystemScreen(),
     const Text('Chat'),
     const Text('Settings'),
-    const Text('Apps'),
+    const ExternalAppsScreen(),
   ];
 
   @override
