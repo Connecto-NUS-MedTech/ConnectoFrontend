@@ -2,7 +2,7 @@ import 'package:connectofrontend/models/external_app.dart';
 import 'package:connectofrontend/screens/external_apps/app_selection.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
-import 'package:device_apps/device_apps.dart';
+import 'package:installed_apps/app_info.dart';
 
 class ExternalApplicationsRow extends StatefulWidget {
   const ExternalApplicationsRow({super.key});
@@ -17,32 +17,28 @@ class _ExternalApplicationsRowState extends State<ExternalApplicationsRow> {
     const ExternalApp(
       name: 'Chrome',
       packageName: 'com.android.chrome',
-      icon: Icons.apps,
+      flutterIcon: Icons.apps,
     ),
     const ExternalApp(
       name: 'Instagram',
       packageName: 'com.instagram.android',
-      icon: Icons.apps,
+      flutterIcon: Icons.apps,
     ),
     const ExternalApp(
       name: 'Maps',
       packageName: 'com.android.maps',
-      icon: Icons.apps,
+      flutterIcon: Icons.apps,
     ),
-    const ExternalApp(name: 'Add App', packageName: '', icon: Icons.add),
-    const ExternalApp(name: 'Add App', packageName: '', icon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', flutterIcon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', flutterIcon: Icons.add),
   ];
 
   /// Replaces first ExternalApp in list whose packageName is empty
-  handleAppSelected(Application app) {
+  handleAppSelected(AppInfo app) {
     setState(() {
       final index = externalApps
           .indexWhere((externalApp) => externalApp.packageName.isEmpty);
-      externalApps[index] = ExternalApp(
-        name: app.appName,
-        packageName: app.packageName,
-        icon: Icons.apps,
-      );
+      externalApps[index] = ExternalApp.fromAppInfo(app);
     });
   }
 
@@ -55,31 +51,27 @@ class _ExternalApplicationsRowState extends State<ExternalApplicationsRow> {
           'External Applications',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
         ),
-        const SizedBox(
-          height: 32.0,
-        ),
+        const SizedBox(height: 32.0),
         SizedBox(
           height: 152,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: externalApps.length,
             itemBuilder: (context, index) {
+              ExternalApp app = externalApps[index];
               return GestureDetector(
                 onTap: () async {
-                  if (externalApps[index].packageName.isNotEmpty) {
+                  if (app.packageName.isNotEmpty) {
                     await LaunchApp.openApp(
-                      androidPackageName: externalApps[index].packageName,
+                      androidPackageName: app.packageName,
                       openStore: false,
                     );
                   } else {
-                    List<Application> apps =
-                        await DeviceApps.getInstalledApplications();
                     if (!context.mounted) return;
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => AppSelectionScreen(
-                          apps: apps,
                           onAppSelected: handleAppSelected,
                         ),
                       ),
@@ -104,17 +96,21 @@ class _ExternalApplicationsRowState extends State<ExternalApplicationsRow> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Icon(
-                        externalApps[index].icon,
-                        size: 48, // Adjust the size of the icon
-                      ),
-                      const SizedBox(
-                        height: 8, // Add spacing between the icon and text
-                      ),
+                      (app.icon != null)
+                          ? Image.memory(
+                              app.icon!,
+                              height: 50,
+                              width: 50,
+                            )
+                          : Icon(
+                              app.flutterIcon,
+                              size: 48,
+                            ),
+                      const SizedBox(height: 8),
                       Text(
                         externalApps[index].name,
                         style: const TextStyle(
-                          fontSize: 16, // Adjust the size of the text
+                          fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
