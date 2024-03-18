@@ -20,7 +20,6 @@ class HomeEnvironmentalConditionsControlTab extends StatefulWidget {
 
 class _HomeEnvironmentalConditionsControlTab
     extends State<HomeEnvironmentalConditionsControlTab> {
-
   @override
   Widget build(BuildContext context) {
     return const Column(

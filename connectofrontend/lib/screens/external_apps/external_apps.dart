@@ -56,6 +56,16 @@ class ExternalAppsScreenState extends State<ExternalAppsScreen> {
     const ExternalApp(name: 'Add App', packageName: '', icon: Icons.add),
     const ExternalApp(name: 'Add App', packageName: '', icon: Icons.add),
     const ExternalApp(name: 'Add App', packageName: '', icon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', icon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', icon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', icon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', icon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', icon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', icon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', icon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', icon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', icon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', icon: Icons.add),
   ];
 
   /// Replaces first ExternalApp in list whose packageName is empty
@@ -75,7 +85,7 @@ class ExternalAppsScreenState extends State<ExternalAppsScreen> {
   Widget build(BuildContext context) {
     const Color primaryColor = Color(0xFF455A64);
 
-    final editAppsButton = Container(
+    final deleteAppsButton = Container(
       decoration: BoxDecoration(
         color: primaryColor,
         borderRadius: BorderRadius.circular(16),
@@ -84,12 +94,12 @@ class ExternalAppsScreenState extends State<ExternalAppsScreen> {
       child: const Row(
         children: [
           Icon(
-            Icons.edit,
+            Icons.delete_rounded,
             color: Color(0xFFFFFFFF),
           ),
           SizedBox(width: 8),
           Text(
-            'Edit Apps',
+            'Delete App',
             style: TextStyle(
               fontSize: 16,
               color: Color(0xFFFFFFFF),
@@ -106,28 +116,19 @@ class ExternalAppsScreenState extends State<ExternalAppsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'External Apps',
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 8),
-              // TODO: change name to user's name
-              const Text(
-                'Welcome Home, Doraemon!',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              const SizedBox(height: 24),
+              // const Text(
+              //   'External Apps',
+              //   style: TextStyle(fontSize: 32, fontWeight: FontWeight.w600),
+              // ),
+              // const SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    'External Applications',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                    'External Apps',
+                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.w600),
                   ),
-                  editAppsButton,
+                  deleteAppsButton,
                 ],
               ),
               const SizedBox(
@@ -139,7 +140,7 @@ class ExternalAppsScreenState extends State<ExternalAppsScreen> {
                     crossAxisCount: 6,
                     mainAxisSpacing: 32.0,
                     crossAxisSpacing: 32.0,
-                    childAspectRatio: 1.0,
+                    childAspectRatio: 1.5, // width:height
                   ),
                   itemCount: externalApps.length,
                   itemBuilder: (context, index) {
@@ -183,7 +184,7 @@ class ExternalAppsScreenState extends State<ExternalAppsScreen> {
                           children: [
                             Icon(
                               externalApps[index].icon,
-                              size: 48,
+                              size: 40,
                             ),
                             const SizedBox(
                               height: 8,
