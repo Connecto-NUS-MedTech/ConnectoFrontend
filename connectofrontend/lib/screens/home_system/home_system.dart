@@ -26,6 +26,23 @@ class HomeSystemScreenState extends State<HomeSystemScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const Text(
+                  'Home System Dashboard',
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                // change name to user's name
+                const Text(
+                  'Welcome Home, Doraemon!',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                const SizedBox(height: 24),
                 // Home Environmental Conditions Control section
                 HomeEnvironmentalConditionsControlTab(rooms: rooms),
                 const SizedBox(height: 25),

@@ -31,6 +31,7 @@ class _ExternalApplicationsRowState extends State<ExternalApplicationsRow> {
     ),
     const ExternalApp(name: 'Add App', packageName: '', flutterIcon: Icons.add),
     const ExternalApp(name: 'Add App', packageName: '', flutterIcon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', flutterIcon: Icons.add),
   ];
 
   /// Replaces first ExternalApp in list whose packageName is empty
@@ -125,74 +126,6 @@ class _ExternalApplicationsRowState extends State<ExternalApplicationsRow> {
             },
           ),
         ),
-        // SizedBox(
-        //   height: 152,
-        //   child: ListView.builder(
-        //     scrollDirection: Axis.horizontal,
-        //     itemCount: externalApps.length,
-        //     itemBuilder: (context, index) {
-
-        //       return GestureDetector(
-        //         onTap: () async {
-        //           if (externalApps[index].packageName.isNotEmpty) {
-        //             await LaunchApp.openApp(
-        //               androidPackageName: externalApps[index].packageName,
-        //               openStore: false,
-        //             );
-        //           } else {
-        //             List<Application> apps =
-        //                 await DeviceApps.getInstalledApplications();
-        //             if (!context.mounted) return;
-        //             Navigator.push(
-        //               context,
-        //               MaterialPageRoute(
-        //                 builder: (context) => AppSelectionScreen(
-        //                   apps: apps,
-        //                   onAppSelected: handleAppSelected,
-        //                 ),
-        //               ),
-        //             );
-        //           }
-        //         },
-        //         child: Container(
-        //           width: 172,
-        //           margin: const EdgeInsets.only(right: 32),
-        //           decoration: BoxDecoration(
-        //             color: const Color(0xFFFFFFFF),
-        //             borderRadius: BorderRadius.circular(8.0),
-        //             boxShadow: [
-        //               BoxShadow(
-        //                 color: Colors.black.withOpacity(0.15),
-        //                 blurRadius: 15,
-        //                 offset: const Offset(0, 4),
-        //               ),
-        //             ],
-        //           ),
-        //           child: Column(
-        //             mainAxisAlignment: MainAxisAlignment.center,
-        //             crossAxisAlignment: CrossAxisAlignment.center,
-        //             children: [
-        //               Icon(
-        //                 externalApps[index].icon,
-        //                 size: 48, // Adjust the size of the icon
-        //               ),
-        //               const SizedBox(
-        //                 height: 8, // Add spacing between the icon and text
-        //               ),
-        //               Text(
-        //                 externalApps[index].name,
-        //                 style: const TextStyle(
-        //                   fontSize: 16, // Adjust the size of the text
-        //                   fontWeight: FontWeight.w500,
-        //                 ),
-        //               ),
-        //             ],
-        //           ),
-        //         ),
-        //       );
-        //     },
-        //   ),
-        // ),
       ],
     );
   }

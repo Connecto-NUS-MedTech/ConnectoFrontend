@@ -61,6 +61,17 @@ class ExternalAppsScreenState extends State<ExternalAppsScreen> {
     const ExternalApp(name: 'Add App', packageName: '', flutterIcon: Icons.add),
     const ExternalApp(name: 'Add App', packageName: '', flutterIcon: Icons.add),
     const ExternalApp(name: 'Add App', packageName: '', flutterIcon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', flutterIcon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', flutterIcon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', flutterIcon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', flutterIcon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', flutterIcon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', flutterIcon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', flutterIcon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', flutterIcon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', flutterIcon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', flutterIcon: Icons.add),
+    const ExternalApp(name: 'Add App', packageName: '', flutterIcon: Icons.add),
   ];
 
   /// Replaces first ExternalApp in list whose packageName is empty
